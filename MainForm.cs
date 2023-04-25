@@ -13,9 +13,13 @@ namespace GrainDetector
 {
     public partial class MainForm : Form
     {
+        private MainController controller;
+
         public MainForm()
         {
             InitializeComponent();
+
+            controller = new MainController(this);
         }
 
         private void fileSelectButton_Click(object sender, EventArgs e)
