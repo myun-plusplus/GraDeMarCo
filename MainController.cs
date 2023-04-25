@@ -13,20 +13,20 @@ namespace GrainDetector
         private MainForm mainForm;
         private ImageForm imageForm;
 
-        private Bitmap _image;
-        private Bitmap image
+        private Bitmap _targetImage;
+        private Bitmap targetImage
         {
             get
             { 
-                return _image;
+                return _targetImage;
             }
             set
             {
-                if (_image != null)
+                if (_targetImage != null)
                 {
-                    _image.Dispose();
+                    _targetImage.Dispose();
                 }
-                _image = value;
+                _targetImage = value;
             }
         }
 
@@ -63,7 +63,7 @@ namespace GrainDetector
             }
             try
             {
-                this.image = new Bitmap(filename);
+                targetImage = new Bitmap(filename);
             }
             catch (ArgumentException)
             {
@@ -78,6 +78,7 @@ namespace GrainDetector
 
             this.imageForm = new ImageForm();
             this.imageForm.Location = new Point(this.mainForm.Location.X + 300, this.mainForm.Location.Y);
+            this.imageForm.SetImage(targetImage);
             this.imageForm.Show();
         }
 

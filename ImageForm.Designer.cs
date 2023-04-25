@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.hScrollBar = new System.Windows.Forms.HScrollBar();
-            this.vScrollBar = new System.Windows.Forms.VScrollBar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -46,29 +44,11 @@
             this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             // 
-            // hScrollBar
-            // 
-            this.hScrollBar.Location = new System.Drawing.Point(0, 523);
-            this.hScrollBar.Name = "hScrollBar";
-            this.hScrollBar.Size = new System.Drawing.Size(703, 17);
-            this.hScrollBar.TabIndex = 1;
-            this.hScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBar_Scroll);
-            // 
-            // vScrollBar
-            // 
-            this.vScrollBar.Location = new System.Drawing.Point(703, 0);
-            this.vScrollBar.Name = "vScrollBar";
-            this.vScrollBar.Size = new System.Drawing.Size(17, 523);
-            this.vScrollBar.TabIndex = 2;
-            this.vScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-            // 
             // ImageForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(720, 540);
-            this.Controls.Add(this.vScrollBar);
-            this.Controls.Add(this.hScrollBar);
             this.Controls.Add(this.pictureBox);
             this.Name = "ImageForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
@@ -83,7 +63,5 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox;
-        private System.Windows.Forms.HScrollBar hScrollBar;
-        private System.Windows.Forms.VScrollBar vScrollBar;
     }
 }
