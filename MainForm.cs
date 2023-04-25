@@ -20,16 +20,32 @@ namespace GrainDetector
             InitializeComponent();
 
             controller = new MainController(this);
+
+#if DEBUG
+            this.filePathTextBox.Text = @"D:\Projects\GrainDetector\sample2.jpg";
+#endif
         }
 
         private void fileSelectButton_Click(object sender, EventArgs e)
         {
-
+            var ofd = new OpenFileDialog();
+            ofd.FileName = "";
+            ofd.Filter = "画像ファイル(*.jpg;*.png;*.bmp;*.gif;*.exif;*.tiff)|*.jpg;*.png;*.bmp;*.gif;*.exif;*.tiff|すべてのファイル(*.*)|*.*";
+            ofd.FilterIndex = 1;
+            ofd.Title = "開くファイルを選択してください";
+            ofd.RestoreDirectory = true;
+            ofd.CheckFileExists = true;
+            ofd.CheckPathExists = true;
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                this.filePathTextBox.Text = ofd.FileName;
+            }
         }
 
         private void imageOpenButton_Click(object sender, EventArgs e)
         {
-
+            controller.OpenImageFile(this.filePathTextBox.Text);
+            controller.OpenImageForm();
         }
 
         private void lowerXNumericUpDown_ValueChanged(object sender, EventArgs e)

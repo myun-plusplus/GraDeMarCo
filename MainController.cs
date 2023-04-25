@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace GrainDetector
 {
@@ -10,10 +13,26 @@ namespace GrainDetector
         private MainForm mainForm;
         private ImageForm imageForm;
 
+        private Bitmap _image;
+        private Bitmap image
+        {
+            get
+            { 
+                return _image;
+            }
+            set
+            {
+                if (_image != null)
+                {
+                    _image.Dispose();
+                }
+                _image = value;
+            }
+        }
+
         public MainController(MainForm mf)
         {
             this.mainForm = mf;
-            this.imageForm = new ImageForm();
         }
 
         public void Dispose()
@@ -33,6 +52,42 @@ namespace GrainDetector
 
             this.imageForm = null;
             this.mainForm = null;
+        }
+
+        public void OpenImageFile(string filename)
+        {
+            if (!File.Exists(filename))
+            {
+                MessageBox.Show("選択したファイルが存在しません。", "エラー");
+                return;
+            }
+            try
+            {
+                this.image = new Bitmap(filename);
+            }
+            catch (ArgumentException)
+            {
+                MessageBox.Show("選択したファイルは画像ファイルではありません。", "エラー");
+                return;
+            }
+        }
+
+        public void OpenImageForm()
+        {
+            CloseImageForm();
+
+            this.imageForm = new ImageForm();
+            this.imageForm.Location = new Point(this.mainForm.Location.X + 300, this.mainForm.Location.Y);
+            this.imageForm.Show();
+        }
+
+        public void CloseImageForm()
+        {
+            if (this.imageForm != null && !this.imageForm.IsDisposed)
+            {
+                this.imageForm.Dispose();
+            }
+            this.imageForm = null;
         }
     }
 }
