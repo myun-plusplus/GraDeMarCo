@@ -63,8 +63,8 @@ namespace GrainDetector
             this.panel1 = new System.Windows.Forms.Panel();
             this.shownImageSelectCLB = new System.Windows.Forms.CheckedListBox();
             this.imageSaveButton = new System.Windows.Forms.Button();
-            this.zoomOutButton = new System.Windows.Forms.RadioButton();
-            this.zoomInButton = new System.Windows.Forms.RadioButton();
+            this.zoomInButton = new System.Windows.Forms.Button();
+            this.zoomOutButton = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
             this.imageSelectPanel.SuspendLayout();
@@ -421,10 +421,10 @@ namespace GrainDetector
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel1.Controls.Add(this.shownImageSelectCLB);
-            this.panel1.Controls.Add(this.imageSaveButton);
             this.panel1.Controls.Add(this.zoomOutButton);
             this.panel1.Controls.Add(this.zoomInButton);
+            this.panel1.Controls.Add(this.shownImageSelectCLB);
+            this.panel1.Controls.Add(this.imageSaveButton);
             this.panel1.Location = new System.Drawing.Point(3, 217);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(218, 101);
@@ -446,7 +446,7 @@ namespace GrainDetector
             // imageSaveButton
             // 
             this.imageSaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.imageSaveButton.Location = new System.Drawing.Point(136, 59);
+            this.imageSaveButton.Location = new System.Drawing.Point(136, 61);
             this.imageSaveButton.Name = "imageSaveButton";
             this.imageSaveButton.Size = new System.Drawing.Size(75, 23);
             this.imageSaveButton.TabIndex = 4;
@@ -454,33 +454,25 @@ namespace GrainDetector
             this.imageSaveButton.UseVisualStyleBackColor = true;
             this.imageSaveButton.Click += new System.EventHandler(this.imageSaveButton_Click);
             // 
-            // zoomOutButton
-            // 
-            this.zoomOutButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.zoomOutButton.Appearance = System.Windows.Forms.Appearance.Button;
-            this.zoomOutButton.Location = new System.Drawing.Point(136, 31);
-            this.zoomOutButton.Name = "zoomOutButton";
-            this.zoomOutButton.Size = new System.Drawing.Size(75, 22);
-            this.zoomOutButton.TabIndex = 3;
-            this.zoomOutButton.TabStop = true;
-            this.zoomOutButton.Text = "縮小";
-            this.zoomOutButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.zoomOutButton.UseVisualStyleBackColor = true;
-            this.zoomOutButton.CheckedChanged += new System.EventHandler(this.zoomOutButton_CheckedChanged);
-            // 
             // zoomInButton
             // 
-            this.zoomInButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.zoomInButton.Appearance = System.Windows.Forms.Appearance.Button;
             this.zoomInButton.Location = new System.Drawing.Point(136, 3);
             this.zoomInButton.Name = "zoomInButton";
-            this.zoomInButton.Size = new System.Drawing.Size(75, 22);
-            this.zoomInButton.TabIndex = 2;
-            this.zoomInButton.TabStop = true;
+            this.zoomInButton.Size = new System.Drawing.Size(75, 23);
+            this.zoomInButton.TabIndex = 6;
             this.zoomInButton.Text = "拡大";
-            this.zoomInButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.zoomInButton.UseVisualStyleBackColor = true;
-            this.zoomInButton.CheckedChanged += new System.EventHandler(this.zoomInButton_CheckedChanged);
+            this.zoomInButton.Click += new System.EventHandler(this.zoomInButton_Click);
+            // 
+            // zoomOutButton
+            // 
+            this.zoomOutButton.Location = new System.Drawing.Point(136, 32);
+            this.zoomOutButton.Name = "zoomOutButton";
+            this.zoomOutButton.Size = new System.Drawing.Size(75, 23);
+            this.zoomOutButton.TabIndex = 7;
+            this.zoomOutButton.Text = "縮小";
+            this.zoomOutButton.UseVisualStyleBackColor = true;
+            this.zoomOutButton.Click += new System.EventHandler(this.zoomOutButton_Click);
             // 
             // MainForm
             // 
@@ -530,8 +522,6 @@ namespace GrainDetector
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.RadioButton zoomOutButton;
-        private System.Windows.Forms.RadioButton zoomInButton;
         private System.Windows.Forms.Button imageSaveButton;
         private System.Windows.Forms.CheckedListBox shownImageSelectCLB;
         private System.Windows.Forms.CheckBox rangeSelectCheckBox;
@@ -544,6 +534,8 @@ namespace GrainDetector
         private System.Windows.Forms.NumericUpDown circleXNumericUpDown;
         private System.Windows.Forms.NumericUpDown circleYNumericUpDown;
         private System.Windows.Forms.NumericUpDown circleDiameterNumericUpDown;
+        private System.Windows.Forms.Button zoomOutButton;
+        private System.Windows.Forms.Button zoomInButton;
     }
 }
 

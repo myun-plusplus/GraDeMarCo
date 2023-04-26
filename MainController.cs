@@ -90,5 +90,15 @@ namespace GrainDetector
             }
             this.imageForm = null;
         }
+
+        public void ZoomInImage()
+        {
+            this.imageForm.ZoomMagnification *= 2;
+        }
+
+        public void ZoomOutImage()
+        {
+            this.imageForm.ZoomMagnification /= 2;
+        }
     }
 }

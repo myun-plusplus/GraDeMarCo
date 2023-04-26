@@ -133,14 +133,14 @@ namespace GrainDetector
 
         }
 
-        private void zoomInButton_CheckedChanged(object sender, EventArgs e)
+        private void zoomInButton_Click(object sender, EventArgs e)
         {
-
+            controller.ZoomInImage();
         }
 
-        private void zoomOutButton_CheckedChanged(object sender, EventArgs e)
+        private void zoomOutButton_Click(object sender, EventArgs e)
         {
-
+            controller.ZoomOutImage();
         }
 
         private void imageSaveButton_Click(object sender, EventArgs e)
