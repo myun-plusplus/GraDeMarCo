@@ -13,6 +13,19 @@ namespace GrainDetector
         private MainForm mainForm;
         private ImageForm imageForm;
 
+        private FormState.ActionMode _actionMode;
+        public FormState.ActionMode ActionMode
+        {
+            get
+            {
+                return _actionMode;
+            }
+            set
+            {
+                _actionMode = value;
+            }
+        }
+
         private Bitmap _targetImage;
         private Bitmap targetImage
         {
