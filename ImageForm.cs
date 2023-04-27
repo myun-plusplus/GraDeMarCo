@@ -13,6 +13,8 @@ namespace GrainDetector
 {
     public partial class ImageForm : Form
     {
+        public EventHandler<MouseEventArgs> PictureBox_MouseDown_adjusted;
+
         private Bitmap _image;
         private Bitmap image
         {
@@ -73,7 +75,8 @@ namespace GrainDetector
 
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-
+            Point adjusted = getAdjustedLocation(e.Location);
+            PictureBox_MouseDown_adjusted(this.pictureBox, new MouseEventArgs(e.Button, e.Clicks, adjusted.X, adjusted.Y, e.Delta));
         }
 
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
@@ -111,14 +114,17 @@ namespace GrainDetector
 
         private Size getSizeToWidth(int width)
         {
-            int height = image.Height * width / image.Width;
-            return new Size(width, height);
+            return new Size(width, image.Height * width / image.Width);
         }
 
         private Size getSizeToHeight(int height)
         {
-            int width = image.Width * height / image.Height;
-            return new Size(width, height);
+            return new Size(image.Width * height / image.Height, height);
+        }
+
+        private Point getAdjustedLocation(Point location)
+        {
+            return new Point((int)(location.X / ZoomMagnification), (int)(location.Y / ZoomMagnification));
         }
     }
 }
