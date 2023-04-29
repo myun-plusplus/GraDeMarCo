@@ -15,52 +15,13 @@ namespace GrainDetector
     {
         public EventHandler<MouseEventArgs> PictureBox_MouseDown_adjusted;
 
-        private Bitmap _image;
-        private Bitmap image
-        {
-            get
-            {
-                return _image;
-            }
-            set
-            {
-                if (_image != null)
-                {
-                    _image.Dispose();
-                }
-                _image = value;
-            }
-        }
+        private ImageDisplay imageDisplay;
 
-        public Point ZoomLocation;
-        private double _zoomMagnification;
-        public double ZoomMagnification
-        {
-            get
-            {
-                return _zoomMagnification;
-            }
-            set
-            {
-                double preValue = _zoomMagnification;
-                _zoomMagnification = value;
-
-                this.pictureBox.Width = (int)(image.Width * value);
-                this.pictureBox.Height = (int)(image.Height * value);
-
-                if (preValue != 0)
-                {
-                    this.HorizontalScroll.Value = (int)(this.HorizontalScroll.Value * value / preValue);
-                    this.VerticalScroll.Value = (int)(this.VerticalScroll.Value * value / preValue);
-                }
-
-                this.Refresh();
-            }
-        }
-
-        public ImageForm()
+        public ImageForm(ImageDisplay imageDisplay)
         {
             InitializeComponent();
+
+            this.imageDisplay = imageDisplay;
         }
 
         private void ImageForm_Resize(object sender, EventArgs e)
@@ -70,12 +31,12 @@ namespace GrainDetector
 
         private void pictureBox_Paint(object sender, PaintEventArgs e)
         {
-            drawImage(e.Graphics);
+            imageDisplay.DrawImage(e.Graphics);
         }
 
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            Point adjusted = getAdjustedLocation(e.Location);
+            Point adjusted = imageDisplay.GetAdjustedLocation(e.Location);
             PictureBox_MouseDown_adjusted(this.pictureBox, new MouseEventArgs(e.Button, e.Clicks, adjusted.X, adjusted.Y, e.Delta));
         }
 
@@ -88,43 +49,44 @@ namespace GrainDetector
         {
             if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll)
             {
-                ZoomLocation.X = e.NewValue;
+                imageDisplay.ZoomLocation.X = e.NewValue;
             }
             else
             {
-                ZoomLocation.Y = e.NewValue;
+                imageDisplay.ZoomLocation.Y = e.NewValue;
             }
         }
 
         public void SetImage(Bitmap image)
         {
-            this.pictureBox.Size = image.Size;
-            this.image = image;
-            ZoomMagnification = 1.0;
+            imageDisplay.Image = image;
 
             int defaultWidth = 720;
-            Size size = getSizeToWidth(defaultWidth);
+            Size size = imageDisplay.GetSizeToWidth(defaultWidth);
             this.ClientSize = size;
+            this.pictureBox.Size = image.Size;
         }
 
-        private void drawImage(Graphics graphics)
+        public void MultipleZoomMagnification(double coefficient)
         {
-            graphics.DrawImage(image, 0, 0, (int)(image.Width * ZoomMagnification), (int)(image.Height * ZoomMagnification));
+            ChangeZoomMagnification(imageDisplay.ZoomMagnification * coefficient);
         }
 
-        private Size getSizeToWidth(int width)
+        public void ChangeZoomMagnification(double zoomMagnification)
         {
-            return new Size(width, image.Height * width / image.Width);
-        }
+            double preValue = imageDisplay.ZoomMagnification;
+            imageDisplay.ZoomMagnification = zoomMagnification;
 
-        private Size getSizeToHeight(int height)
-        {
-            return new Size(image.Width * height / image.Height, height);
-        }
+            this.pictureBox.Width = (int)(imageDisplay.Image.Width * zoomMagnification);
+            this.pictureBox.Height = (int)(imageDisplay.Image.Height * zoomMagnification);
 
-        private Point getAdjustedLocation(Point location)
-        {
-            return new Point((int)(location.X / ZoomMagnification), (int)(location.Y / ZoomMagnification));
+            if (preValue != 0)
+            {
+                this.HorizontalScroll.Value = (int)(this.HorizontalScroll.Value * zoomMagnification / preValue);
+                this.VerticalScroll.Value = (int)(this.VerticalScroll.Value * zoomMagnification / preValue);
+            }
+
+            this.Refresh();
         }
     }
 }

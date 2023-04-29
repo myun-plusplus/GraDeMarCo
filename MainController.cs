@@ -13,6 +13,8 @@ namespace GrainDetector
         private MainForm mainForm;
         private ImageForm imageForm;
 
+        private ImageDisplay imageDisplay;
+
         private FormState.ActionMode _actionMode;
         public FormState.ActionMode ActionMode
         {
@@ -46,6 +48,8 @@ namespace GrainDetector
         public MainController(MainForm mf)
         {
             this.mainForm = mf;
+
+            imageDisplay = new ImageDisplay();
         }
 
         public void Dispose()
@@ -89,14 +93,21 @@ namespace GrainDetector
         {
             CloseImageForm();
 
-            this.imageForm = new ImageForm();
+            this.imageForm = new ImageForm(imageDisplay);
             this.imageForm.Location = new Point(this.mainForm.Location.X + 300, this.mainForm.Location.Y);
+            this.imageForm.PictureBox_MouseDown_adjusted += test;
             this.imageForm.SetImage(targetImage);
             this.imageForm.Show();
         }
 
         public void CloseImageForm()
         {
+            if (imageDisplay.Image != null)
+            {
+                imageDisplay.Image.Dispose();
+            }
+            imageDisplay.Image = null;
+
             if (this.imageForm != null && !this.imageForm.IsDisposed)
             {
                 this.imageForm.Dispose();
@@ -106,12 +117,17 @@ namespace GrainDetector
 
         public void ZoomInImage()
         {
-            this.imageForm.ZoomMagnification *= 2;
+            imageForm.MultipleZoomMagnification(2.0);
         }
 
         public void ZoomOutImage()
         {
-            this.imageForm.ZoomMagnification /= 2;
+            imageForm.MultipleZoomMagnification(0.5);
+        }
+
+        private void test(object sender, MouseEventArgs e)
+        {
+            MessageBox.Show(e.Location.ToString());
         }
     }
 }
