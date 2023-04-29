@@ -13,36 +13,62 @@ namespace GrainDetector
 {
     public partial class ImageForm : Form
     {
-        public EventHandler<MouseEventArgs> PictureBox_MouseDown_adjusted;
-
         private ImageDisplay imageDisplay;
+        private RangeSelect rangeSelect;
 
-        public ImageForm(ImageDisplay imageDisplay)
+        private FormState.ActionMode _actionMode;
+        public FormState.ActionMode ActionMode
+        {
+            get
+            {
+                return _actionMode;
+            }
+            set
+            {
+                _actionMode = value;
+                this.Refresh();
+            }
+        }
+
+        public ImageForm(ImageDisplay imageDisplay, RangeSelect rangeSelect)
         {
             InitializeComponent();
 
             this.imageDisplay = imageDisplay;
-        }
+            this.rangeSelect = rangeSelect;
 
-        private void ImageForm_Resize(object sender, EventArgs e)
-        {
-
+            int defaultWidth = 720;
+            Size size = imageDisplay.GetSizeToWidth(defaultWidth);
+            this.ClientSize = size;
+            this.pictureBox.Size = imageDisplay.Image.Size;
         }
 
         private void pictureBox_Paint(object sender, PaintEventArgs e)
         {
             imageDisplay.DrawImage(e.Graphics);
+
+            if (ActionMode == FormState.ActionMode.ImageRangeSelect)
+            {
+                rangeSelect.DrawOnPaintEvent(e.Graphics);
+            }
         }
 
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            Point adjusted = imageDisplay.GetAdjustedLocation(e.Location);
-            PictureBox_MouseDown_adjusted(this.pictureBox, new MouseEventArgs(e.Button, e.Clicks, adjusted.X, adjusted.Y, e.Delta));
+            if (ActionMode == FormState.ActionMode.ImageRangeSelect)
+            {
+                rangeSelect.Click(e.Location);
+                this.pictureBox.Invalidate();
+            }
         }
 
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-
+            if (ActionMode == FormState.ActionMode.ImageRangeSelect)
+            {
+                rangeSelect.MouseMove(e.Location);
+                this.pictureBox.Invalidate();
+            }
         }
 
         private void ImageForm_Scroll(object sender, ScrollEventArgs e)
@@ -55,16 +81,6 @@ namespace GrainDetector
             {
                 imageDisplay.ZoomLocation.Y = e.NewValue;
             }
-        }
-
-        public void SetImage(Bitmap image)
-        {
-            imageDisplay.Image = image;
-
-            int defaultWidth = 720;
-            Size size = imageDisplay.GetSizeToWidth(defaultWidth);
-            this.ClientSize = size;
-            this.pictureBox.Size = image.Size;
         }
 
         public void MultipleZoomMagnification(double coefficient)

@@ -19,7 +19,7 @@ namespace GrainDetector
             }
             set
             {
-                if (_image != null)
+                if (_image != null && value != _image)
                 {
                     _image.Dispose();
                 }

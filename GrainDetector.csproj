@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FormState.cs" />
+    <Compile Include="Functions.cs" />
     <Compile Include="ImageDisplay.cs" />
     <Compile Include="ImageForm.cs">
       <SubType>Form</SubType>
