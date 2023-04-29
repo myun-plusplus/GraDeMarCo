@@ -42,29 +42,29 @@ namespace GrainDetector
             this.rangeSelectPanel = new System.Windows.Forms.Panel();
             this.upperYNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.lowerYNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
+            this.rangeYHyphenLabel = new System.Windows.Forms.Label();
             this.upperXNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.lowerXNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.rangeSelectCheckBox = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.rangeXLabel = new System.Windows.Forms.Label();
+            this.rangeXHyphenLabel = new System.Windows.Forms.Label();
+            this.rangeYLabel = new System.Windows.Forms.Label();
             this.circleDrawPageTab = new System.Windows.Forms.TabPage();
             this.circleSelectPanel = new System.Windows.Forms.Panel();
             this.circleXNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.circleYNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.circleDiameterNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.circleSelectCheckBox = new System.Windows.Forms.CheckBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.circleRadiusLabel = new System.Windows.Forms.Label();
+            this.circleXLabel = new System.Windows.Forms.Label();
+            this.circleYLabel = new System.Windows.Forms.Label();
             this.grainDetectTabPage = new System.Windows.Forms.TabPage();
             this.dotCountPageTab = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.zoomOutButton = new System.Windows.Forms.Button();
+            this.zoomInButton = new System.Windows.Forms.Button();
             this.shownImageSelectCLB = new System.Windows.Forms.CheckedListBox();
             this.imageSaveButton = new System.Windows.Forms.Button();
-            this.zoomInButton = new System.Windows.Forms.Button();
-            this.zoomOutButton = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
             this.imageSelectPanel.SuspendLayout();
@@ -89,7 +89,7 @@ namespace GrainDetector
             this.tabControl.Controls.Add(this.dotCountPageTab);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Top;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
-            this.tabControl.Name = "tabControl";
+            this.tabControl.Name = "TabControl";
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(224, 214);
             this.tabControl.TabIndex = 0;
@@ -99,7 +99,7 @@ namespace GrainDetector
             this.imageSelectTabPage.Controls.Add(this.imageSelectPanel);
             this.imageSelectTabPage.Controls.Add(this.rangeSelectPanel);
             this.imageSelectTabPage.Location = new System.Drawing.Point(4, 22);
-            this.imageSelectTabPage.Name = "imageSelectTabPage";
+            this.imageSelectTabPage.Name = "ImageSelectTabPage";
             this.imageSelectTabPage.Padding = new System.Windows.Forms.Padding(3);
             this.imageSelectTabPage.Size = new System.Drawing.Size(216, 188);
             this.imageSelectTabPage.TabIndex = 0;
@@ -115,7 +115,7 @@ namespace GrainDetector
             this.imageSelectPanel.Controls.Add(this.imageOpenButton);
             this.imageSelectPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.imageSelectPanel.Location = new System.Drawing.Point(3, 3);
-            this.imageSelectPanel.Name = "imageSelectPanel";
+            this.imageSelectPanel.Name = "ImageSelectPanel";
             this.imageSelectPanel.Size = new System.Drawing.Size(210, 91);
             this.imageSelectPanel.TabIndex = 0;
             // 
@@ -125,7 +125,7 @@ namespace GrainDetector
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filePathTextBox.Location = new System.Drawing.Point(3, 5);
             this.filePathTextBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.filePathTextBox.Name = "filePathTextBox";
+            this.filePathTextBox.Name = "FilePathTextBox";
             this.filePathTextBox.Size = new System.Drawing.Size(122, 19);
             this.filePathTextBox.TabIndex = 0;
             // 
@@ -133,7 +133,7 @@ namespace GrainDetector
             // 
             this.fileSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.fileSelectButton.Location = new System.Drawing.Point(131, 3);
-            this.fileSelectButton.Name = "fileSelectButton";
+            this.fileSelectButton.Name = "FileSelectButton";
             this.fileSelectButton.Size = new System.Drawing.Size(72, 23);
             this.fileSelectButton.TabIndex = 0;
             this.fileSelectButton.Text = "選択";
@@ -145,7 +145,7 @@ namespace GrainDetector
             this.imageOpenButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.imageOpenButton.Location = new System.Drawing.Point(3, 32);
-            this.imageOpenButton.Name = "imageOpenButton";
+            this.imageOpenButton.Name = "ImageOpenButton";
             this.imageOpenButton.Size = new System.Drawing.Size(200, 23);
             this.imageOpenButton.TabIndex = 0;
             this.imageOpenButton.Text = "開く";
@@ -158,15 +158,15 @@ namespace GrainDetector
             this.rangeSelectPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.rangeSelectPanel.Controls.Add(this.upperYNumericUpDown);
             this.rangeSelectPanel.Controls.Add(this.lowerYNumericUpDown);
-            this.rangeSelectPanel.Controls.Add(this.label8);
+            this.rangeSelectPanel.Controls.Add(this.rangeYHyphenLabel);
             this.rangeSelectPanel.Controls.Add(this.upperXNumericUpDown);
             this.rangeSelectPanel.Controls.Add(this.lowerXNumericUpDown);
             this.rangeSelectPanel.Controls.Add(this.rangeSelectCheckBox);
-            this.rangeSelectPanel.Controls.Add(this.label1);
-            this.rangeSelectPanel.Controls.Add(this.label2);
-            this.rangeSelectPanel.Controls.Add(this.label3);
+            this.rangeSelectPanel.Controls.Add(this.rangeXLabel);
+            this.rangeSelectPanel.Controls.Add(this.rangeXHyphenLabel);
+            this.rangeSelectPanel.Controls.Add(this.rangeYLabel);
             this.rangeSelectPanel.Location = new System.Drawing.Point(3, 97);
-            this.rangeSelectPanel.Name = "rangeSelectPanel";
+            this.rangeSelectPanel.Name = "RangeSelectPanel";
             this.rangeSelectPanel.Size = new System.Drawing.Size(210, 91);
             this.rangeSelectPanel.TabIndex = 0;
             // 
@@ -179,9 +179,9 @@ namespace GrainDetector
             0,
             0,
             0});
-            this.upperYNumericUpDown.Name = "upperYNumericUpDown";
+            this.upperYNumericUpDown.Name = "UpperYNumericUpDown";
             this.upperYNumericUpDown.Size = new System.Drawing.Size(45, 19);
-            this.upperYNumericUpDown.TabIndex = 6;
+            this.upperYNumericUpDown.TabIndex = 0;
             this.upperYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.upperYNumericUpDown.ValueChanged += new System.EventHandler(this.upperYNumericUpDown_ValueChanged);
             this.upperYNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.upperYNumericUpDown_Validating);
@@ -195,21 +195,21 @@ namespace GrainDetector
             0,
             0,
             0});
-            this.lowerYNumericUpDown.Name = "lowerYNumericUpDown";
+            this.lowerYNumericUpDown.Name = "LowerYNumericUpDown";
             this.lowerYNumericUpDown.Size = new System.Drawing.Size(45, 19);
-            this.lowerYNumericUpDown.TabIndex = 5;
+            this.lowerYNumericUpDown.TabIndex = 0;
             this.lowerYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.lowerYNumericUpDown.ValueChanged += new System.EventHandler(this.lowerYNumericUpDown_ValueChanged);
             this.lowerYNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.lowerYNumericUpDown_Validating);
             // 
-            // label8
+            // rangeYHyphenLabel
             // 
-            this.label8.Location = new System.Drawing.Point(76, 38);
-            this.label8.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(9, 12);
-            this.label8.TabIndex = 4;
-            this.label8.Text = "-";
+            this.rangeYHyphenLabel.Location = new System.Drawing.Point(76, 38);
+            this.rangeYHyphenLabel.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
+            this.rangeYHyphenLabel.Name = "RangeYHyphenLabel";
+            this.rangeYHyphenLabel.Size = new System.Drawing.Size(9, 12);
+            this.rangeYHyphenLabel.TabIndex = 0;
+            this.rangeYHyphenLabel.Text = "-";
             // 
             // upperXNumericUpDown
             // 
@@ -220,15 +220,10 @@ namespace GrainDetector
             0,
             0,
             0});
-            this.upperXNumericUpDown.Name = "upperXNumericUpDown";
+            this.upperXNumericUpDown.Name = "UpperXNumericUpDown";
             this.upperXNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.upperXNumericUpDown.TabIndex = 3;
             this.upperXNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.upperXNumericUpDown.Value = new decimal(new int[] {
-            1279,
-            0,
-            0,
-            0});
             this.upperXNumericUpDown.ValueChanged += new System.EventHandler(this.upperXNumericUpDown_ValueChanged);
             this.upperXNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.upperXNumericUpDown_Validating);
             // 
@@ -241,15 +236,10 @@ namespace GrainDetector
             0,
             0,
             0});
-            this.lowerXNumericUpDown.Name = "lowerXNumericUpDown";
+            this.lowerXNumericUpDown.Name = "LowerXNumericUpDown";
             this.lowerXNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.lowerXNumericUpDown.TabIndex = 2;
             this.lowerXNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.lowerXNumericUpDown.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
             this.lowerXNumericUpDown.ValueChanged += new System.EventHandler(this.lowerXNumericUpDown_ValueChanged);
             this.lowerXNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.lowerXNumericUpDown_Validating);
             // 
@@ -257,7 +247,7 @@ namespace GrainDetector
             // 
             this.rangeSelectCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
             this.rangeSelectCheckBox.Location = new System.Drawing.Point(142, 3);
-            this.rangeSelectCheckBox.Name = "rangeSelectCheckBox";
+            this.rangeSelectCheckBox.Name = "RangeSelectCheckBox";
             this.rangeSelectCheckBox.Size = new System.Drawing.Size(61, 23);
             this.rangeSelectCheckBox.TabIndex = 1;
             this.rangeSelectCheckBox.Text = "範囲選択";
@@ -265,38 +255,38 @@ namespace GrainDetector
             this.rangeSelectCheckBox.UseVisualStyleBackColor = true;
             this.rangeSelectCheckBox.CheckedChanged += new System.EventHandler(this.rangeSelectCheckBox_CheckedChanged);
             // 
-            // label1
+            // rangeXLabel
             // 
-            this.label1.Location = new System.Drawing.Point(5, 9);
-            this.label1.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(14, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "X:";
+            this.rangeXLabel.Location = new System.Drawing.Point(5, 9);
+            this.rangeXLabel.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
+            this.rangeXLabel.Name = "RangeXLabel";
+            this.rangeXLabel.Size = new System.Drawing.Size(14, 12);
+            this.rangeXLabel.TabIndex = 0;
+            this.rangeXLabel.Text = "X:";
             // 
-            // label2
+            // rangeXHyphenLabel
             // 
-            this.label2.Location = new System.Drawing.Point(76, 9);
-            this.label2.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(9, 12);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "-";
+            this.rangeXHyphenLabel.Location = new System.Drawing.Point(76, 9);
+            this.rangeXHyphenLabel.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
+            this.rangeXHyphenLabel.Name = "RangeXHyphenLabel";
+            this.rangeXHyphenLabel.Size = new System.Drawing.Size(9, 12);
+            this.rangeXHyphenLabel.TabIndex = 0;
+            this.rangeXHyphenLabel.Text = "-";
             // 
-            // label3
+            // rangeYLabel
             // 
-            this.label3.Location = new System.Drawing.Point(5, 38);
-            this.label3.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(14, 12);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Y:";
+            this.rangeYLabel.Location = new System.Drawing.Point(5, 38);
+            this.rangeYLabel.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
+            this.rangeYLabel.Name = "RangeYLabel";
+            this.rangeYLabel.Size = new System.Drawing.Size(14, 12);
+            this.rangeYLabel.TabIndex = 0;
+            this.rangeYLabel.Text = "Y:";
             // 
             // circleDrawPageTab
             // 
             this.circleDrawPageTab.Controls.Add(this.circleSelectPanel);
             this.circleDrawPageTab.Location = new System.Drawing.Point(4, 22);
-            this.circleDrawPageTab.Name = "circleDrawPageTab";
+            this.circleDrawPageTab.Name = "CircleDrawPageTab";
             this.circleDrawPageTab.Padding = new System.Windows.Forms.Padding(3);
             this.circleDrawPageTab.Size = new System.Drawing.Size(216, 188);
             this.circleDrawPageTab.TabIndex = 0;
@@ -310,12 +300,12 @@ namespace GrainDetector
             this.circleSelectPanel.Controls.Add(this.circleYNumericUpDown);
             this.circleSelectPanel.Controls.Add(this.circleDiameterNumericUpDown);
             this.circleSelectPanel.Controls.Add(this.circleSelectCheckBox);
-            this.circleSelectPanel.Controls.Add(this.label7);
-            this.circleSelectPanel.Controls.Add(this.label5);
-            this.circleSelectPanel.Controls.Add(this.label6);
+            this.circleSelectPanel.Controls.Add(this.circleRadiusLabel);
+            this.circleSelectPanel.Controls.Add(this.circleXLabel);
+            this.circleSelectPanel.Controls.Add(this.circleYLabel);
             this.circleSelectPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.circleSelectPanel.Location = new System.Drawing.Point(3, 3);
-            this.circleSelectPanel.Name = "circleSelectPanel";
+            this.circleSelectPanel.Name = "CircleSelectPanel";
             this.circleSelectPanel.Size = new System.Drawing.Size(210, 100);
             this.circleSelectPanel.TabIndex = 0;
             // 
@@ -327,7 +317,7 @@ namespace GrainDetector
             0,
             0,
             0});
-            this.circleXNumericUpDown.Name = "circleXNumericUpDown";
+            this.circleXNumericUpDown.Name = "CircleXNumericUpDown";
             this.circleXNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.circleXNumericUpDown.TabIndex = 1;
             this.circleXNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -342,7 +332,7 @@ namespace GrainDetector
             0,
             0,
             0});
-            this.circleYNumericUpDown.Name = "circleYNumericUpDown";
+            this.circleYNumericUpDown.Name = "CircleYNumericUpDown";
             this.circleYNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.circleYNumericUpDown.TabIndex = 2;
             this.circleYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -352,7 +342,7 @@ namespace GrainDetector
             // circleDiameterNumericUpDown
             // 
             this.circleDiameterNumericUpDown.Location = new System.Drawing.Point(51, 63);
-            this.circleDiameterNumericUpDown.Name = "circleDiameterNumericUpDown";
+            this.circleDiameterNumericUpDown.Name = "CircleDiameterNumericUpDown";
             this.circleDiameterNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.circleDiameterNumericUpDown.TabIndex = 3;
             this.circleDiameterNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -363,7 +353,7 @@ namespace GrainDetector
             // 
             this.circleSelectCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
             this.circleSelectCheckBox.Location = new System.Drawing.Point(128, 3);
-            this.circleSelectCheckBox.Name = "circleSelectCheckBox";
+            this.circleSelectCheckBox.Name = "CircleSelectCheckBox";
             this.circleSelectCheckBox.Size = new System.Drawing.Size(75, 23);
             this.circleSelectCheckBox.TabIndex = 2;
             this.circleSelectCheckBox.Text = "円選択";
@@ -371,37 +361,37 @@ namespace GrainDetector
             this.circleSelectCheckBox.UseVisualStyleBackColor = true;
             this.circleSelectCheckBox.CheckedChanged += new System.EventHandler(this.circleSelectCheckBox_CheckedChanged);
             // 
-            // label7
+            // circleRadiusLabel
             // 
-            this.label7.Location = new System.Drawing.Point(5, 67);
-            this.label7.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(40, 12);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "直径:";
+            this.circleRadiusLabel.Location = new System.Drawing.Point(5, 67);
+            this.circleRadiusLabel.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
+            this.circleRadiusLabel.Name = "CircleRadiusLabel";
+            this.circleRadiusLabel.Size = new System.Drawing.Size(40, 12);
+            this.circleRadiusLabel.TabIndex = 1;
+            this.circleRadiusLabel.Text = "直径:";
             // 
-            // label5
+            // circleXLabel
             // 
-            this.label5.Location = new System.Drawing.Point(5, 9);
-            this.label5.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(40, 12);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "左上X:";
+            this.circleXLabel.Location = new System.Drawing.Point(5, 9);
+            this.circleXLabel.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
+            this.circleXLabel.Name = "CircleXLabel";
+            this.circleXLabel.Size = new System.Drawing.Size(40, 12);
+            this.circleXLabel.TabIndex = 0;
+            this.circleXLabel.Text = "左上X:";
             // 
-            // label6
+            // circleYLabel
             // 
-            this.label6.Location = new System.Drawing.Point(5, 38);
-            this.label6.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(40, 12);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "左上Y:";
+            this.circleYLabel.Location = new System.Drawing.Point(5, 38);
+            this.circleYLabel.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
+            this.circleYLabel.Name = "CircleYLabel";
+            this.circleYLabel.Size = new System.Drawing.Size(40, 12);
+            this.circleYLabel.TabIndex = 0;
+            this.circleYLabel.Text = "左上Y:";
             // 
             // grainDetectTabPage
             // 
             this.grainDetectTabPage.Location = new System.Drawing.Point(4, 22);
-            this.grainDetectTabPage.Name = "grainDetectTabPage";
+            this.grainDetectTabPage.Name = "GrainDetectTabPage";
             this.grainDetectTabPage.Padding = new System.Windows.Forms.Padding(3);
             this.grainDetectTabPage.Size = new System.Drawing.Size(216, 188);
             this.grainDetectTabPage.TabIndex = 0;
@@ -411,7 +401,7 @@ namespace GrainDetector
             // dotCountPageTab
             // 
             this.dotCountPageTab.Location = new System.Drawing.Point(4, 22);
-            this.dotCountPageTab.Name = "dotCountPageTab";
+            this.dotCountPageTab.Name = "DotCountPageTab";
             this.dotCountPageTab.Padding = new System.Windows.Forms.Padding(3);
             this.dotCountPageTab.Size = new System.Drawing.Size(216, 188);
             this.dotCountPageTab.TabIndex = 0;
@@ -430,6 +420,26 @@ namespace GrainDetector
             this.panel1.Size = new System.Drawing.Size(218, 101);
             this.panel1.TabIndex = 1;
             // 
+            // zoomOutButton
+            // 
+            this.zoomOutButton.Location = new System.Drawing.Point(136, 32);
+            this.zoomOutButton.Name = "ZoomOutButton";
+            this.zoomOutButton.Size = new System.Drawing.Size(75, 23);
+            this.zoomOutButton.TabIndex = 7;
+            this.zoomOutButton.Text = "縮小";
+            this.zoomOutButton.UseVisualStyleBackColor = true;
+            this.zoomOutButton.Click += new System.EventHandler(this.zoomOutButton_Click);
+            // 
+            // zoomInButton
+            // 
+            this.zoomInButton.Location = new System.Drawing.Point(136, 3);
+            this.zoomInButton.Name = "ZoomInButton";
+            this.zoomInButton.Size = new System.Drawing.Size(75, 23);
+            this.zoomInButton.TabIndex = 6;
+            this.zoomInButton.Text = "拡大";
+            this.zoomInButton.UseVisualStyleBackColor = true;
+            this.zoomInButton.Click += new System.EventHandler(this.zoomInButton_Click);
+            // 
             // shownImageSelectCLB
             // 
             this.shownImageSelectCLB.FormattingEnabled = true;
@@ -438,7 +448,7 @@ namespace GrainDetector
             "円",
             "粒子点"});
             this.shownImageSelectCLB.Location = new System.Drawing.Point(3, 3);
-            this.shownImageSelectCLB.Name = "shownImageSelectCLB";
+            this.shownImageSelectCLB.Name = "ShownImageSelectCLB";
             this.shownImageSelectCLB.Size = new System.Drawing.Size(120, 88);
             this.shownImageSelectCLB.TabIndex = 5;
             this.shownImageSelectCLB.SelectedIndexChanged += new System.EventHandler(this.shownImageSelectCLB_SelectedIndexChanged);
@@ -447,32 +457,12 @@ namespace GrainDetector
             // 
             this.imageSaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.imageSaveButton.Location = new System.Drawing.Point(136, 61);
-            this.imageSaveButton.Name = "imageSaveButton";
+            this.imageSaveButton.Name = "ImageSaveButton";
             this.imageSaveButton.Size = new System.Drawing.Size(75, 23);
             this.imageSaveButton.TabIndex = 4;
             this.imageSaveButton.Text = "保存";
             this.imageSaveButton.UseVisualStyleBackColor = true;
             this.imageSaveButton.Click += new System.EventHandler(this.imageSaveButton_Click);
-            // 
-            // zoomInButton
-            // 
-            this.zoomInButton.Location = new System.Drawing.Point(136, 3);
-            this.zoomInButton.Name = "zoomInButton";
-            this.zoomInButton.Size = new System.Drawing.Size(75, 23);
-            this.zoomInButton.TabIndex = 6;
-            this.zoomInButton.Text = "拡大";
-            this.zoomInButton.UseVisualStyleBackColor = true;
-            this.zoomInButton.Click += new System.EventHandler(this.zoomInButton_Click);
-            // 
-            // zoomOutButton
-            // 
-            this.zoomOutButton.Location = new System.Drawing.Point(136, 32);
-            this.zoomOutButton.Name = "zoomOutButton";
-            this.zoomOutButton.Size = new System.Drawing.Size(75, 23);
-            this.zoomOutButton.TabIndex = 7;
-            this.zoomOutButton.Text = "縮小";
-            this.zoomOutButton.UseVisualStyleBackColor = true;
-            this.zoomOutButton.Click += new System.EventHandler(this.zoomOutButton_Click);
             // 
             // MainForm
             // 
@@ -514,13 +504,13 @@ namespace GrainDetector
         private System.Windows.Forms.TabPage dotCountPageTab;
         private System.Windows.Forms.Panel imageSelectPanel;
         private System.Windows.Forms.Panel rangeSelectPanel;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label rangeXLabel;
+        private System.Windows.Forms.Label rangeYLabel;
+        private System.Windows.Forms.Label rangeXHyphenLabel;
         private System.Windows.Forms.Panel circleSelectPanel;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label circleYLabel;
+        private System.Windows.Forms.Label circleXLabel;
+        private System.Windows.Forms.Label circleRadiusLabel;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button imageSaveButton;
         private System.Windows.Forms.CheckedListBox shownImageSelectCLB;
@@ -528,7 +518,7 @@ namespace GrainDetector
         private System.Windows.Forms.CheckBox circleSelectCheckBox;
         private System.Windows.Forms.NumericUpDown upperYNumericUpDown;
         private System.Windows.Forms.NumericUpDown lowerYNumericUpDown;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label rangeYHyphenLabel;
         private System.Windows.Forms.NumericUpDown upperXNumericUpDown;
         private System.Windows.Forms.NumericUpDown lowerXNumericUpDown;
         private System.Windows.Forms.NumericUpDown circleXNumericUpDown;
