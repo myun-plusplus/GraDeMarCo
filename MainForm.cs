@@ -13,18 +13,18 @@ namespace GrainDetector
 {
     public partial class MainForm : Form
     {
-        private MainController controller;
-
         public MainForm()
         {
             InitializeComponent();
 
-            controller = new MainController(this);
+            imageDisplay = new ImageDisplay();
 
-#if DEBUG
+            #if DEBUG
             this.filePathTextBox.Text = @"D:\Projects\GrainDetector\sample2.jpg";
-#endif
+            #endif
         }
+
+        #region ImageOpening
 
         private void fileSelectButton_Click(object sender, EventArgs e)
         {
@@ -44,9 +44,29 @@ namespace GrainDetector
 
         private void imageOpenButton_Click(object sender, EventArgs e)
         {
-            controller.OpenImageFile(this.filePathTextBox.Text);
-            controller.OpenImageForm();
+            String filename = this.filePathTextBox.Text;
+            if (!File.Exists(filename))
+            {
+                MessageBox.Show("選択したファイルが存在しません。", "エラー");
+                return;
+            }
+            try
+            {
+                targetImage = new Bitmap(filename);
+            }
+            catch (ArgumentException)
+            {
+                MessageBox.Show("選択したファイルは画像ファイルではありません。", "エラー");
+                return;
+            }
+
+            closeImageForm();
+            openImageForm();
         }
+
+        #endregion
+
+        #region RangeSelecting
 
         private void lowerXNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
@@ -93,6 +113,10 @@ namespace GrainDetector
 
         }
 
+        #endregion
+
+        #region CircleSelecting
+
         private void circleXNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
 
@@ -128,6 +152,10 @@ namespace GrainDetector
 
         }
 
+        #endregion
+
+        #region ImageZoomingAndSaving
+
         private void shownImageSelectCLB_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -135,17 +163,25 @@ namespace GrainDetector
 
         private void zoomInButton_Click(object sender, EventArgs e)
         {
-            controller.ZoomInImage();
+            if (isImageFormOpen())
+            {
+                imageForm.MultipleZoomMagnification(2.0);
+            }
         }
 
         private void zoomOutButton_Click(object sender, EventArgs e)
         {
-            controller.ZoomOutImage();
+            if (isImageFormOpen())
+            {
+                imageForm.MultipleZoomMagnification(0.5);
+            }
         }
 
         private void imageSaveButton_Click(object sender, EventArgs e)
         {
 
         }
+
+        #endregion
     }
 }

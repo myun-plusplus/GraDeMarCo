@@ -15,8 +15,11 @@ namespace GrainDetector
         /// <param name="disposing">マネージド リソースを破棄する場合は true を指定し、その他の場合は false を指定します。</param>
         protected override void Dispose(bool disposing)
         {
-            this.controller.Dispose();
-            this.controller = null;
+            if (this.imageForm != null && !this.imageForm.IsDisposed)
+            {
+                this.imageForm.Dispose();
+            }
+            this.imageForm = null;
 
             if (disposing && (components != null))
             {
