@@ -160,7 +160,29 @@ namespace GrainDetector
                 this.imageSaveButton.Enabled = false;
             }
 
+
+
             this.ResumeLayout(false);
+        }
+
+        private void validateZoomMagnification()
+        {
+            if (imageDisplay.ZoomMagnification >= 8)
+            {
+                this.zoomInButton.Enabled = false;
+            }
+            else
+            {
+                this.zoomInButton.Enabled = true;
+            }
+            if (imageDisplay.ZoomMagnification <= 0.125)
+            {
+                this.zoomOutButton.Enabled = false;
+            }
+            else
+            {
+                this.zoomOutButton.Enabled = true;
+            }
         }
     }
 }

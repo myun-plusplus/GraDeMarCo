@@ -36,8 +36,16 @@ namespace GrainDetector
             ZoomMagnification = 1;
         }
 
+        public void SetImage(Bitmap image)
+        {
+            Image = image;
+            ZoomLocation = new Point(0, 0);
+            ZoomMagnification = 1;
+        }
+
         public void DrawImage(Graphics graphics)
         {
+            graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
             graphics.DrawImage(Image, 0, 0, (int)(Image.Width * ZoomMagnification), (int)(Image.Height * ZoomMagnification));
         }
 

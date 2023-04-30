@@ -67,9 +67,13 @@ namespace GrainDetector
 
             updateValidation();
 
-            imageDisplay.Image = targetImage;
+            imageDisplay.SetImage(targetImage);
+
             isImageFormOpened = true;
+
             openImageForm();
+
+            validateZoomMagnification();
         }
 
         #endregion
@@ -191,11 +195,15 @@ namespace GrainDetector
         private void zoomInButton_Click(object sender, EventArgs e)
         {
             imageForm.MultipleZoomMagnification(2.0);
+
+            validateZoomMagnification();
         }
 
         private void zoomOutButton_Click(object sender, EventArgs e)
         {
             imageForm.MultipleZoomMagnification(0.5);
+
+            validateZoomMagnification();
         }
 
         private void imageSaveButton_Click(object sender, EventArgs e)
