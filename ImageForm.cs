@@ -15,6 +15,7 @@ namespace GrainDetector
     {
         private ImageDisplay imageDisplay;
         private RangeSelect rangeSelect;
+        private CircleSelect circleSelect;
 
         private FormState.ActionMode _actionMode;
         public FormState.ActionMode ActionMode
@@ -30,12 +31,13 @@ namespace GrainDetector
             }
         }
 
-        public ImageForm(ImageDisplay imageDisplay, RangeSelect rangeSelect)
+        public ImageForm(ImageDisplay imageDisplay, RangeSelect rangeSelect, CircleSelect circleSelect)
         {
             InitializeComponent();
 
             this.imageDisplay = imageDisplay;
             this.rangeSelect = rangeSelect;
+            this.circleSelect = circleSelect;
 
             int defaultWidth = 720;
             Size size = imageDisplay.GetSizeToWidth(defaultWidth);
@@ -51,6 +53,10 @@ namespace GrainDetector
             {
                 rangeSelect.DrawOnPaintEvent(e.Graphics);
             }
+            else if (ActionMode == FormState.ActionMode.CircleSelect)
+            {
+                circleSelect.DrawOnPaintEvent(e.Graphics);
+            }
         }
 
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -60,6 +66,11 @@ namespace GrainDetector
                 rangeSelect.Click(e.Location);
                 this.pictureBox.Invalidate();
             }
+            else if (ActionMode == FormState.ActionMode.CircleSelect)
+            {
+                circleSelect.Click(e.Location);
+                this.pictureBox.Invalidate();
+            }
         }
 
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
@@ -67,6 +78,11 @@ namespace GrainDetector
             if (ActionMode == FormState.ActionMode.ImageRangeSelect)
             {
                 rangeSelect.MouseMove(e.Location);
+                this.pictureBox.Invalidate();
+            }
+            else if (ActionMode == FormState.ActionMode.CircleSelect)
+            {
+                circleSelect.MouseMove(e.Location);
                 this.pictureBox.Invalidate();
             }
         }

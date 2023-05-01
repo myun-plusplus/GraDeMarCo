@@ -50,7 +50,10 @@ namespace GrainDetector
             this.zoomInButton = new System.Windows.Forms.Button();
             this.shownImageSelectCLB = new System.Windows.Forms.CheckedListBox();
             this.imageSaveButton = new System.Windows.Forms.Button();
+            this.circleColorLabel = new System.Windows.Forms.Label();
+            this.circleColorSelectLabel = new System.Windows.Forms.Label();
             this.rangeSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.circleSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
             this.imageSelectPanel.SuspendLayout();
@@ -66,6 +69,7 @@ namespace GrainDetector
             ((System.ComponentModel.ISupportInitialize)(this.circleDiameterNumericUpDown)).BeginInit();
             this.lowerPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rangeSelectBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.circleSelectBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -268,6 +272,8 @@ namespace GrainDetector
             // circleSelectPanel
             // 
             this.circleSelectPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.circleSelectPanel.Controls.Add(this.circleColorSelectLabel);
+            this.circleSelectPanel.Controls.Add(this.circleColorLabel);
             this.circleSelectPanel.Controls.Add(this.circleXNumericUpDown);
             this.circleSelectPanel.Controls.Add(this.circleYNumericUpDown);
             this.circleSelectPanel.Controls.Add(this.circleDiameterNumericUpDown);
@@ -278,11 +284,12 @@ namespace GrainDetector
             this.circleSelectPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.circleSelectPanel.Location = new System.Drawing.Point(3, 3);
             this.circleSelectPanel.Name = "circleSelectPanel";
-            this.circleSelectPanel.Size = new System.Drawing.Size(210, 100);
+            this.circleSelectPanel.Size = new System.Drawing.Size(210, 91);
             this.circleSelectPanel.TabIndex = 0;
             // 
             // circleXNumericUpDown
             // 
+            this.circleXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.circleSelectBindingSource, "StartX", true));
             this.circleXNumericUpDown.Location = new System.Drawing.Point(51, 5);
             this.circleXNumericUpDown.Maximum = new decimal(new int[] {
             1919,
@@ -298,6 +305,7 @@ namespace GrainDetector
             // 
             // circleYNumericUpDown
             // 
+            this.circleYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.circleSelectBindingSource, "StartY", true));
             this.circleYNumericUpDown.Location = new System.Drawing.Point(51, 34);
             this.circleYNumericUpDown.Maximum = new decimal(new int[] {
             1079,
@@ -313,6 +321,7 @@ namespace GrainDetector
             // 
             // circleDiameterNumericUpDown
             // 
+            this.circleDiameterNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.circleSelectBindingSource, "Diameter", true));
             this.circleDiameterNumericUpDown.Location = new System.Drawing.Point(51, 63);
             this.circleDiameterNumericUpDown.Name = "circleDiameterNumericUpDown";
             this.circleDiameterNumericUpDown.Size = new System.Drawing.Size(45, 19);
@@ -437,9 +446,33 @@ namespace GrainDetector
             this.imageSaveButton.UseVisualStyleBackColor = true;
             this.imageSaveButton.Click += new System.EventHandler(this.imageSaveButton_Click);
             // 
+            // circleColorLabel
+            // 
+            this.circleColorLabel.AutoSize = true;
+            this.circleColorLabel.Location = new System.Drawing.Point(129, 38);
+            this.circleColorLabel.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
+            this.circleColorLabel.Name = "circleColorLabel";
+            this.circleColorLabel.Size = new System.Drawing.Size(19, 12);
+            this.circleColorLabel.TabIndex = 4;
+            this.circleColorLabel.Text = "色:";
+            // 
+            // circleColorSelectLabel
+            // 
+            this.circleColorSelectLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.circleColorSelectLabel.Location = new System.Drawing.Point(154, 32);
+            this.circleColorSelectLabel.Margin = new System.Windows.Forms.Padding(3);
+            this.circleColorSelectLabel.Name = "circleColorSelectLabel";
+            this.circleColorSelectLabel.Size = new System.Drawing.Size(49, 23);
+            this.circleColorSelectLabel.TabIndex = 5;
+            this.circleColorSelectLabel.Click += new System.EventHandler(this.circleColorSelectLabel_Click);
+            // 
             // rangeSelectBindingSource
             // 
             this.rangeSelectBindingSource.DataSource = typeof(GrainDetector.RangeSelect);
+            // 
+            // circleSelectBindingSource
+            // 
+            this.circleSelectBindingSource.DataSource = typeof(GrainDetector.CircleSelect);
             // 
             // MainForm
             // 
@@ -462,11 +495,13 @@ namespace GrainDetector
             ((System.ComponentModel.ISupportInitialize)(this.lowerXNumericUpDown)).EndInit();
             this.circleSelectPageTab.ResumeLayout(false);
             this.circleSelectPanel.ResumeLayout(false);
+            this.circleSelectPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.circleXNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleYNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleDiameterNumericUpDown)).EndInit();
             this.lowerPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.rangeSelectBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.circleSelectBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -505,6 +540,9 @@ namespace GrainDetector
         private System.Windows.Forms.Button zoomOutButton;
         private System.Windows.Forms.Button zoomInButton;
         private System.Windows.Forms.BindingSource rangeSelectBindingSource;
+        private System.Windows.Forms.Label circleColorSelectLabel;
+        private System.Windows.Forms.Label circleColorLabel;
+        private System.Windows.Forms.BindingSource circleSelectBindingSource;
     }
 }
 

@@ -14,6 +14,7 @@ namespace GrainDetector
 
         private ImageDisplay imageDisplay;
         private RangeSelect rangeSelect;
+        private CircleSelect circleSelect;
 
         private bool _isImageFormOpened;
         private bool isImageFormOpened
@@ -68,9 +69,11 @@ namespace GrainDetector
         {
             imageDisplay = new ImageDisplay();
             rangeSelect = new RangeSelect(imageDisplay);
+            circleSelect = new CircleSelect(imageDisplay);
 
             InitializeComponent();
             this.rangeSelectBindingSource.DataSource = rangeSelect;
+            this.circleSelectBindingSource.DataSource = circleSelect;
 
             isImageFormOpened = false;
             actionMode = FormState.ActionMode.None;
@@ -103,7 +106,7 @@ namespace GrainDetector
 
         private void openImageForm()
         {
-            this.imageForm = new ImageForm(imageDisplay, rangeSelect);
+            this.imageForm = new ImageForm(imageDisplay, rangeSelect, circleSelect);
             this.imageForm.Location = new Point(this.Location.X + 300, this.Location.Y);
             this.imageForm.ActionMode = FormState.ActionMode.None;
             this.imageForm.FormClosing += imageForm_FormClosing;
@@ -126,6 +129,11 @@ namespace GrainDetector
             this.lowerYNumericUpDown.Maximum = targetImage.Height - 1;
             this.upperXNumericUpDown.Maximum = targetImage.Width - 1;
             this.upperYNumericUpDown.Maximum = targetImage.Height - 1;
+
+            this.circleXNumericUpDown.Maximum = targetImage.Width - 1;
+            this.circleYNumericUpDown.Maximum = targetImage.Height - 1;
+            /////////////////////////
+            this.circleDiameterNumericUpDown.Maximum = Math.Min(targetImage.Width, targetImage.Width);
         }
 
         private void validateControls()
@@ -137,6 +145,7 @@ namespace GrainDetector
                 if (actionMode == FormState.ActionMode.None)
                 {
                     this.rangeSelectPanel.Enabled = true;
+                    this.circleSelectPanel.Enabled = true;
                     this.shownImageSelectCLB.Enabled = true;
                     this.zoomInButton.Enabled = true;
                     this.zoomOutButton.Enabled = true;
@@ -145,6 +154,16 @@ namespace GrainDetector
                 else if (actionMode == FormState.ActionMode.ImageRangeSelect)
                 {
                     this.rangeSelectPanel.Enabled = true;
+                    this.circleSelectPanel.Enabled = false;
+                    this.shownImageSelectCLB.Enabled = false;
+                    this.zoomInButton.Enabled = true;
+                    this.zoomOutButton.Enabled = true;
+                    this.imageSaveButton.Enabled = false;
+                }
+                else if (actionMode == FormState.ActionMode.CircleSelect)
+                {
+                    this.rangeSelectPanel.Enabled = false;
+                    this.circleSelectPanel.Enabled = true;
                     this.shownImageSelectCLB.Enabled = false;
                     this.zoomInButton.Enabled = true;
                     this.zoomOutButton.Enabled = true;
@@ -154,13 +173,12 @@ namespace GrainDetector
             else
             {
                 this.rangeSelectPanel.Enabled = false;
+                this.circleSelectPanel.Enabled = false;
                 this.shownImageSelectCLB.Enabled = false;
                 this.zoomInButton.Enabled = false;
                 this.zoomOutButton.Enabled = false;
                 this.imageSaveButton.Enabled = false;
             }
-
-
 
             this.ResumeLayout(false);
         }
@@ -192,6 +210,10 @@ namespace GrainDetector
             if (this.shownImageSelectCLB.GetItemChecked(0))
             {
                 rangeSelect.DrawOnImage(image);
+            }
+            if (this.shownImageSelectCLB.GetItemChecked(1))
+            {
+                circleSelect.DrawOnImage(image);
             }
 
             return image;

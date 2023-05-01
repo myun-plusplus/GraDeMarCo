@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -150,12 +151,14 @@ namespace GrainDetector
 
         private void circleXNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-
+            //this.circleDiameterNumericUpDown.Maximum =
+            //    Math.Min(targetImage.Width - this.circleXNumericUpDown.Value + 1, targetImage.Height - this.circleYNumericUpDown.Value + 1);
         }
 
         private void circleYNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-
+            //this.circleDiameterNumericUpDown.Maximum =
+            //    Math.Min(targetImage.Width - this.circleXNumericUpDown.Value + 1, targetImage.Height - this.circleYNumericUpDown.Value + 1);
         }
 
         private void circleDiameterNumericUpDown_ValueChanged(object sender, EventArgs e)
@@ -180,18 +183,44 @@ namespace GrainDetector
 
         private void circleSelectCheckBox_CheckedChanged(object sender, EventArgs e)
         {
+            if (circleSelectCheckBox.Checked)
+            {
+                actionMode = FormState.ActionMode.CircleSelect;
+                circleSelect.Start();
+            }
+            else
+            {
+                actionMode = FormState.ActionMode.None;
+                circleSelect.Stop();
+            }
+        }
 
+        private void circleColorSelectLabel_Click(object sender, EventArgs e)
+        {
+            var cd = new ColorDialog();
+            cd.CustomColors = new int[]
+            {
+                0x150088, 0x241CED, 0x277FFF, 0x00F2FF, 0x4CB122, 0xE8A200, 0xCC483F, 0xA449A3,
+                0x577AB9, 0xC9AEFF, 0x0EC9FF, 0xB0E4EF, 0x1DE6B5, 0xEAD999, 0xBE9270, 0xE7BFC8
+            };
+            cd.FullOpen = true;
+
+            if (cd.ShowDialog() == DialogResult.OK)
+            {
+                this.circleColorSelectLabel.BackColor = cd.Color;
+                circleSelect.Pen.Color = cd.Color;
+            }
         }
 
         #endregion
 
         #region ImageZoomingAndSaving
 
+        // 連打すると表示されないことがある
         private void shownImageSelectCLB_SelectedIndexChanged(object sender, EventArgs e)
         {
             imageDisplay.Image = createModifiedImage();
 
-            // 表示されるときとされないときがある
             imageForm.Refresh();
         }
 

@@ -1,33 +1,13 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace GrainDetector
 {
-    public abstract class FunctionBase : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected ImageDisplay imageDisplay;
-
-        protected FunctionBase(ImageDisplay imageDisplay)
-        {
-            this.imageDisplay = imageDisplay;
-        }
-
-        public abstract void Start();
-        public abstract void Stop();
-        public abstract void DrawOnPaintEvent(Graphics graphics);
-        public abstract void Draw(Graphics graphics);
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-
-    public class RangeSelect : FunctionBase
+    public class CircleSelect : FunctionBase
     {
         enum State
         {
@@ -55,8 +35,7 @@ namespace GrainDetector
                 Point ep = imageDisplay.GetAdjustedLocation(t.Item2);
                 StartX = sp.X;
                 StartY = sp.Y;
-                EndX = ep.X;
-                EndY = ep.Y;
+                Diameter = Math.Min(ep.X - sp.X, ep.Y - sp.Y);
             }
         }
         public Point EndLocation
@@ -73,12 +52,11 @@ namespace GrainDetector
                 Point ep = imageDisplay.GetAdjustedLocation(t.Item2);
                 StartX = sp.X;
                 StartY = sp.Y;
-                EndX = ep.X;
-                EndY = ep.Y;
+                Diameter = Math.Min(ep.X - sp.X, ep.Y - sp.Y);
             }
         }
 
-        private int _startX, _startY, _endX, _endY;
+        private int _startX, _startY, _diameter;
         public int StartX
         {
             get
@@ -103,40 +81,28 @@ namespace GrainDetector
                 OnPropertyChanged(GetName.Of(() => StartY));
             }
         }
-        public int EndX
+        public int Diameter
         {
             get
             {
-                return _endX;
+                return _diameter;
             }
             set
             {
-                _endX = value;
-                OnPropertyChanged(GetName.Of(() => EndX));
-            }
-        }
-        public int EndY
-        {
-            get
-            {
-                return _endY;
-            }
-            set
-            {
-                _endY = value;
-                OnPropertyChanged(GetName.Of(() => EndY));
+                _diameter = value;
+                OnPropertyChanged(GetName.Of(() => Diameter));
             }
         }
 
         #endregion
 
-        private Pen pen;
+        public Pen Pen;
 
-        public RangeSelect(ImageDisplay imageDisplay)
+        public CircleSelect(ImageDisplay imageDisplay)
             : base(imageDisplay)
         {
             state = State.NotActive;
-            pen = new Pen(Color.Red, 1);
+            Pen = new Pen(Color.Transparent, 1);
         }
 
         public override void Start()
@@ -146,8 +112,7 @@ namespace GrainDetector
             _endLocation = new Point(0, 0);
             StartX = 0;
             StartY = 0;
-            EndX = imageDisplay.Image.Width - 1;
-            EndY = imageDisplay.Image.Height - 1;
+            Diameter = Math.Min(imageDisplay.Image.Width - 1, imageDisplay.Image.Height - 1);
         }
 
         public override void Stop()
@@ -166,7 +131,8 @@ namespace GrainDetector
         public override void Draw(Graphics graphics)
         {
             var t = orderPoints(StartLocation, EndLocation);
-            graphics.DrawRectangle(pen, t.Item1.X, t.Item1.Y, t.Item2.X - t.Item1.X, t.Item2.Y - t.Item1.Y);
+            int diameter = Math.Min(t.Item2.X - t.Item1.X, t.Item2.Y - t.Item1.Y);
+            graphics.DrawEllipse(Pen, t.Item1.X, t.Item1.Y, diameter, diameter);
         }
 
         public void Click(Point location)
@@ -222,7 +188,7 @@ namespace GrainDetector
             using (var graphics = Graphics.FromImage(image))
             {
                 graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
-                graphics.DrawRectangle(pen, StartX, StartY, EndX - StartX, EndY - StartY);
+                graphics.DrawEllipse(Pen, StartX, StartY, Diameter, Diameter);
             }
         }
     }
