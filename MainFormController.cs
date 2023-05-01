@@ -184,5 +184,17 @@ namespace GrainDetector
                 this.zoomOutButton.Enabled = true;
             }
         }
+
+        private Bitmap createModifiedImage()
+        {
+            Bitmap image = new Bitmap(targetImage);
+
+            if (this.shownImageSelectCLB.GetItemChecked(0))
+            {
+                rangeSelect.DrawOnImage(image);
+            }
+
+            return image;
+        }
     }
 }

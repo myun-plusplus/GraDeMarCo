@@ -36,9 +36,8 @@ namespace GrainDetector
             ZoomMagnification = 1;
         }
 
-        public void SetImage(Bitmap image)
+        public void Reset()
         {
-            Image = image;
             ZoomLocation = new Point(0, 0);
             ZoomMagnification = 1;
         }

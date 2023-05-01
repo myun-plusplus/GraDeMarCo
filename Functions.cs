@@ -216,5 +216,14 @@ namespace GrainDetector
             }
             return new Tuple<Point, Point>(p1, p2);
         }
+
+        public void DrawOnImage(Bitmap image)
+        {
+            using (var graphics = Graphics.FromImage(image))
+            {
+                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
+                graphics.DrawRectangle(pen, StartX, StartY, EndX - StartX, EndY - StartY);
+            }
+        }
     }
 }

@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace GrainDetector
 {
@@ -32,16 +35,17 @@ namespace GrainDetector
         {
             var ofd = new OpenFileDialog();
             ofd.FileName = "";
-            ofd.Filter = "画像ファイル(*.jpg;*.png;*.bmp;*.gif;*.exif;*.tiff)|*.jpg;*.png;*.bmp;*.gif;*.exif;*.tiff|すべてのファイル(*.*)|*.*";
+            ofd.Filter = "画像ファイル(*.bmp;*.exif;*.gif;*.jpg;*.png;*.tiff)|*.bmp;*.exif;*.gif;*.jpg;*.png;*.tiff|すべてのファイル(*.*)|*.*";
             ofd.FilterIndex = 1;
             ofd.Title = "開くファイルを選択してください";
             ofd.RestoreDirectory = true;
-            ofd.CheckFileExists = true;
-            ofd.CheckPathExists = true;
+
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 this.filePathTextBox.Text = ofd.FileName;
             }
+
+            ofd.Dispose();
         }
 
         private void imageOpenButton_Click(object sender, EventArgs e)
@@ -49,15 +53,15 @@ namespace GrainDetector
             imageDisplay.Image = null;
             closeImageForm();
 
-            String filename = this.filePathTextBox.Text;
-            if (!File.Exists(filename))
+            String filePath = this.filePathTextBox.Text;
+            if (!File.Exists(filePath))
             {
                 MessageBox.Show("選択したファイルが存在しません。", "エラー");
                 return;
             }
             try
             {
-                targetImage = new Bitmap(filename);
+                targetImage = new Bitmap(filePath);
             }
             catch (ArgumentException)
             {
@@ -67,7 +71,8 @@ namespace GrainDetector
 
             updateValidation();
 
-            imageDisplay.SetImage(targetImage);
+            imageDisplay.Image = new Bitmap(targetImage);
+            imageDisplay.Reset();
 
             isImageFormOpened = true;
 
@@ -182,14 +187,12 @@ namespace GrainDetector
 
         #region ImageZoomingAndSaving
 
-        private void shownImageSelectCLB_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-
-        }
-
         private void shownImageSelectCLB_SelectedIndexChanged(object sender, EventArgs e)
         {
+            imageDisplay.Image = createModifiedImage();
 
+            // 表示されるときとされないときがある
+            imageForm.Refresh();
         }
 
         private void zoomInButton_Click(object sender, EventArgs e)
@@ -208,7 +211,72 @@ namespace GrainDetector
 
         private void imageSaveButton_Click(object sender, EventArgs e)
         {
+            string directory, fileName;
+            string filePath = this.filePathTextBox.Text;
+            try
+            {
+                directory = Path.GetDirectoryName(filePath);
+                fileName = Path.GetFileName(filePath);
+            }
+            catch (ArgumentException)
+            {
+                MessageBox.Show("無効なファイルパスです。", "エラー");
+                return;
+            }
 
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName = fileName;
+            sfd.InitialDirectory = directory;
+            sfd.Filter = "BMPファイル(*.bmp)|*.bmp|EXIFファイル(*.exif)|*.exif|GIFファイル(*.gif)|*.gif|JPEGファイル(*.jpg)|*.jpg|PNGファイル(*.png)|*.png|TIFFファイル(*.tiff)|*.tiff|すべてのファイル(*.*)|*.*";
+            sfd.FilterIndex = 0;
+            sfd.Title = "保存先を選択してください";
+            sfd.RestoreDirectory = true;
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                string extension = Path.GetExtension(sfd.FileName);
+                ImageCodecInfo codec;
+                if (extension == ".bmp")
+                {
+                    imageDisplay.Image.Save(sfd.FileName, ImageFormat.Bmp);
+                }
+                else if (extension == ".exif")
+                {
+                    imageDisplay.Image.Save(sfd.FileName, ImageFormat.Exif);
+                }
+                else if (extension == ".gif")
+                {
+                    imageDisplay.Image.Save(sfd.FileName, ImageFormat.Gif);
+                }
+                else if (extension == ".jpg")
+                {
+                    var eps = new EncoderParameters(1);
+                    var ep = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 95L);
+                    eps.Param[0] = ep;
+
+                    ImageCodecInfo jpgEncoder = null;
+                    foreach (var ici in ImageCodecInfo.GetImageEncoders())
+                    {
+                        if (ici.FormatID == ImageFormat.Jpeg.Guid)
+                        {
+                            jpgEncoder = ici;
+                            break;
+                        }
+                    }
+
+                    imageDisplay.Image.Save(sfd.FileName, jpgEncoder, eps);
+                }
+                else if (extension == ".png")
+                {
+                    imageDisplay.Image.Save(sfd.FileName, ImageFormat.Png);
+                }
+                else if (extension == ".tiff")
+                {
+                    imageDisplay.Image.Save(sfd.FileName, ImageFormat.Tiff);
+                }
+            }
+
+            sfd.Dispose();
         }
 
         #endregion
