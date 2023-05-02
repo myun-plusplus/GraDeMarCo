@@ -25,11 +25,13 @@ namespace GrainDetector
 
         private Color targetColor;
         private bool[,] visited;
+        Stack<Tuple<int, int>> stack;
 
         private int useDFS(Color color)
         {
             targetColor = color;
             visited = new bool[image.Height, image.Width];
+            stack = new Stack<Tuple<int, int>>();
 
             int count = 0;
 
@@ -55,7 +57,6 @@ namespace GrainDetector
 
         static readonly int[] dx = new int[] { 1, 0, -1, 0 };
         static readonly int[] dy = new int[] { 0, 1, 0, -1 };
-        Stack<Tuple<int, int>> stack;
 
         private void dfs(int x, int y)
         {

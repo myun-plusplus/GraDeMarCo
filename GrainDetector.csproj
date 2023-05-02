@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CircleSelect.cs" />
+    <Compile Include="DotCount.cs" />
     <Compile Include="FormState.cs" />
     <Compile Include="FunctionBase.cs" />
     <Compile Include="ImageDisplay.cs" />

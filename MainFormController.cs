@@ -11,10 +11,12 @@ namespace GrainDetector
     public partial class MainForm
     {
         private ImageForm imageForm;
+        private ColorDialog colorDialog;
 
         private ImageDisplay imageDisplay;
         private RangeSelect rangeSelect;
         private CircleSelect circleSelect;
+        private DotCount dotCount;
 
         private bool _isImageFormOpened;
         private bool isImageFormOpened
@@ -67,9 +69,18 @@ namespace GrainDetector
 
         public MainForm()
         {
+            colorDialog = new ColorDialog();
+            colorDialog.CustomColors = new int[]
+{
+                0x150088, 0x241CED, 0x277FFF, 0x00F2FF, 0x4CB122, 0xE8A200, 0xCC483F, 0xA449A3,
+                0x577AB9, 0xC9AEFF, 0x0EC9FF, 0xB0E4EF, 0x1DE6B5, 0xEAD999, 0xBE9270, 0xE7BFC8
+};
+            colorDialog.FullOpen = true;
+
             imageDisplay = new ImageDisplay();
             rangeSelect = new RangeSelect(imageDisplay);
             circleSelect = new CircleSelect(imageDisplay);
+            dotCount = new DotCount();
 
             InitializeComponent();
             this.rangeSelectBindingSource.DataSource = rangeSelect;
@@ -93,6 +104,11 @@ namespace GrainDetector
                 this.imageForm.Dispose();
             }
             this.imageForm = null;
+            if (this.colorDialog != null)
+            {
+                this.colorDialog.Dispose();
+            }
+            this.colorDialog = null;
 
             imageDisplay.Image = null;
             targetImage = null;

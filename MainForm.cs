@@ -214,6 +214,37 @@ namespace GrainDetector
 
         #endregion
 
+        #region DotCounting
+
+        private void dotCountColorLabel1_Click(object sender, EventArgs e)
+        {
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                this.dotCountColorLabel1.BackColor = colorDialog.Color;
+            }
+        }
+
+        private void dotCountStartButton_Click(object sender, EventArgs e)
+        {
+            Bitmap image = createModifiedImage();
+
+            var targetColors = new List<Color>
+            {
+                this.dotCountColorLabel1.BackColor
+            };
+
+            var results = dotCount.CountDots(image,
+                rangeSelect.StartY,
+                rangeSelect.StartY,
+                rangeSelect.EndX - rangeSelect.StartY + 1,
+                rangeSelect.EndY - rangeSelect.StartY + 1,
+                targetColors);
+
+            this.dotCountTextBox1.Text = results[0].ToString();
+        }
+
+        #endregion
+
         #region ImageZoomingAndSaving
 
         // 連打すると表示されないことがある

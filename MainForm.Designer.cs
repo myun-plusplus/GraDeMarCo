@@ -44,7 +44,6 @@ namespace GrainDetector
             this.circleXLabel = new System.Windows.Forms.Label();
             this.circleYLabel = new System.Windows.Forms.Label();
             this.grainDetectTabPage = new System.Windows.Forms.TabPage();
-            this.dotCountPageTab = new System.Windows.Forms.TabPage();
             this.lowerPanel = new System.Windows.Forms.Panel();
             this.zoomOutButton = new System.Windows.Forms.Button();
             this.zoomInButton = new System.Windows.Forms.Button();
@@ -52,6 +51,11 @@ namespace GrainDetector
             this.imageSaveButton = new System.Windows.Forms.Button();
             this.circleColorLabel = new System.Windows.Forms.Label();
             this.circleColorSelectLabel = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.dotCountColorLabel1 = new System.Windows.Forms.Label();
+            this.dotCountPageTab = new System.Windows.Forms.TabPage();
+            this.dotCountTextBox1 = new System.Windows.Forms.TextBox();
+            this.dotCountStartButton = new System.Windows.Forms.Button();
             this.rangeSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.circleSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl.SuspendLayout();
@@ -68,6 +72,8 @@ namespace GrainDetector
             ((System.ComponentModel.ISupportInitialize)(this.circleYNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleDiameterNumericUpDown)).BeginInit();
             this.lowerPanel.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.dotCountPageTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rangeSelectBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleSelectBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -126,7 +132,7 @@ namespace GrainDetector
             this.fileSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.fileSelectButton.Location = new System.Drawing.Point(131, 3);
             this.fileSelectButton.Name = "fileSelectButton";
-            this.fileSelectButton.Size = new System.Drawing.Size(72, 23);
+            this.fileSelectButton.Size = new System.Drawing.Size(74, 23);
             this.fileSelectButton.TabIndex = 0;
             this.fileSelectButton.Text = "選択";
             this.fileSelectButton.UseVisualStyleBackColor = true;
@@ -138,7 +144,7 @@ namespace GrainDetector
             | System.Windows.Forms.AnchorStyles.Right)));
             this.imageOpenButton.Location = new System.Drawing.Point(3, 32);
             this.imageOpenButton.Name = "imageOpenButton";
-            this.imageOpenButton.Size = new System.Drawing.Size(200, 23);
+            this.imageOpenButton.Size = new System.Drawing.Size(202, 23);
             this.imageOpenButton.TabIndex = 0;
             this.imageOpenButton.Text = "開く";
             this.imageOpenButton.UseVisualStyleBackColor = true;
@@ -224,7 +230,7 @@ namespace GrainDetector
             this.rangeSelectCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
             this.rangeSelectCheckBox.Location = new System.Drawing.Point(142, 3);
             this.rangeSelectCheckBox.Name = "rangeSelectCheckBox";
-            this.rangeSelectCheckBox.Size = new System.Drawing.Size(61, 23);
+            this.rangeSelectCheckBox.Size = new System.Drawing.Size(63, 23);
             this.rangeSelectCheckBox.TabIndex = 1;
             this.rangeSelectCheckBox.Text = "範囲選択";
             this.rangeSelectCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -379,16 +385,6 @@ namespace GrainDetector
             this.grainDetectTabPage.Text = "粒子検出";
             this.grainDetectTabPage.UseVisualStyleBackColor = true;
             // 
-            // dotCountPageTab
-            // 
-            this.dotCountPageTab.Location = new System.Drawing.Point(4, 22);
-            this.dotCountPageTab.Name = "dotCountPageTab";
-            this.dotCountPageTab.Padding = new System.Windows.Forms.Padding(3);
-            this.dotCountPageTab.Size = new System.Drawing.Size(216, 188);
-            this.dotCountPageTab.TabIndex = 0;
-            this.dotCountPageTab.Text = "点検出";
-            this.dotCountPageTab.UseVisualStyleBackColor = true;
-            // 
             // lowerPanel
             // 
             this.lowerPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -466,6 +462,62 @@ namespace GrainDetector
             this.circleColorSelectLabel.TabIndex = 5;
             this.circleColorSelectLabel.Click += new System.EventHandler(this.circleColorSelectLabel_Click);
             // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.dotCountStartButton);
+            this.panel1.Controls.Add(this.dotCountTextBox1);
+            this.panel1.Controls.Add(this.dotCountColorLabel1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(210, 182);
+            this.panel1.TabIndex = 1;
+            // 
+            // dotCountColorLabel1
+            // 
+            this.dotCountColorLabel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.dotCountColorLabel1.Location = new System.Drawing.Point(5, 3);
+            this.dotCountColorLabel1.Margin = new System.Windows.Forms.Padding(3);
+            this.dotCountColorLabel1.Name = "dotCountColorLabel1";
+            this.dotCountColorLabel1.Size = new System.Drawing.Size(49, 23);
+            this.dotCountColorLabel1.TabIndex = 5;
+            this.dotCountColorLabel1.Click += new System.EventHandler(this.dotCountColorLabel1_Click);
+            // 
+            // dotCountPageTab
+            // 
+            this.dotCountPageTab.Controls.Add(this.panel1);
+            this.dotCountPageTab.Location = new System.Drawing.Point(4, 22);
+            this.dotCountPageTab.Name = "dotCountPageTab";
+            this.dotCountPageTab.Padding = new System.Windows.Forms.Padding(3);
+            this.dotCountPageTab.Size = new System.Drawing.Size(216, 188);
+            this.dotCountPageTab.TabIndex = 0;
+            this.dotCountPageTab.Text = "点検出";
+            this.dotCountPageTab.UseVisualStyleBackColor = true;
+            // 
+            // dotCountTextBox1
+            // 
+            this.dotCountTextBox1.Location = new System.Drawing.Point(60, 5);
+            this.dotCountTextBox1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.dotCountTextBox1.Name = "dotCountTextBox1";
+            this.dotCountTextBox1.ReadOnly = true;
+            this.dotCountTextBox1.Size = new System.Drawing.Size(40, 19);
+            this.dotCountTextBox1.TabIndex = 6;
+            this.dotCountTextBox1.Text = "0";
+            this.dotCountTextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // dotCountStartButton
+            // 
+            this.dotCountStartButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dotCountStartButton.Location = new System.Drawing.Point(3, 78);
+            this.dotCountStartButton.Name = "dotCountStartButton";
+            this.dotCountStartButton.Size = new System.Drawing.Size(200, 23);
+            this.dotCountStartButton.TabIndex = 7;
+            this.dotCountStartButton.Text = "解析";
+            this.dotCountStartButton.UseVisualStyleBackColor = true;
+            this.dotCountStartButton.Click += new System.EventHandler(this.dotCountStartButton_Click);
+            // 
             // rangeSelectBindingSource
             // 
             this.rangeSelectBindingSource.DataSource = typeof(GrainDetector.RangeSelect);
@@ -500,6 +552,9 @@ namespace GrainDetector
             ((System.ComponentModel.ISupportInitialize)(this.circleYNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleDiameterNumericUpDown)).EndInit();
             this.lowerPanel.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.dotCountPageTab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.rangeSelectBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleSelectBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -514,7 +569,6 @@ namespace GrainDetector
         private System.Windows.Forms.Button imageOpenButton;
         private System.Windows.Forms.TabPage circleSelectPageTab;
         private System.Windows.Forms.TabPage grainDetectTabPage;
-        private System.Windows.Forms.TabPage dotCountPageTab;
         private System.Windows.Forms.Panel imageSelectPanel;
         private System.Windows.Forms.Panel rangeSelectPanel;
         private System.Windows.Forms.Label rangeXLabel;
@@ -543,6 +597,11 @@ namespace GrainDetector
         private System.Windows.Forms.Label circleColorSelectLabel;
         private System.Windows.Forms.Label circleColorLabel;
         private System.Windows.Forms.BindingSource circleSelectBindingSource;
+        private System.Windows.Forms.TabPage dotCountPageTab;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button dotCountStartButton;
+        private System.Windows.Forms.TextBox dotCountTextBox1;
+        private System.Windows.Forms.Label dotCountColorLabel1;
     }
 }
 
