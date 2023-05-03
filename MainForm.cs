@@ -70,16 +70,14 @@ namespace GrainDetector
                 return;
             }
 
-            updateValidation();
+            initializeRangeSelectValidation();
+            initializeCircleSelectValidation();
 
             imageDisplay.Image = new Bitmap(targetImage);
             imageDisplay.Reset();
 
             isImageFormOpened = true;
-
             openImageForm();
-
-            validateZoomMagnification();
         }
 
         #endregion
@@ -126,11 +124,6 @@ namespace GrainDetector
             }
         }
 
-        private void numericUpDowns_Validating(object sender, CancelEventArgs e)
-        {
-
-        }
-
         private void rangeSelectCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (rangeSelectCheckBox.Checked)
@@ -149,36 +142,26 @@ namespace GrainDetector
 
         #region CircleSelecting
 
-        private void circleXNumericUpDown_ValueChanged(object sender, EventArgs e)
+        private void circleNumericUpDowns_ValueChanged(object sender, EventArgs e)
         {
-            //this.circleDiameterNumericUpDown.Maximum =
-            //    Math.Min(targetImage.Width - this.circleXNumericUpDown.Value + 1, targetImage.Height - this.circleYNumericUpDown.Value + 1);
-        }
-
-        private void circleYNumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            //this.circleDiameterNumericUpDown.Maximum =
-            //    Math.Min(targetImage.Width - this.circleXNumericUpDown.Value + 1, targetImage.Height - this.circleYNumericUpDown.Value + 1);
-        }
-
-        private void circleDiameterNumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void circleXNumericUpDown_Validating(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void circleYNumericUpDown_Validating(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void circleDiameterNumericUpDown_Validating(object sender, CancelEventArgs e)
-        {
-
+            decimal x = this.circleXNumericUpDown.Value;
+            decimal y = this.circleYNumericUpDown.Value;
+            decimal d = this.circleDiameterNumericUpDown.Value;
+            if (rangeSelect.StartX <= x && x <= rangeSelect.EndX &&
+                rangeSelect.StartY <= y && y <= rangeSelect.EndY &&
+                x + d - 1 <= rangeSelect.EndX &&
+                y + d - 1 <= rangeSelect.EndY)
+            {
+                this.circleXNumericUpDown.BackColor = SystemColors.Window;
+                this.circleYNumericUpDown.BackColor = SystemColors.Window;
+                this.circleDiameterNumericUpDown.BackColor = SystemColors.Window;
+            }
+            else
+            {
+                this.circleXNumericUpDown.BackColor = Color.LightCoral;
+                this.circleYNumericUpDown.BackColor = Color.LightCoral;
+                this.circleDiameterNumericUpDown.BackColor = Color.LightCoral;
+            }
         }
 
         private void circleSelectCheckBox_CheckedChanged(object sender, EventArgs e)

@@ -28,7 +28,7 @@ namespace GrainDetector
             set
             {
                 _isImageFormOpened = value;
-                validateControls();
+                turnOnOffControls();
             }
         }
 
@@ -42,7 +42,7 @@ namespace GrainDetector
             set
             {
                 _actionMode = value;
-                validateControls();
+                turnOnOffControls();
                 if (isImageFormOpened)
                 {
                     this.imageForm.ActionMode = value;
@@ -90,6 +90,8 @@ namespace GrainDetector
             actionMode = FormState.ActionMode.None;
 #if DEBUG
             this.filePathTextBox.Text = @"D:\Projects\GrainDetector\sample2.jpg";
+            this.circleColorSelectLabel.BackColor = Color.Blue;
+            circleSelect.Pen.Color = Color.Blue;
 #endif
         }
 
@@ -139,20 +141,7 @@ namespace GrainDetector
             this.imageForm = null;
         }
 
-        private void updateValidation()
-        {
-            this.lowerXNumericUpDown.Maximum = targetImage.Width - 1;
-            this.lowerYNumericUpDown.Maximum = targetImage.Height - 1;
-            this.upperXNumericUpDown.Maximum = targetImage.Width - 1;
-            this.upperYNumericUpDown.Maximum = targetImage.Height - 1;
-
-            this.circleXNumericUpDown.Maximum = targetImage.Width - 1;
-            this.circleYNumericUpDown.Maximum = targetImage.Height - 1;
-            /////////////////////////
-            this.circleDiameterNumericUpDown.Maximum = Math.Min(targetImage.Width, targetImage.Width);
-        }
-
-        private void validateControls()
+        private void turnOnOffControls()
         {
             this.SuspendLayout();
 
@@ -197,6 +186,21 @@ namespace GrainDetector
             }
 
             this.ResumeLayout(false);
+        }
+
+        private void initializeRangeSelectValidation()
+        {
+            this.lowerXNumericUpDown.Maximum = targetImage.Width - 1;
+            this.lowerYNumericUpDown.Maximum = targetImage.Height - 1;
+            this.upperXNumericUpDown.Maximum = targetImage.Width - 1;
+            this.upperYNumericUpDown.Maximum = targetImage.Height - 1;
+        }
+
+        private void initializeCircleSelectValidation()
+        {
+            this.circleXNumericUpDown.Maximum = targetImage.Width - 1;
+            this.circleYNumericUpDown.Maximum = targetImage.Height - 1;
+            this.circleDiameterNumericUpDown.Maximum = Math.Min(targetImage.Width, targetImage.Width);
         }
 
         private void validateZoomMagnification()

@@ -70,8 +70,6 @@ namespace GrainDetector
             this.binarizationThresholdNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.dotDrawNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.binarizationThresholdLabel = new System.Windows.Forms.Label();
-            this.rangeSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.circleSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dotDrawRedoButton = new System.Windows.Forms.Button();
             this.dotCountTextBox2 = new System.Windows.Forms.TextBox();
             this.dotCountColorLabel2 = new System.Windows.Forms.Label();
@@ -79,6 +77,8 @@ namespace GrainDetector
             this.dotCountColorLabel3 = new System.Windows.Forms.Label();
             this.dotCountTextBox4 = new System.Windows.Forms.TextBox();
             this.dotCountColorLabel4 = new System.Windows.Forms.Label();
+            this.rangeSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.circleSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
             this.imageSelectPanel.SuspendLayout();
@@ -206,7 +206,6 @@ namespace GrainDetector
             this.upperYNumericUpDown.TabIndex = 0;
             this.upperYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.upperYNumericUpDown.ValueChanged += new System.EventHandler(this.upperYNumericUpDown_ValueChanged);
-            this.upperYNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.numericUpDowns_Validating);
             // 
             // lowerYNumericUpDown
             // 
@@ -218,7 +217,6 @@ namespace GrainDetector
             this.lowerYNumericUpDown.TabIndex = 0;
             this.lowerYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.lowerYNumericUpDown.ValueChanged += new System.EventHandler(this.lowerYNumericUpDown_ValueChanged);
-            this.lowerYNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.numericUpDowns_Validating);
             // 
             // rangeYHyphenLabel
             // 
@@ -239,7 +237,6 @@ namespace GrainDetector
             this.upperXNumericUpDown.TabIndex = 3;
             this.upperXNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.upperXNumericUpDown.ValueChanged += new System.EventHandler(this.upperXNumericUpDown_ValueChanged);
-            this.upperXNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.numericUpDowns_Validating);
             // 
             // lowerXNumericUpDown
             // 
@@ -251,7 +248,6 @@ namespace GrainDetector
             this.lowerXNumericUpDown.TabIndex = 2;
             this.lowerXNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.lowerXNumericUpDown.ValueChanged += new System.EventHandler(this.lowerXNumericUpDown_ValueChanged);
-            this.lowerXNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.numericUpDowns_Validating);
             // 
             // rangeSelectCheckBox
             // 
@@ -354,8 +350,7 @@ namespace GrainDetector
             this.circleXNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.circleXNumericUpDown.TabIndex = 1;
             this.circleXNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.circleXNumericUpDown.ValueChanged += new System.EventHandler(this.circleXNumericUpDown_ValueChanged);
-            this.circleXNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.circleXNumericUpDown_Validating);
+            this.circleXNumericUpDown.ValueChanged += new System.EventHandler(this.circleNumericUpDowns_ValueChanged);
             // 
             // circleYNumericUpDown
             // 
@@ -371,8 +366,7 @@ namespace GrainDetector
             this.circleYNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.circleYNumericUpDown.TabIndex = 2;
             this.circleYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.circleYNumericUpDown.ValueChanged += new System.EventHandler(this.circleYNumericUpDown_ValueChanged);
-            this.circleYNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.circleYNumericUpDown_Validating);
+            this.circleYNumericUpDown.ValueChanged += new System.EventHandler(this.circleNumericUpDowns_ValueChanged);
             // 
             // circleDiameterNumericUpDown
             // 
@@ -383,8 +377,7 @@ namespace GrainDetector
             this.circleDiameterNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.circleDiameterNumericUpDown.TabIndex = 3;
             this.circleDiameterNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.circleDiameterNumericUpDown.ValueChanged += new System.EventHandler(this.circleDiameterNumericUpDown_ValueChanged);
-            this.circleDiameterNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.circleDiameterNumericUpDown_Validating);
+            this.circleDiameterNumericUpDown.ValueChanged += new System.EventHandler(this.circleNumericUpDowns_ValueChanged);
             // 
             // circleSelectCheckBox
             // 
@@ -746,14 +739,6 @@ namespace GrainDetector
             this.binarizationThresholdLabel.TabIndex = 12;
             this.binarizationThresholdLabel.Text = "二値化閾値";
             // 
-            // rangeSelectBindingSource
-            // 
-            this.rangeSelectBindingSource.DataSource = typeof(GrainDetector.RangeSelect);
-            // 
-            // circleSelectBindingSource
-            // 
-            this.circleSelectBindingSource.DataSource = typeof(GrainDetector.CircleSelect);
-            // 
             // dotDrawRedoButton
             // 
             this.dotDrawRedoButton.Location = new System.Drawing.Point(3, 61);
@@ -822,6 +807,14 @@ namespace GrainDetector
             this.dotCountColorLabel4.Name = "dotCountColorLabel4";
             this.dotCountColorLabel4.Size = new System.Drawing.Size(49, 23);
             this.dotCountColorLabel4.TabIndex = 12;
+            // 
+            // rangeSelectBindingSource
+            // 
+            this.rangeSelectBindingSource.DataSource = typeof(GrainDetector.RangeSelect);
+            // 
+            // circleSelectBindingSource
+            // 
+            this.circleSelectBindingSource.DataSource = typeof(GrainDetector.CircleSelect);
             // 
             // MainForm
             // 
