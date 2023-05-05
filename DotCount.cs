@@ -8,38 +8,38 @@ namespace GrainDetector
 {
     public class DotCount
     {
-        private Bitmap image;
-        private int lowerX, upperX;
-        private int lowerY, upperY;
+        public Bitmap Image;
+        public int LowerX, UpperX;
+        public int LowerY, UpperY;
+        public List<Color> TargetColors;
 
-        public List<int> CountDots(Bitmap image, int x, int y, int width, int height, List<Color> targetColors)
+        public List<int> CountDots()
         {
-            this.image = image;
-            this.lowerX = x;
-            this.lowerY = y;
-            this.upperX = x + width;
-            this.upperY = y + height;
-
-            return targetColors.Select(useDFS).ToList();
+            return TargetColors.Select(useDFS).ToList();
         }
 
         private Color targetColor;
         private bool[,] visited;
-        Stack<Tuple<int, int>> stack;
+        private Stack<Tuple<int, int>> stack;
 
         private int useDFS(Color color)
         {
+            if (color == Color.Transparent)
+            {
+                return 0;
+            }
+
             targetColor = color;
-            visited = new bool[image.Height, image.Width];
+            visited = new bool[Image.Height, Image.Width];
             stack = new Stack<Tuple<int, int>>();
 
             int count = 0;
 
-            for (int y = lowerY; y < upperY; ++y)
+            for (int y = LowerY; y < UpperY; ++y)
             {
-                for (int x = lowerX; x < upperX; ++x)
+                for (int x = LowerX; x < UpperX; ++x)
                 {
-                    if (image.GetPixel(x, y).ToArgb() != targetColor.ToArgb())
+                    if (Image.GetPixel(x, y).ToArgb() != targetColor.ToArgb())
                     {
                         continue;
                     }
@@ -70,11 +70,11 @@ namespace GrainDetector
                 {
                     int nx = t.Item1 + dx[d];
                     int ny = t.Item2 + dy[d];
-                    if (image.GetPixel(nx, ny).ToArgb() != targetColor.ToArgb())
+                    if (Image.GetPixel(nx, ny).ToArgb() != targetColor.ToArgb())
                     {
                         continue;
                     }
-                    if (nx < lowerX || upperX <= nx || ny < lowerY || upperY <= ny || visited[ny, nx])
+                    if (nx < LowerX || UpperX <= nx || ny < LowerY || UpperY <= ny || visited[ny, nx])
                     {
                         continue;
                     }

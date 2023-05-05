@@ -180,59 +180,20 @@ namespace GrainDetector
 
         private void circleColorSelectLabel_Click(object sender, EventArgs e)
         {
-            var cd = new ColorDialog();
-            cd.CustomColors = new int[]
-            {
-                0x150088, 0x241CED, 0x277FFF, 0x00F2FF, 0x4CB122, 0xE8A200, 0xCC483F, 0xA449A3,
-                0x577AB9, 0xC9AEFF, 0x0EC9FF, 0xB0E4EF, 0x1DE6B5, 0xEAD999, 0xBE9270, 0xE7BFC8
-            };
-            cd.FullOpen = true;
-
-            if (cd.ShowDialog() == DialogResult.OK)
-            {
-                this.circleColorSelectLabel.BackColor = cd.Color;
-                circleSelect.Pen.Color = cd.Color;
-            }
-        }
-
-        #endregion
-
-        #region DotCounting
-
-        private void dotCountColorLabel1_Click(object sender, EventArgs e)
-        {
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                this.dotCountColorLabel1.BackColor = colorDialog.Color;
+                this.circleColorSelectLabel.BackColor = colorDialog.Color;
+                circleSelect.CircleColor = colorDialog.Color;
             }
-        }
-
-        private void dotCountStartButton_Click(object sender, EventArgs e)
-        {
-            Bitmap image = createModifiedImage();
-
-            var targetColors = new List<Color>
-            {
-                this.dotCountColorLabel1.BackColor
-            };
-
-            var results = dotCount.CountDots(image,
-                rangeSelect.StartY,
-                rangeSelect.StartY,
-                rangeSelect.EndX - rangeSelect.StartY + 1,
-                rangeSelect.EndY - rangeSelect.StartY + 1,
-                targetColors);
-
-            this.dotCountTextBox1.Text = results[0].ToString();
         }
 
         #endregion
 
         #region DotDrawing
 
-        private void datDrawCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void dotDrawCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (datDrawCheckBox.Checked)
+            if (dotDrawCheckBox.Checked)
             {
                 actionMode = FormState.ActionMode.DotDraw;
                 dotDraw.Start();
@@ -268,6 +229,65 @@ namespace GrainDetector
         {
             dotDraw.RedoDrawing();
             this.imageForm.Refresh();
+        }
+
+        #endregion
+
+        #region DotCounting
+
+        private void dotCountColorLabel1_Click(object sender, EventArgs e)
+        {
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                this.dotCountColorLabel1.BackColor = colorDialog.Color;
+            }
+        }
+
+        private void dotCountColorLabel2_Click(object sender, EventArgs e)
+        {
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                this.dotCountColorLabel2.BackColor = colorDialog.Color;
+            }
+        }
+
+        private void dotCountColorLabel3_Click(object sender, EventArgs e)
+        {
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                this.dotCountColorLabel3.BackColor = colorDialog.Color;
+            }
+        }
+
+        private void dotCountColorLabel4_Click(object sender, EventArgs e)
+        {
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                this.dotCountColorLabel4.BackColor = colorDialog.Color;
+            }
+        }
+
+        private void dotCountStartButton_Click(object sender, EventArgs e)
+        {
+            dotCount.Image = createModifiedImage();
+            dotCount.LowerX = rangeSelect.StartY;
+            dotCount.LowerY = rangeSelect.StartY;
+            dotCount.UpperX = rangeSelect.EndX;
+            dotCount.UpperY = rangeSelect.EndY;
+            dotCount.TargetColors = new List<Color>
+            {
+                this.dotCountColorLabel1.BackColor,
+                this.dotCountColorLabel2.BackColor,
+                this.dotCountColorLabel3.BackColor,
+                this.dotCountColorLabel4.BackColor
+            };
+
+            var results = dotCount.CountDots();
+
+            this.dotCountTextBox1.Text = results[0].ToString();
+            this.dotCountTextBox2.Text = results[1].ToString();
+            this.dotCountTextBox3.Text = results[2].ToString();
+            this.dotCountTextBox4.Text = results[3].ToString();
         }
 
         #endregion

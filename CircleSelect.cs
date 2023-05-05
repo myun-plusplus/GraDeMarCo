@@ -96,13 +96,27 @@ namespace GrainDetector
 
         #endregion
 
-        public Pen Pen;
+        private Pen pen;
+        private Color _circleColor;
+        public Color CircleColor
+        {
+            get
+            {
+                return _circleColor;
+            }
+            set
+            {
+                _circleColor = value;
+                pen.Color = value;
+            }
+        }
 
         public CircleSelect(ImageDisplay imageDisplay)
             : base(imageDisplay)
         {
             state = State.NotActive;
-            Pen = new Pen(Color.Transparent, 1);
+            pen = new Pen(Color.Transparent, 1);
+            CircleColor = Color.Transparent;
         }
 
         public override void Start()
@@ -132,7 +146,7 @@ namespace GrainDetector
         {
             var t = orderPoints(StartLocation, EndLocation);
             int diameter = Math.Min(t.Item2.X - t.Item1.X, t.Item2.Y - t.Item1.Y);
-            graphics.DrawEllipse(Pen, t.Item1.X, t.Item1.Y, diameter, diameter);
+            graphics.DrawEllipse(pen, t.Item1.X, t.Item1.Y, diameter, diameter);
         }
 
         public void Click(Point location)
@@ -188,7 +202,7 @@ namespace GrainDetector
             using (var graphics = Graphics.FromImage(image))
             {
                 graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
-                graphics.DrawEllipse(Pen, StartX, StartY, Diameter, Diameter);
+                graphics.DrawEllipse(pen, StartX, StartY, Diameter, Diameter);
             }
         }
     }

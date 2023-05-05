@@ -90,12 +90,14 @@ namespace GrainDetector
 
             isImageFormOpened = false;
             actionMode = FormState.ActionMode.None;
-#if DEBUG
-            this.filePathTextBox.Text = @"D:\Projects\GrainDetector\sample2.jpg";
+
             this.circleColorSelectLabel.BackColor = Color.Blue;
-            circleSelect.Pen.Color = Color.Blue;
+            circleSelect.CircleColor = Color.Blue;
             this.dotDrawColorLabel.BackColor = Color.Red;
             dotDraw.DotColor = Color.Red;
+            this.dotCountColorLabel1.BackColor = Color.Red;
+#if DEBUG
+            this.filePathTextBox.Text = @"D:\Projects\GrainDetector\sample2.jpg";
 #endif
         }
 

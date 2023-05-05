@@ -41,7 +41,7 @@ namespace GrainDetector
             this.circleSelect = circleSelect;
             this.dotDraw = dotDraw;
 
-            int defaultWidth = 720;
+            int defaultWidth = imageDisplay.Image.Width / 2;
             Size size = imageDisplay.GetSizeToWidth(defaultWidth);
             this.ClientSize = size;
             this.pictureBox.Size = imageDisplay.Image.Size;;
