@@ -39,7 +39,7 @@ namespace GrainDetector
             {
                 for (int x = lowerX; x < upperX; ++x)
                 {
-                    if (image.GetPixel(x, y) != targetColor)
+                    if (image.GetPixel(x, y).ToArgb() != targetColor.ToArgb())
                     {
                         continue;
                     }
@@ -70,7 +70,7 @@ namespace GrainDetector
                 {
                     int nx = t.Item1 + dx[d];
                     int ny = t.Item2 + dy[d];
-                    if (image.GetPixel(nx, ny) != targetColor)
+                    if (image.GetPixel(nx, ny).ToArgb() != targetColor.ToArgb())
                     {
                         continue;
                     }
