@@ -51,8 +51,8 @@ namespace GrainDetector
 
         private void imageOpenButton_Click(object sender, EventArgs e)
         {
-            imageDisplay.Image = null;
             closeImageForm();
+            imageDisplay.Image = null;
 
             String filePath = this.filePathTextBox.Text;
             if (!File.Exists(filePath))

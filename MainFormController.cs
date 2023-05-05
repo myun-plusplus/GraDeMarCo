@@ -140,6 +140,7 @@ namespace GrainDetector
         {
             if (this.imageForm != null && !this.imageForm.IsDisposed)
             {
+                this.imageForm.Hide();
                 this.imageForm.Close();
             }
             this.imageForm = null;
