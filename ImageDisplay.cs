@@ -67,5 +67,10 @@ namespace GrainDetector
         {
             return new Point((int)(location.X / ZoomMagnification), (int)(location.Y / ZoomMagnification));
         }
+
+        public Point GetShownLocation(Point location)
+        {
+            return new Point((int)(location.X * ZoomMagnification), (int)(location.Y * ZoomMagnification));
+        }
     }
 }

@@ -11,7 +11,8 @@ namespace GrainDetector
         {
             None,
             ImageRangeSelect,
-            CircleSelect
+            CircleSelect,
+            DotDraw
         }
     }
 }

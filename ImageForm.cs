@@ -16,6 +16,7 @@ namespace GrainDetector
         private ImageDisplay imageDisplay;
         private RangeSelect rangeSelect;
         private CircleSelect circleSelect;
+        private DotDraw dotDraw;
 
         private FormState.ActionMode _actionMode;
         public FormState.ActionMode ActionMode
@@ -31,18 +32,19 @@ namespace GrainDetector
             }
         }
 
-        public ImageForm(ImageDisplay imageDisplay, RangeSelect rangeSelect, CircleSelect circleSelect)
+        public ImageForm(ImageDisplay imageDisplay, RangeSelect rangeSelect, CircleSelect circleSelect, DotDraw dotDraw)
         {
             InitializeComponent();
 
             this.imageDisplay = imageDisplay;
             this.rangeSelect = rangeSelect;
             this.circleSelect = circleSelect;
+            this.dotDraw = dotDraw;
 
             int defaultWidth = 720;
             Size size = imageDisplay.GetSizeToWidth(defaultWidth);
             this.ClientSize = size;
-            this.pictureBox.Size = imageDisplay.Image.Size;
+            this.pictureBox.Size = imageDisplay.Image.Size;;
         }
 
         private void pictureBox_Paint(object sender, PaintEventArgs e)
@@ -57,6 +59,10 @@ namespace GrainDetector
             {
                 circleSelect.DrawOnPaintEvent(e.Graphics);
             }
+            else if (ActionMode == FormState.ActionMode.DotDraw)
+            {
+                dotDraw.DrawOnPaintEvent(e.Graphics);
+            }
         }
 
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -64,13 +70,16 @@ namespace GrainDetector
             if (ActionMode == FormState.ActionMode.ImageRangeSelect)
             {
                 rangeSelect.Click(e.Location);
-                this.pictureBox.Invalidate();
             }
             else if (ActionMode == FormState.ActionMode.CircleSelect)
             {
                 circleSelect.Click(e.Location);
-                this.pictureBox.Invalidate();
             }
+            else if (ActionMode == FormState.ActionMode.DotDraw)
+            {
+                dotDraw.Click(e.Location);
+            }
+            this.pictureBox.Invalidate();
         }
 
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
@@ -78,13 +87,16 @@ namespace GrainDetector
             if (ActionMode == FormState.ActionMode.ImageRangeSelect)
             {
                 rangeSelect.MouseMove(e.Location);
-                this.pictureBox.Invalidate();
             }
             else if (ActionMode == FormState.ActionMode.CircleSelect)
             {
                 circleSelect.MouseMove(e.Location);
-                this.pictureBox.Invalidate();
             }
+            else if (ActionMode == FormState.ActionMode.DotDraw)
+            {
+                dotDraw.MouseMove(e.Location);
+            }
+            this.pictureBox.Invalidate();
         }
 
         private void ImageForm_Scroll(object sender, ScrollEventArgs e)

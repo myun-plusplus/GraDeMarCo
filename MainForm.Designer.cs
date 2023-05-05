@@ -63,7 +63,6 @@ namespace GrainDetector
             this.detectOnCircleCheckBox = new System.Windows.Forms.CheckBox();
             this.detectInCircleNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.dotDrawColorLabel = new System.Windows.Forms.Label();
-            this.dotDrawButton = new System.Windows.Forms.CheckBox();
             this.dotDrawUndoButton = new System.Windows.Forms.Button();
             this.dotDetectButton = new System.Windows.Forms.Button();
             this.detectOnCircleNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -77,6 +76,7 @@ namespace GrainDetector
             this.dotCountColorLabel3 = new System.Windows.Forms.Label();
             this.dotCountTextBox4 = new System.Windows.Forms.TextBox();
             this.dotCountColorLabel4 = new System.Windows.Forms.Label();
+            this.datDrawCheckBox = new System.Windows.Forms.CheckBox();
             this.rangeSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.circleSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl.SuspendLayout();
@@ -434,10 +434,10 @@ namespace GrainDetector
             // 
             this.dotDrawPanel.BackColor = System.Drawing.Color.Transparent;
             this.dotDrawPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dotDrawPanel.Controls.Add(this.datDrawCheckBox);
             this.dotDrawPanel.Controls.Add(this.dotDrawRedoButton);
             this.dotDrawPanel.Controls.Add(this.dotDrawNumericUpDown);
             this.dotDrawPanel.Controls.Add(this.dotDrawUndoButton);
-            this.dotDrawPanel.Controls.Add(this.dotDrawButton);
             this.dotDrawPanel.Controls.Add(this.dotDrawColorLabel);
             this.dotDrawPanel.Location = new System.Drawing.Point(3, 94);
             this.dotDrawPanel.Name = "dotDrawPanel";
@@ -636,22 +636,12 @@ namespace GrainDetector
             // dotDrawColorLabel
             // 
             this.dotDrawColorLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.dotDrawColorLabel.Location = new System.Drawing.Point(3, 3);
+            this.dotDrawColorLabel.Location = new System.Drawing.Point(109, 3);
             this.dotDrawColorLabel.Margin = new System.Windows.Forms.Padding(3);
             this.dotDrawColorLabel.Name = "dotDrawColorLabel";
             this.dotDrawColorLabel.Size = new System.Drawing.Size(49, 23);
             this.dotDrawColorLabel.TabIndex = 6;
-            // 
-            // dotDrawButton
-            // 
-            this.dotDrawButton.Appearance = System.Windows.Forms.Appearance.Button;
-            this.dotDrawButton.Location = new System.Drawing.Point(128, 3);
-            this.dotDrawButton.Name = "dotDrawButton";
-            this.dotDrawButton.Size = new System.Drawing.Size(75, 23);
-            this.dotDrawButton.TabIndex = 7;
-            this.dotDrawButton.Text = "点を打つ";
-            this.dotDrawButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.dotDrawButton.UseVisualStyleBackColor = true;
+            this.dotDrawColorLabel.Click += new System.EventHandler(this.dotDrawColorLabel_Click);
             // 
             // dotDrawUndoButton
             // 
@@ -661,6 +651,7 @@ namespace GrainDetector
             this.dotDrawUndoButton.TabIndex = 8;
             this.dotDrawUndoButton.Text = "元に戻す";
             this.dotDrawUndoButton.UseVisualStyleBackColor = true;
+            this.dotDrawUndoButton.Click += new System.EventHandler(this.dotDrawUndoButton_Click);
             // 
             // dotDetectButton
             // 
@@ -709,10 +700,10 @@ namespace GrainDetector
             // 
             // dotDrawNumericUpDown
             // 
-            this.dotDrawNumericUpDown.Location = new System.Drawing.Point(58, 5);
+            this.dotDrawNumericUpDown.Location = new System.Drawing.Point(164, 5);
             this.dotDrawNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.dotDrawNumericUpDown.Maximum = new decimal(new int[] {
-            8,
+            9,
             0,
             0,
             0});
@@ -725,10 +716,11 @@ namespace GrainDetector
             this.dotDrawNumericUpDown.Size = new System.Drawing.Size(39, 19);
             this.dotDrawNumericUpDown.TabIndex = 11;
             this.dotDrawNumericUpDown.Value = new decimal(new int[] {
-            3,
+            5,
             0,
             0,
             0});
+            this.dotDrawNumericUpDown.ValueChanged += new System.EventHandler(this.dotDrawNumericUpDown_ValueChanged);
             // 
             // binarizationThresholdLabel
             // 
@@ -747,6 +739,7 @@ namespace GrainDetector
             this.dotDrawRedoButton.TabIndex = 12;
             this.dotDrawRedoButton.Text = "やり直す";
             this.dotDrawRedoButton.UseVisualStyleBackColor = true;
+            this.dotDrawRedoButton.Click += new System.EventHandler(this.dotDrawRedoButton_Click);
             // 
             // dotCountTextBox2
             // 
@@ -807,6 +800,18 @@ namespace GrainDetector
             this.dotCountColorLabel4.Name = "dotCountColorLabel4";
             this.dotCountColorLabel4.Size = new System.Drawing.Size(49, 23);
             this.dotCountColorLabel4.TabIndex = 12;
+            // 
+            // datDrawCheckBox
+            // 
+            this.datDrawCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.datDrawCheckBox.Location = new System.Drawing.Point(3, 3);
+            this.datDrawCheckBox.Name = "datDrawCheckBox";
+            this.datDrawCheckBox.Size = new System.Drawing.Size(75, 23);
+            this.datDrawCheckBox.TabIndex = 13;
+            this.datDrawCheckBox.Text = "点打ち";
+            this.datDrawCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.datDrawCheckBox.UseVisualStyleBackColor = true;
+            this.datDrawCheckBox.CheckedChanged += new System.EventHandler(this.datDrawCheckBox_CheckedChanged);
             // 
             // rangeSelectBindingSource
             // 
@@ -907,7 +912,6 @@ namespace GrainDetector
         private System.Windows.Forms.CheckBox detectInCircleCheckBox;
         private System.Windows.Forms.NumericUpDown detectInCircleNumericUpDown;
         private System.Windows.Forms.Button dotDrawUndoButton;
-        private System.Windows.Forms.CheckBox dotDrawButton;
         private System.Windows.Forms.Label dotDrawColorLabel;
         private System.Windows.Forms.NumericUpDown binarizationThresholdNumericUpDown;
         private System.Windows.Forms.NumericUpDown detectOnCircleNumericUpDown;
@@ -921,6 +925,7 @@ namespace GrainDetector
         private System.Windows.Forms.Label dotCountColorLabel3;
         private System.Windows.Forms.TextBox dotCountTextBox2;
         private System.Windows.Forms.Label dotCountColorLabel2;
+        private System.Windows.Forms.CheckBox datDrawCheckBox;
     }
 }
 

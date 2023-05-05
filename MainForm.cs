@@ -228,6 +228,50 @@ namespace GrainDetector
 
         #endregion
 
+        #region DotDrawing
+
+        private void datDrawCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (datDrawCheckBox.Checked)
+            {
+                actionMode = FormState.ActionMode.DotDraw;
+                dotDraw.Start();
+            }
+            else
+            {
+                actionMode = FormState.ActionMode.None;
+                dotDraw.Stop();
+            }
+        }
+
+        private void dotDrawColorLabel_Click(object sender, EventArgs e)
+        {
+            if (this.colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                this.dotDrawColorLabel.BackColor = this.colorDialog.Color;
+                dotDraw.DotColor = this.colorDialog.Color;
+            }
+        }
+
+        private void dotDrawNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            dotDraw.DotSize = (int)this.dotDrawNumericUpDown.Value;
+        }
+
+        private void dotDrawUndoButton_Click(object sender, EventArgs e)
+        {
+            dotDraw.UndoDrawing();
+            this.imageForm.Refresh();
+        }
+
+        private void dotDrawRedoButton_Click(object sender, EventArgs e)
+        {
+            dotDraw.RedoDrawing();
+            this.imageForm.Refresh();
+        }
+
+        #endregion
+
         #region ImageZoomingAndSaving
 
         // 連打すると表示されないことがある
@@ -278,7 +322,6 @@ namespace GrainDetector
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 string extension = Path.GetExtension(sfd.FileName);
-                ImageCodecInfo codec;
                 if (extension == ".bmp")
                 {
                     imageDisplay.Image.Save(sfd.FileName, ImageFormat.Bmp);
@@ -326,10 +369,11 @@ namespace GrainDetector
 
         private void imageForm_FormClosing(object sender, CancelEventArgs e)
         {
+            actionMode = FormState.ActionMode.None;
+
             this.tabControl.SelectedIndex = 0;
 
             isImageFormOpened = false;
-            actionMode = FormState.ActionMode.None;
         }
     }
 }

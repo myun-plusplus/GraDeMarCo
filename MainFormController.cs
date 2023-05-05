@@ -16,6 +16,7 @@ namespace GrainDetector
         private ImageDisplay imageDisplay;
         private RangeSelect rangeSelect;
         private CircleSelect circleSelect;
+        private DotDraw dotDraw;
         private DotCount dotCount;
 
         private bool _isImageFormOpened;
@@ -80,6 +81,7 @@ namespace GrainDetector
             imageDisplay = new ImageDisplay();
             rangeSelect = new RangeSelect(imageDisplay);
             circleSelect = new CircleSelect(imageDisplay);
+            dotDraw = new DotDraw(imageDisplay);
             dotCount = new DotCount();
 
             InitializeComponent();
@@ -92,6 +94,8 @@ namespace GrainDetector
             this.filePathTextBox.Text = @"D:\Projects\GrainDetector\sample2.jpg";
             this.circleColorSelectLabel.BackColor = Color.Blue;
             circleSelect.Pen.Color = Color.Blue;
+            this.dotDrawColorLabel.BackColor = Color.Red;
+            dotDraw.DotColor = Color.Red;
 #endif
         }
 
@@ -124,7 +128,7 @@ namespace GrainDetector
 
         private void openImageForm()
         {
-            this.imageForm = new ImageForm(imageDisplay, rangeSelect, circleSelect);
+            this.imageForm = new ImageForm(imageDisplay, rangeSelect, circleSelect, dotDraw);
             this.imageForm.Location = new Point(this.Location.X + 300, this.Location.Y);
             this.imageForm.ActionMode = FormState.ActionMode.None;
             this.imageForm.FormClosing += imageForm_FormClosing;
@@ -151,6 +155,9 @@ namespace GrainDetector
                 {
                     this.rangeSelectPanel.Enabled = true;
                     this.circleSelectPanel.Enabled = true;
+                    this.grainDetectPanel.Enabled = true;
+                    this.dotDrawPanel.Enabled = true;
+                    this.dotCountPanel.Enabled = true;
                     this.shownImageSelectCLB.Enabled = true;
                     this.zoomInButton.Enabled = true;
                     this.zoomOutButton.Enabled = true;
@@ -160,6 +167,9 @@ namespace GrainDetector
                 {
                     this.rangeSelectPanel.Enabled = true;
                     this.circleSelectPanel.Enabled = false;
+                    this.grainDetectPanel.Enabled = false;
+                    this.dotDrawPanel.Enabled = false;
+                    this.dotCountPanel.Enabled = false;
                     this.shownImageSelectCLB.Enabled = false;
                     this.zoomInButton.Enabled = true;
                     this.zoomOutButton.Enabled = true;
@@ -169,6 +179,21 @@ namespace GrainDetector
                 {
                     this.rangeSelectPanel.Enabled = false;
                     this.circleSelectPanel.Enabled = true;
+                    this.grainDetectPanel.Enabled = false;
+                    this.dotDrawPanel.Enabled = false;
+                    this.dotCountPanel.Enabled = false;
+                    this.shownImageSelectCLB.Enabled = false;
+                    this.zoomInButton.Enabled = true;
+                    this.zoomOutButton.Enabled = true;
+                    this.imageSaveButton.Enabled = false;
+                }
+                else if (actionMode == FormState.ActionMode.DotDraw)
+                {
+                    this.rangeSelectPanel.Enabled = false;
+                    this.circleSelectPanel.Enabled = false;
+                    this.grainDetectPanel.Enabled = false;
+                    this.dotDrawPanel.Enabled = true;
+                    this.dotCountPanel.Enabled = false;
                     this.shownImageSelectCLB.Enabled = false;
                     this.zoomInButton.Enabled = true;
                     this.zoomOutButton.Enabled = true;
@@ -179,6 +204,9 @@ namespace GrainDetector
             {
                 this.rangeSelectPanel.Enabled = false;
                 this.circleSelectPanel.Enabled = false;
+                this.grainDetectPanel.Enabled = false;
+                this.dotDrawPanel.Enabled = false;
+                this.dotCountPanel.Enabled = false;
                 this.shownImageSelectCLB.Enabled = false;
                 this.zoomInButton.Enabled = false;
                 this.zoomOutButton.Enabled = false;
@@ -234,6 +262,10 @@ namespace GrainDetector
             if (this.shownImageSelectCLB.GetItemChecked(1))
             {
                 circleSelect.DrawOnImage(image);
+            }
+            if (this.shownImageSelectCLB.GetItemChecked(2))
+            {
+                dotDraw.DrawOnImage(image);
             }
 
             return image;
