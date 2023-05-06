@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using static System.Windows.Forms.AxHost;
 
 namespace GrainDetector
 {
@@ -62,7 +57,7 @@ namespace GrainDetector
             {
                 return _binarizedImage;
             }
-            set
+            private set
             {
                 if (_binarizedImage != null)
                 {
@@ -79,7 +74,7 @@ namespace GrainDetector
         public ImageBinarize(ImageDisplay imageDisplay)
             : base(imageDisplay)
         {
-            _binarizationThreshold = 0;
+
         }
 
         ~ImageBinarize()

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GrainDetector
@@ -82,6 +78,7 @@ namespace GrainDetector
             colorDialog.FullOpen = true;
 
             imageDisplay = new ImageDisplay();
+            imageDisplay.Reset();
             rangeSelect = new RangeSelect(imageDisplay);
             circleSelect = new CircleSelect(imageDisplay);
             imageBinarize = new ImageBinarize(imageDisplay);
@@ -96,18 +93,7 @@ namespace GrainDetector
             isImageFormOpened = false;
             actionMode = FormState.ActionMode.None;
 
-            this.circleColorSelectLabel.BackColor = Color.Blue;
-            circleSelect.CircleColor = Color.Blue;
-            this.detectInCircleCheckBox.BackColor = Color.Red;
-            grainDetect.dotColorInCircle = Color.Red;
-            this.detectOnCircleCheckBox.BackColor = Color.Yellow;
-            grainDetect.dotColorOnCircle = Color.Yellow;
-            this.dotDrawColorLabel.BackColor = Color.Red;
-            dotDraw.DotColor = Color.Red;
-            this.dotCountColorLabel1.BackColor = Color.Red;
-#if DEBUG
-            this.filePathTextBox.Text = @"D:\Projects\GrainDetector\sample2.jpg";
-#endif
+            setInitialParameters();
         }
 
         /// <summary>
@@ -135,6 +121,28 @@ namespace GrainDetector
                 components.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void setInitialParameters()
+        {
+#if DEBUG
+            this.filePathTextBox.Text = @"D:\Projects\GrainDetector\sample2.jpg";
+#endif
+
+            this.circleColorSelectLabel.BackColor = Color.Blue;
+            circleSelect.CircleColor = Color.Blue;
+
+            this.detectInCircleCheckBox.BackColor = Color.Red;
+            grainDetect.dotColorInCircle = Color.Red;
+            this.detectOnCircleCheckBox.BackColor = Color.Yellow;
+            grainDetect.dotColorOnCircle = Color.Yellow;
+
+            this.dotDrawColorLabel.BackColor = Color.Red;
+            dotDraw.DotColor = Color.Red;
+            dotDraw.DotSize = (int)this.dotDrawNumericUpDown.Value;
+
+            this.dotCountColorLabel1.BackColor = Color.Red;
+            this.dotCountColorLabel2.BackColor = Color.Yellow;
         }
 
         private void openImageForm()

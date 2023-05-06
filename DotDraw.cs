@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using static System.Windows.Forms.AxHost;
 
 namespace GrainDetector
 {
     public class DotDraw : FunctionBase
     {
-        //private Pen pen;
         private SolidBrush brush;
         private Color _dotColor;
         public Color DotColor
@@ -37,8 +33,6 @@ namespace GrainDetector
             }
         }
 
-        //private Stack<Tuple<Point, Pen>> dots;
-        //private Stack<Tuple<Point, Pen>> undoDots;
         private Stack<Tuple<Point, SolidBrush, int>> dots;
         private Stack<Tuple<Point, SolidBrush, int>> undoDots;
 
@@ -47,10 +41,7 @@ namespace GrainDetector
         public DotDraw(ImageDisplay imageDisplay)
             : base(imageDisplay)
         {
-            //Pen = new Pen(Color.Transparent, 0);
             brush = new SolidBrush(Color.Transparent);
-            DotColor = Color.Transparent;
-            DotSize = 5;
             dots = new Stack<Tuple<Point, SolidBrush, int>>();
             undoDots = new Stack<Tuple<Point, SolidBrush, int>>();
         }
@@ -88,12 +79,6 @@ namespace GrainDetector
             foreach (var dot in dots)
             {
                 Point shown = imageDisplay.GetShownLocation(dot.Item1);
-                //graphics.FillPie(dot.Item2,
-                //    (float)(shown.X - dot.Item3 * imageDisplay.ZoomMagnification / 2.0),
-                //    (float)(shown.Y - dot.Item3 * imageDisplay.ZoomMagnification / 2.0),
-                //    (float)(dot.Item3 * imageDisplay.ZoomMagnification),
-                //    (float)(dot.Item3 * imageDisplay.ZoomMagnification),
-                //    0, 360);
                 graphics.FillRectangle(dot.Item2,
                     (float)(shown.X - dot.Item3 * imageDisplay.ZoomMagnification / 2.0),
                     (float)(shown.Y - dot.Item3 * imageDisplay.ZoomMagnification / 2.0),
@@ -146,7 +131,6 @@ namespace GrainDetector
             {
                 foreach (var dot in dots)
                 {
-                    //graphics.FillPie(dot.Item2, (float)(dot.Item1.X - dot.Item3 / 2.0), (float)(dot.Item1.Y - dot.Item3 / 2.0), dot.Item3, dot.Item3, 0, 360);
                     graphics.FillRectangle(dot.Item2, (float)(dot.Item1.X - dot.Item3 / 2.0), (float)(dot.Item1.Y - dot.Item3 / 2.0), dot.Item3, dot.Item3);
                 }
             }

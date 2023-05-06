@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using static System.Net.Mime.MediaTypeNames;
+﻿using System.Drawing;
 
 namespace GrainDetector
 {
@@ -32,8 +26,7 @@ namespace GrainDetector
 
         public ImageDisplay()
         {
-            ZoomLocation = new Point(0, 0);
-            ZoomMagnification = 1;
+
         }
 
         public void Reset()

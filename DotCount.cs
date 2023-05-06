@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 
 namespace GrainDetector
 {
@@ -12,10 +11,11 @@ namespace GrainDetector
         public int LowerX, UpperX;
         public int LowerY, UpperY;
         public List<Color> TargetColors;
+        public List<bool> IsCounted;
 
         public List<int> CountDots()
         {
-            return TargetColors.Select(useDFS).ToList();
+            return TargetColors.Zip(IsCounted, (c, i) => Tuple.Create(c, i)).Select(t => t.Item2 ? useDFS(t.Item1) : 0).ToList();
         }
 
         private Color targetColor;
@@ -24,11 +24,6 @@ namespace GrainDetector
 
         private int useDFS(Color color)
         {
-            if (color == Color.Transparent)
-            {
-                return 0;
-            }
-
             targetColor = color;
             visited = new bool[Image.Height, Image.Width];
             stack = new Stack<Tuple<int, int>>();

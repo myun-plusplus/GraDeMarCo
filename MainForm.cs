@@ -210,6 +210,26 @@ namespace GrainDetector
             this.imageForm.Refresh();
         }
 
+        private void binarizationCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (binarizationCheckBox.Checked)
+            {
+                imageBinarize.OriginalImage = originalImage;
+                imageBinarize.BinarizationThreshold = (int)this.binarizationThresholdNumericUpDown.Value;
+                actionMode = FormState.ActionMode.ImageBinarize;
+                imageBinarize.Start();
+            }
+            else
+            {
+                actionMode = FormState.ActionMode.None;
+                imageBinarize.Stop();
+            }
+        }
+
+        #endregion
+
+        #region GrainDetecting
+
         private void detectInCircleCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (detectInCircleCheckBox.Checked)
@@ -249,24 +269,12 @@ namespace GrainDetector
             grainDetect.MinWhitePixel = (int)this.whitePixelMinimumNumericUpDown.Value;
         }
 
-        private void binarizationCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (binarizationCheckBox.Checked)
-            {
-                imageBinarize.OriginalImage = originalImage;
-                actionMode = FormState.ActionMode.ImageBinarize;
-                imageBinarize.Start();
-            }
-            else
-            {
-                actionMode = FormState.ActionMode.None;
-                imageBinarize.Stop();
-            }
-        }
-
         private void dotDetectButton_Click(object sender, EventArgs e)
         {
+            if (actionMode == FormState.ActionMode.ImageBinarize)
+            {
 
+            }
         }
 
         #endregion
@@ -362,6 +370,13 @@ namespace GrainDetector
                 this.dotCountColorLabel2.BackColor,
                 this.dotCountColorLabel3.BackColor,
                 this.dotCountColorLabel4.BackColor
+            };
+            dotCount.IsCounted = new List<bool>
+            {
+                this.dotCountCheckBox1.Checked,
+                this.dotCountCheckBox2.Checked,
+                this.dotCountCheckBox3.Checked,
+                this.dotCountCheckBox4.Checked
             };
 
             var results = dotCount.CountDots();
