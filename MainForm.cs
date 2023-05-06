@@ -62,7 +62,8 @@ namespace GrainDetector
             }
             try
             {
-                targetImage = new Bitmap(filePath);
+                Bitmap tmp = new Bitmap(filePath);
+                originalImage = tmp.Clone(new Rectangle(0, 0, tmp.Width, tmp.Height), PixelFormat.Format24bppRgb);
             }
             catch (ArgumentException)
             {
@@ -73,7 +74,7 @@ namespace GrainDetector
             initializeRangeSelectValidation();
             initializeCircleSelectValidation();
 
-            imageDisplay.Image = new Bitmap(targetImage);
+            imageDisplay.Image = new Bitmap(originalImage);
             imageDisplay.Reset();
 
             isImageFormOpened = true;
@@ -185,6 +186,87 @@ namespace GrainDetector
                 this.circleColorSelectLabel.BackColor = colorDialog.Color;
                 circleSelect.CircleColor = colorDialog.Color;
             }
+        }
+
+        #endregion
+
+        #region ImageBinarization
+
+        private void binarizationThresholdTrackBar_Scroll(object sender, EventArgs e)
+        {
+            int tmp = binarizationThresholdTrackBar.Value;
+            binarizationThresholdNumericUpDown.Value = tmp;
+            binarizationThresholdTrackBar.Value = tmp;
+            imageBinarize.BinarizationThreshold = tmp;
+        }
+
+        private void binarizationThresholdNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            decimal tmp = binarizationThresholdNumericUpDown.Value;
+            binarizationThresholdTrackBar.Value = (int)tmp;
+            binarizationThresholdNumericUpDown.Value = tmp;
+            imageBinarize.BinarizationThreshold = (int)tmp;
+
+            this.imageForm.Refresh();
+        }
+
+        private void detectInCircleCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (detectInCircleCheckBox.Checked)
+            {
+                if (colorDialog.ShowDialog() == DialogResult.OK)
+                {
+                    this.detectInCircleCheckBox.BackColor = colorDialog.Color;
+                    grainDetect.dotColorInCircle = colorDialog.Color;
+                }
+            }
+        }
+
+        private void detectOnCircleCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (detectOnCircleCheckBox.Checked)
+            {
+                if (colorDialog.ShowDialog() == DialogResult.OK)
+                {
+                    this.detectOnCircleCheckBox.BackColor = colorDialog.Color;
+                    grainDetect.dotColorOnCircle = colorDialog.Color;
+                }
+            }
+        }
+
+        private void detectInCircleNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            grainDetect.dotSizeInCircle = (int)this.detectInCircleNumericUpDown.Value;
+        }
+
+        private void detectOnCircleNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            grainDetect.dotSizeOnCircle = (int)this.detectOnCircleNumericUpDown.Value;
+        }
+
+        private void whitePixelMinimumNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            grainDetect.MinWhitePixel = (int)this.whitePixelMinimumNumericUpDown.Value;
+        }
+
+        private void binarizationCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (binarizationCheckBox.Checked)
+            {
+                imageBinarize.OriginalImage = originalImage;
+                actionMode = FormState.ActionMode.ImageBinarize;
+                imageBinarize.Start();
+            }
+            else
+            {
+                actionMode = FormState.ActionMode.None;
+                imageBinarize.Stop();
+            }
+        }
+
+        private void dotDetectButton_Click(object sender, EventArgs e)
+        {
+
         }
 
         #endregion
@@ -392,6 +474,10 @@ namespace GrainDetector
             actionMode = FormState.ActionMode.None;
 
             this.tabControl.SelectedIndex = 0;
+            for (int i = 0; i < 5; ++i)
+            {
+                this.shownImageSelectCLB.SetItemChecked(i, false);
+            }
 
             isImageFormOpened = false;
         }

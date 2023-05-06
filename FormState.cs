@@ -12,6 +12,7 @@ namespace GrainDetector
             None,
             ImageRangeSelect,
             CircleSelect,
+            ImageBinarize,
             DotDraw
         }
     }

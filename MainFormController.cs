@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,8 @@ namespace GrainDetector
         private ImageDisplay imageDisplay;
         private RangeSelect rangeSelect;
         private CircleSelect circleSelect;
+        private ImageBinarize imageBinarize;
+        private GrainDetect grainDetect;
         private DotDraw dotDraw;
         private DotCount dotCount;
 
@@ -51,20 +54,20 @@ namespace GrainDetector
             }
         }
 
-        private Bitmap _targetImage;
-        private Bitmap targetImage
+        private Bitmap _originalImage;
+        private Bitmap originalImage
         {
             get
             { 
-                return _targetImage;
+                return _originalImage;
             }
             set
             {
-                if (_targetImage != null && value != _targetImage)
+                if (_originalImage != null && value != _originalImage)
                 {
-                    _targetImage.Dispose();
+                    _originalImage.Dispose();
                 }
-                _targetImage = value;
+                _originalImage = value;
             }
         }
 
@@ -81,6 +84,8 @@ namespace GrainDetector
             imageDisplay = new ImageDisplay();
             rangeSelect = new RangeSelect(imageDisplay);
             circleSelect = new CircleSelect(imageDisplay);
+            imageBinarize = new ImageBinarize(imageDisplay);
+            grainDetect = new GrainDetect(imageDisplay);
             dotDraw = new DotDraw(imageDisplay);
             dotCount = new DotCount();
 
@@ -93,6 +98,10 @@ namespace GrainDetector
 
             this.circleColorSelectLabel.BackColor = Color.Blue;
             circleSelect.CircleColor = Color.Blue;
+            this.detectInCircleCheckBox.BackColor = Color.Red;
+            grainDetect.dotColorInCircle = Color.Red;
+            this.detectOnCircleCheckBox.BackColor = Color.Yellow;
+            grainDetect.dotColorOnCircle = Color.Yellow;
             this.dotDrawColorLabel.BackColor = Color.Red;
             dotDraw.DotColor = Color.Red;
             this.dotCountColorLabel1.BackColor = Color.Red;
@@ -119,7 +128,7 @@ namespace GrainDetector
             this.colorDialog = null;
 
             imageDisplay.Image = null;
-            targetImage = null;
+            originalImage = null;
 
             if (disposing && (components != null))
             {
@@ -130,7 +139,7 @@ namespace GrainDetector
 
         private void openImageForm()
         {
-            this.imageForm = new ImageForm(imageDisplay, rangeSelect, circleSelect, dotDraw);
+            this.imageForm = new ImageForm(imageDisplay, rangeSelect, circleSelect, imageBinarize, dotDraw);
             this.imageForm.Location = new Point(this.Location.X + 300, this.Location.Y);
             this.imageForm.ActionMode = FormState.ActionMode.None;
             this.imageForm.FormClosing += imageForm_FormClosing;
@@ -190,6 +199,18 @@ namespace GrainDetector
                     this.zoomOutButton.Enabled = true;
                     this.imageSaveButton.Enabled = false;
                 }
+                else if (actionMode == FormState.ActionMode.ImageBinarize)
+                {
+                    this.rangeSelectPanel.Enabled = false;
+                    this.circleSelectPanel.Enabled = false;
+                    this.grainDetectPanel.Enabled = true;
+                    this.dotDrawPanel.Enabled = false;
+                    this.dotCountPanel.Enabled = false;
+                    this.shownImageSelectCLB.Enabled = false;
+                    this.zoomInButton.Enabled = true;
+                    this.zoomOutButton.Enabled = true;
+                    this.imageSaveButton.Enabled = false;
+                }
                 else if (actionMode == FormState.ActionMode.DotDraw)
                 {
                     this.rangeSelectPanel.Enabled = false;
@@ -221,17 +242,17 @@ namespace GrainDetector
 
         private void initializeRangeSelectValidation()
         {
-            this.lowerXNumericUpDown.Maximum = targetImage.Width - 1;
-            this.lowerYNumericUpDown.Maximum = targetImage.Height - 1;
-            this.upperXNumericUpDown.Maximum = targetImage.Width - 1;
-            this.upperYNumericUpDown.Maximum = targetImage.Height - 1;
+            this.lowerXNumericUpDown.Maximum = originalImage.Width - 1;
+            this.lowerYNumericUpDown.Maximum = originalImage.Height - 1;
+            this.upperXNumericUpDown.Maximum = originalImage.Width - 1;
+            this.upperYNumericUpDown.Maximum = originalImage.Height - 1;
         }
 
         private void initializeCircleSelectValidation()
         {
-            this.circleXNumericUpDown.Maximum = targetImage.Width - 1;
-            this.circleYNumericUpDown.Maximum = targetImage.Height - 1;
-            this.circleDiameterNumericUpDown.Maximum = Math.Min(targetImage.Width, targetImage.Width);
+            this.circleXNumericUpDown.Maximum = originalImage.Width - 1;
+            this.circleYNumericUpDown.Maximum = originalImage.Height - 1;
+            this.circleDiameterNumericUpDown.Maximum = Math.Min(originalImage.Width, originalImage.Width);
         }
 
         private void validateZoomMagnification()
@@ -256,8 +277,12 @@ namespace GrainDetector
 
         private Bitmap createModifiedImage()
         {
-            Bitmap image = new Bitmap(targetImage);
+            Bitmap image = originalImage.Clone(new Rectangle(0, 0, originalImage.Width, originalImage.Height), PixelFormat.Format24bppRgb);
 
+            if (this.shownImageSelectCLB.GetItemChecked(2))
+            {
+                imageBinarize.DrawOnImage(image);
+            }
             if (this.shownImageSelectCLB.GetItemChecked(0))
             {
                 rangeSelect.DrawOnImage(image);
@@ -266,7 +291,7 @@ namespace GrainDetector
             {
                 circleSelect.DrawOnImage(image);
             }
-            if (this.shownImageSelectCLB.GetItemChecked(2))
+            if (this.shownImageSelectCLB.GetItemChecked(4))
             {
                 dotDraw.DrawOnImage(image);
             }
