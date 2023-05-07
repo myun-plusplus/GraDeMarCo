@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitmapPixels.cs" />
     <Compile Include="CircleSelect.cs" />
     <Compile Include="DotCount.cs" />
     <Compile Include="DotDraw.cs" />

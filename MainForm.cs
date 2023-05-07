@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace GrainDetector
 {
@@ -76,6 +77,9 @@ namespace GrainDetector
 
             imageDisplay.Image = new Bitmap(originalImage);
             imageDisplay.Reset();
+
+            imageBinarize.OriginalImage = originalImage;
+            imageBinarize.Binarize();
 
             isImageFormOpened = true;
             openImageForm();
@@ -198,6 +202,7 @@ namespace GrainDetector
             binarizationThresholdNumericUpDown.Value = tmp;
             binarizationThresholdTrackBar.Value = tmp;
             imageBinarize.BinarizationThreshold = tmp;
+            imageBinarize.Binarize();
         }
 
         private void binarizationThresholdNumericUpDown_ValueChanged(object sender, EventArgs e)
@@ -206,6 +211,7 @@ namespace GrainDetector
             binarizationThresholdTrackBar.Value = (int)tmp;
             binarizationThresholdNumericUpDown.Value = tmp;
             imageBinarize.BinarizationThreshold = (int)tmp;
+            imageBinarize.Binarize();
 
             this.imageForm.Refresh();
         }
@@ -214,8 +220,6 @@ namespace GrainDetector
         {
             if (binarizationCheckBox.Checked)
             {
-                imageBinarize.OriginalImage = originalImage;
-                imageBinarize.BinarizationThreshold = (int)this.binarizationThresholdNumericUpDown.Value;
                 actionMode = FormState.ActionMode.ImageBinarize;
                 imageBinarize.Start();
             }
@@ -232,36 +236,40 @@ namespace GrainDetector
 
         private void detectInCircleCheckBox_CheckedChanged(object sender, EventArgs e)
         {
+            grainDetect.DetectsGrainInCircle = detectInCircleCheckBox.Checked;
+
             if (detectInCircleCheckBox.Checked)
             {
                 if (colorDialog.ShowDialog() == DialogResult.OK)
                 {
                     this.detectInCircleCheckBox.BackColor = colorDialog.Color;
-                    grainDetect.dotColorInCircle = colorDialog.Color;
+                    grainDetect.DotColorInCircle = colorDialog.Color;
                 }
             }
         }
 
         private void detectOnCircleCheckBox_CheckedChanged(object sender, EventArgs e)
         {
+            grainDetect.DetectsGrainOnCircle = detectOnCircleCheckBox.Checked;
+
             if (detectOnCircleCheckBox.Checked)
             {
                 if (colorDialog.ShowDialog() == DialogResult.OK)
                 {
                     this.detectOnCircleCheckBox.BackColor = colorDialog.Color;
-                    grainDetect.dotColorOnCircle = colorDialog.Color;
+                    grainDetect.DotColorOnCircle = colorDialog.Color;
                 }
             }
         }
 
         private void detectInCircleNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            grainDetect.dotSizeInCircle = (int)this.detectInCircleNumericUpDown.Value;
+            grainDetect.DotSizeInCircle = (int)this.dotSizeInCircleNumericUpDown.Value;
         }
 
         private void detectOnCircleNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            grainDetect.dotSizeOnCircle = (int)this.detectOnCircleNumericUpDown.Value;
+            grainDetect.DotSizeOnCircle = (int)this.dotSizeOnCircleNumericUpDown.Value;
         }
 
         private void whitePixelMinimumNumericUpDown_ValueChanged(object sender, EventArgs e)
@@ -271,10 +279,26 @@ namespace GrainDetector
 
         private void dotDetectButton_Click(object sender, EventArgs e)
         {
-            if (actionMode == FormState.ActionMode.ImageBinarize)
-            {
+            grainDetect.OriginalImage = originalImage;
+            Bitmap circleImage = originalImage.Clone(new Rectangle(0, 0, originalImage.Width, originalImage.Height), PixelFormat.Format24bppRgb);
+            circleSelect.DrawOnImage(circleImage);
+            grainDetect.CircleImage = circleImage;
+            Bitmap binarizedImage = originalImage.Clone(new Rectangle(0, 0, originalImage.Width, originalImage.Height), PixelFormat.Format24bppRgb);
+            imageBinarize.DrawOnImage(binarizedImage);
+            grainDetect.BinarizedImage = binarizedImage;
 
-            }
+            grainDetect.LowerX = rangeSelect.StartY;
+            grainDetect.LowerY = rangeSelect.StartY;
+            grainDetect.UpperX = rangeSelect.EndX + 1;
+            grainDetect.UpperY = rangeSelect.EndY + 1;
+            grainDetect.CircleX = circleSelect.StartX;
+            grainDetect.CircleY = circleSelect.StartY;
+            grainDetect.CircleDiameter = circleSelect.Diameter;
+
+            grainDetect.Detect();
+
+            circleImage.Dispose();
+            binarizedImage.Dispose();
         }
 
         #endregion

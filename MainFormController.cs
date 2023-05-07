@@ -126,16 +126,23 @@ namespace GrainDetector
         private void setInitialParameters()
         {
 #if DEBUG
-            this.filePathTextBox.Text = @"D:\Projects\GrainDetector\sample2.jpg";
+            this.filePathTextBox.Text = @"D:\Projects\GrainDetector\sample3.bmp";
 #endif
 
             this.circleColorSelectLabel.BackColor = Color.Blue;
             circleSelect.CircleColor = Color.Blue;
 
+            imageBinarize.BinarizationThreshold = (int)this.binarizationThresholdNumericUpDown.Value;
+
+            grainDetect.MinWhitePixel = (int)this.whitePixelMinimumNumericUpDown.Value;
+            grainDetect.DetectsGrainInCircle = this.detectInCircleCheckBox.Checked;
+            grainDetect.DetectsGrainOnCircle = this.detectOnCircleCheckBox.Checked;
             this.detectInCircleCheckBox.BackColor = Color.Red;
-            grainDetect.dotColorInCircle = Color.Red;
+            grainDetect.DotColorInCircle = Color.Red;
+            grainDetect.DotSizeInCircle = (int)this.dotSizeInCircleNumericUpDown.Value;
             this.detectOnCircleCheckBox.BackColor = Color.Yellow;
-            grainDetect.dotColorOnCircle = Color.Yellow;
+            grainDetect.DotColorOnCircle = Color.Yellow;
+            grainDetect.DotSizeOnCircle = (int)this.dotSizeOnCircleNumericUpDown.Value;
 
             this.dotDrawColorLabel.BackColor = Color.Red;
             dotDraw.DotColor = Color.Red;
@@ -298,6 +305,10 @@ namespace GrainDetector
             if (this.shownImageSelectCLB.GetItemChecked(1))
             {
                 circleSelect.DrawOnImage(image);
+            }
+            if (this.shownImageSelectCLB.GetItemChecked(3))
+            {
+                grainDetect.DrawOnImage(image);
             }
             if (this.shownImageSelectCLB.GetItemChecked(4))
             {
