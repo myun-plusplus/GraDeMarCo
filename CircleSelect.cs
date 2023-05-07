@@ -134,15 +134,19 @@ namespace GrainDetector
         {
             if (state == State.StartLocationSelected || state == State.RangeSelected)
             {
-                Draw(graphics);
+                var t = orderPoints(StartLocation, EndLocation);
+                int diameter = Math.Min(t.Item2.X - t.Item1.X, t.Item2.Y - t.Item1.Y);
+                graphics.DrawEllipse(pen, t.Item1.X, t.Item1.Y, diameter, diameter);
             }
         }
 
-        public override void Draw(Graphics graphics)
+        public override void DrawOnBitmap(Bitmap bitmap)
         {
-            var t = orderPoints(StartLocation, EndLocation);
-            int diameter = Math.Min(t.Item2.X - t.Item1.X, t.Item2.Y - t.Item1.Y);
-            graphics.DrawEllipse(pen, t.Item1.X, t.Item1.Y, diameter, diameter);
+            using (var graphics = Graphics.FromImage(bitmap))
+            {
+                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
+                graphics.DrawEllipse(pen, StartX, StartY, Diameter, Diameter);
+            }
         }
 
         public void Click(Point location)
@@ -191,15 +195,6 @@ namespace GrainDetector
                 p2.Y = tmp;
             }
             return new Tuple<Point, Point>(p1, p2);
-        }
-
-        public void DrawOnImage(Bitmap image)
-        {
-            using (var graphics = Graphics.FromImage(image))
-            {
-                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
-                graphics.DrawEllipse(pen, StartX, StartY, Diameter, Diameter);
-            }
         }
     }
 }

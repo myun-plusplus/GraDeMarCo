@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace GrainDetector
 {
@@ -280,17 +271,20 @@ namespace GrainDetector
         private void dotDetectButton_Click(object sender, EventArgs e)
         {
             grainDetect.OriginalImage = originalImage;
+
             Bitmap circleImage = originalImage.Clone(new Rectangle(0, 0, originalImage.Width, originalImage.Height), PixelFormat.Format24bppRgb);
-            circleSelect.DrawOnImage(circleImage);
+            circleSelect.DrawOnBitmap(circleImage);
             grainDetect.CircleImage = circleImage;
+
             Bitmap binarizedImage = originalImage.Clone(new Rectangle(0, 0, originalImage.Width, originalImage.Height), PixelFormat.Format24bppRgb);
-            imageBinarize.DrawOnImage(binarizedImage);
+            imageBinarize.DrawOnBitmap(binarizedImage);
             grainDetect.BinarizedImage = binarizedImage;
 
             grainDetect.LowerX = rangeSelect.StartY;
             grainDetect.LowerY = rangeSelect.StartY;
             grainDetect.UpperX = rangeSelect.EndX + 1;
             grainDetect.UpperY = rangeSelect.EndY + 1;
+
             grainDetect.CircleX = circleSelect.StartX;
             grainDetect.CircleY = circleSelect.StartY;
             grainDetect.CircleDiameter = circleSelect.Diameter;

@@ -17,7 +17,8 @@ namespace GrainDetector
         public abstract void Start();
         public abstract void Stop();
         public abstract void DrawOnPaintEvent(Graphics graphics);
-        public abstract void Draw(Graphics graphics);
+
+        public abstract void DrawOnBitmap(Bitmap bitmap);
 
         protected void OnPropertyChanged(string propertyName)
         {

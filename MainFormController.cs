@@ -296,15 +296,15 @@ namespace GrainDetector
 
             if (this.shownImageSelectCLB.GetItemChecked(2))
             {
-                imageBinarize.DrawOnImage(image);
+                imageBinarize.DrawOnBitmap(image);
             }
             if (this.shownImageSelectCLB.GetItemChecked(0))
             {
-                rangeSelect.DrawOnImage(image);
+                rangeSelect.DrawOnBitmap(image);
             }
             if (this.shownImageSelectCLB.GetItemChecked(1))
             {
-                circleSelect.DrawOnImage(image);
+                circleSelect.DrawOnBitmap(image);
             }
             if (this.shownImageSelectCLB.GetItemChecked(3))
             {
@@ -312,7 +312,7 @@ namespace GrainDetector
             }
             if (this.shownImageSelectCLB.GetItemChecked(4))
             {
-                dotDraw.DrawOnImage(image);
+                dotDraw.DrawOnBitmap(image);
             }
 
             return image;

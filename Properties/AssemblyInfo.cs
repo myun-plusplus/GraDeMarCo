@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("GrainDetector")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("myun-plusplus (https://github.com/myun-plusplus)")]
 [assembly: AssemblyProduct("GrainDetector")]
-[assembly: AssemblyCopyright("Copyright ©  2023")]
+[assembly: AssemblyCopyright("Copyright ©  2023 myun-plusplus")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

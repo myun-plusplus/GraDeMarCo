@@ -50,6 +50,7 @@ namespace GrainDetector
         ~ImageBinarize()
         {
             BinarizedImage = null;
+            binarizedImagePixels.Dispose();
         }
 
         public override void Start()
@@ -64,11 +65,6 @@ namespace GrainDetector
 
         public override void DrawOnPaintEvent(Graphics graphics)
         {
-            Draw(graphics);
-        }
-
-        public override void Draw(Graphics graphics)
-        {
             graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
             graphics.DrawImage(
                 BinarizedImage,
@@ -78,61 +74,13 @@ namespace GrainDetector
                 (int)(BinarizedImage.Height * imageDisplay.ZoomMagnification));
         }
 
-        public void DrawOnImage(Bitmap image)
+        public override void DrawOnBitmap(Bitmap bitmap)
         {
-            binarizedImagePixels.CopyToBitmap(image);
+            binarizedImagePixels.CopyToBitmap(bitmap);
         }
 
         public void Binarize()
         {
-#if false
-            // 愚直
-            for (int y = 0; y < BinarizedImage.Height; ++y)
-            {
-                for (int x = 0; x < BinarizedImage.Width; ++x)
-                {
-                    if (OriginalImage.GetPixel(x, y).R < BinarizationThreshold)
-                    {
-                        BinarizedImage.SetPixel(x, y, Color.Black);
-                    }
-                    else
-                    {
-                        BinarizedImage.SetPixel(x, y, Color.White);
-                    }
-                }
-            }
-#endif
-#if false
-            BitmapData bmpData = BinarizedImage.LockBits(
-                new Rectangle(0, 0, BinarizedImage.Width, BinarizedImage.Height),
-                ImageLockMode.WriteOnly, BinarizedImage.PixelFormat);
-            int height = bmpData.Height;
-            int width = bmpData.Width;
-            int stride = bmpData.Stride;
-
-            for (int y = 0; y < height; ++y)
-            {
-                for (int x = 0; x < width; ++x)
-                {
-                    int originalPosition = originalImageStride * y + 3 * x;
-                    int binarizedPosition = stride * y + (x >> 3);
-                    // compare B
-                    if (BinarizationThreshold <= orighnalImagePixels[originalPosition])
-                    {
-                        binarizedImagePixels[binarizedPosition] |= (byte)(0x80 >> (x & 0x7));
-                    }
-                    else
-                    {
-                        binarizedImagePixels[binarizedPosition] &= (byte)(~(0x80 >> (x & 0x7)));
-                    }
-                }
-            }
-
-            Marshal.Copy(binarizedImagePixels, 0, bmpData.Scan0, binarizedImagePixels.Length);
-
-            BinarizedImage.UnlockBits(bmpData);
-#endif
-#if true
             int height = originalImagePixels.Height;
             int width = originalImagePixels.Width;
             for (int y = 0; y < height; ++y)
@@ -156,7 +104,6 @@ namespace GrainDetector
             }
 
             binarizedImagePixels.CopyToBitmap(BinarizedImage);
-#endif
         }
     }
 }

@@ -72,25 +72,34 @@ namespace GrainDetector
 
         public override void DrawOnPaintEvent(Graphics graphics)
         {
-            Draw(graphics);
-        }
-        public override void Draw(Graphics graphics)
-        {
             foreach (var dot in dots)
             {
                 Point shown = imageDisplay.GetShownLocation(dot.Item1);
-                graphics.FillRectangle(dot.Item2,
+                graphics.FillRectangle(
+                    dot.Item2,
                     (float)(shown.X - dot.Item3 * imageDisplay.ZoomMagnification / 2.0),
                     (float)(shown.Y - dot.Item3 * imageDisplay.ZoomMagnification / 2.0),
                     (float)(dot.Item3 * imageDisplay.ZoomMagnification),
                     (float)(dot.Item3 * imageDisplay.ZoomMagnification));
             }
 
-            graphics.FillRectangle(brush,
+            graphics.FillRectangle(
+                brush,
                 (float)(mouseLocation.X - DotSize * imageDisplay.ZoomMagnification / 2.0),
                 (float)(mouseLocation.Y - DotSize * imageDisplay.ZoomMagnification / 2.0),
                 (float)(DotSize * imageDisplay.ZoomMagnification),
                 (float)(DotSize * imageDisplay.ZoomMagnification));
+        }
+
+        public override void DrawOnBitmap(Bitmap bitmap)
+        {
+            using (var graphics = Graphics.FromImage(bitmap))
+            {
+                foreach (var dot in dots)
+                {
+                    graphics.FillRectangle(dot.Item2, (float)(dot.Item1.X - dot.Item3 / 2.0), (float)(dot.Item1.Y - dot.Item3 / 2.0), dot.Item3, dot.Item3);
+                }
+            }
         }
 
         public void Click(Point location)
@@ -122,17 +131,6 @@ namespace GrainDetector
             if (undoDots.Count != 0)
             {
                 dots.Push(undoDots.Pop());
-            }
-        }
-
-        public void DrawOnImage(Bitmap image)
-        {
-            using (var graphics = Graphics.FromImage(image))
-            {
-                foreach (var dot in dots)
-                {
-                    graphics.FillRectangle(dot.Item2, (float)(dot.Item1.X - dot.Item3 / 2.0), (float)(dot.Item1.Y - dot.Item3 / 2.0), dot.Item3, dot.Item3);
-                }
             }
         }
     }

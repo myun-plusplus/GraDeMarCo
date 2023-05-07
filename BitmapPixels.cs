@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using System.Threading;
 
 namespace GrainDetector
 {
@@ -49,9 +48,9 @@ namespace GrainDetector
             BitmapData bitmapData = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb);
             Width = bitmapData.Width;
             Height = bitmapData.Height;
+            stride = bitmapData.Stride;
             pixels = new byte[bitmapData.Stride * bitmapData.Height];
             Marshal.Copy(bitmapData.Scan0, pixels, 0, pixels.Length);
-            stride = bitmapData.Stride;
             image.UnlockBits(bitmapData);
         }
 
@@ -78,10 +77,5 @@ namespace GrainDetector
                 pixels[stride * y + 3 * x + 1] == color.G &&
                 pixels[stride * y + 3 * x] == color.B;
         }
-
-        //public bool IsGray(int x, int y)
-        //{
-
-        //}
     }
 }
