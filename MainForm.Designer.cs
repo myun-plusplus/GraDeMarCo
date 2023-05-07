@@ -24,6 +24,7 @@
             this.imageOpenButton = new System.Windows.Forms.Button();
             this.rangeSelectPanel = new System.Windows.Forms.Panel();
             this.upperYNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.rangeSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.lowerYNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.rangeYHyphenLabel = new System.Windows.Forms.Label();
             this.upperXNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -36,6 +37,7 @@
             this.circleSelectPanel = new System.Windows.Forms.Panel();
             this.circleColorSelectLabel = new System.Windows.Forms.Label();
             this.circleDiameterNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.circleSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.circleColorLabel = new System.Windows.Forms.Label();
             this.circleXNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.circleYNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -82,19 +84,19 @@
             this.zoomInButton = new System.Windows.Forms.Button();
             this.shownImageSelectCLB = new System.Windows.Forms.CheckedListBox();
             this.imageSaveButton = new System.Windows.Forms.Button();
-            this.rangeSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.circleSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
             this.imageSelectPanel.SuspendLayout();
             this.rangeSelectPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.upperYNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rangeSelectBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lowerYNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.upperXNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lowerXNumericUpDown)).BeginInit();
             this.circleSelectPageTab.SuspendLayout();
             this.circleSelectPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.circleDiameterNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.circleSelectBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleXNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleYNumericUpDown)).BeginInit();
             this.grainDetectTabPage.SuspendLayout();
@@ -109,8 +111,6 @@
             this.dotCountPageTab.SuspendLayout();
             this.dotCountPanel.SuspendLayout();
             this.lowerPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.rangeSelectBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.circleSelectBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -212,6 +212,10 @@
             this.upperYNumericUpDown.TabIndex = 0;
             this.upperYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.upperYNumericUpDown.ValueChanged += new System.EventHandler(this.upperYNumericUpDown_ValueChanged);
+            // 
+            // rangeSelectBindingSource
+            // 
+            this.rangeSelectBindingSource.DataSource = typeof(GrainDetector.RangeSelect);
             // 
             // lowerYNumericUpDown
             // 
@@ -342,6 +346,10 @@
             this.circleDiameterNumericUpDown.TabIndex = 3;
             this.circleDiameterNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.circleDiameterNumericUpDown.ValueChanged += new System.EventHandler(this.circleNumericUpDowns_ValueChanged);
+            // 
+            // circleSelectBindingSource
+            // 
+            this.circleSelectBindingSource.DataSource = typeof(GrainDetector.CircleSelect);
             // 
             // circleColorLabel
             // 
@@ -794,7 +802,7 @@
             // 
             // dotCountTextBox3
             // 
-            this.dotCountTextBox3.Location = new System.Drawing.Point(79, 34);
+            this.dotCountTextBox3.Location = new System.Drawing.Point(79, 63);
             this.dotCountTextBox3.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.dotCountTextBox3.Name = "dotCountTextBox3";
             this.dotCountTextBox3.ReadOnly = true;
@@ -806,7 +814,7 @@
             // dotCountColorLabel3
             // 
             this.dotCountColorLabel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.dotCountColorLabel3.Location = new System.Drawing.Point(24, 32);
+            this.dotCountColorLabel3.Location = new System.Drawing.Point(24, 61);
             this.dotCountColorLabel3.Margin = new System.Windows.Forms.Padding(3);
             this.dotCountColorLabel3.Name = "dotCountColorLabel3";
             this.dotCountColorLabel3.Size = new System.Drawing.Size(49, 23);
@@ -815,7 +823,7 @@
             // 
             // dotCountTextBox2
             // 
-            this.dotCountTextBox2.Location = new System.Drawing.Point(79, 63);
+            this.dotCountTextBox2.Location = new System.Drawing.Point(79, 34);
             this.dotCountTextBox2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.dotCountTextBox2.Name = "dotCountTextBox2";
             this.dotCountTextBox2.ReadOnly = true;
@@ -827,7 +835,7 @@
             // dotCountColorLabel2
             // 
             this.dotCountColorLabel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.dotCountColorLabel2.Location = new System.Drawing.Point(24, 61);
+            this.dotCountColorLabel2.Location = new System.Drawing.Point(24, 32);
             this.dotCountColorLabel2.Margin = new System.Windows.Forms.Padding(3);
             this.dotCountColorLabel2.Name = "dotCountColorLabel2";
             this.dotCountColorLabel2.Size = new System.Drawing.Size(49, 23);
@@ -926,14 +934,6 @@
             this.imageSaveButton.UseVisualStyleBackColor = true;
             this.imageSaveButton.Click += new System.EventHandler(this.imageSaveButton_Click);
             // 
-            // rangeSelectBindingSource
-            // 
-            this.rangeSelectBindingSource.DataSource = typeof(GrainDetector.RangeSelect);
-            // 
-            // circleSelectBindingSource
-            // 
-            this.circleSelectBindingSource.DataSource = typeof(GrainDetector.CircleSelect);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -950,6 +950,7 @@
             this.imageSelectPanel.PerformLayout();
             this.rangeSelectPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.upperYNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rangeSelectBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lowerYNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.upperXNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lowerXNumericUpDown)).EndInit();
@@ -957,6 +958,7 @@
             this.circleSelectPanel.ResumeLayout(false);
             this.circleSelectPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.circleDiameterNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.circleSelectBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleXNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleYNumericUpDown)).EndInit();
             this.grainDetectTabPage.ResumeLayout(false);
@@ -972,8 +974,6 @@
             this.dotCountPanel.ResumeLayout(false);
             this.dotCountPanel.PerformLayout();
             this.lowerPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.rangeSelectBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.circleSelectBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
