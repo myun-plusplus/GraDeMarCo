@@ -50,7 +50,14 @@ namespace GrainDetector
         ~ImageBinarize()
         {
             BinarizedImage = null;
-            binarizedImagePixels.Dispose();
+            if (originalImagePixels != null)
+            {
+                originalImagePixels.Dispose();
+            }
+            if (binarizedImagePixels != null)
+            {
+                binarizedImagePixels.Dispose();
+            }
         }
 
         public override void Start()
