@@ -519,13 +519,13 @@ namespace GrainDetector
         {
             if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
             {
-                if (e.Delta > 0)
+                if (e.Delta > 0 && this.zoomInButton.Enabled)
                 {
                     imageForm.MultipleZoomMagnification(2.0);
 
                     validateZoomMagnification();
                 }
-                else
+                else if (e.Delta < 0 && this.zoomOutButton.Enabled)
                 {
                     imageForm.MultipleZoomMagnification(0.5);
 
