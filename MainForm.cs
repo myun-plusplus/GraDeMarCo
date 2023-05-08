@@ -514,5 +514,24 @@ namespace GrainDetector
 
             isImageFormOpened = false;
         }
+
+        private void imageForm_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                if (e.Delta > 0)
+                {
+                    imageForm.MultipleZoomMagnification(2.0);
+
+                    validateZoomMagnification();
+                }
+                else
+                {
+                    imageForm.MultipleZoomMagnification(0.5);
+
+                    validateZoomMagnification();
+                }
+            }
+        }
     }
 }

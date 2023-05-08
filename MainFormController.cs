@@ -158,6 +158,7 @@ namespace GrainDetector
             this.imageForm.Location = new Point(this.Location.X + 300, this.Location.Y);
             this.imageForm.ActionMode = FormState.ActionMode.None;
             this.imageForm.FormClosing += imageForm_FormClosing;
+            this.imageForm.MouseWheel += imageForm_MouseWheel;
 
             this.imageForm.Show();
         }
