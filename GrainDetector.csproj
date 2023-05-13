@@ -66,7 +66,7 @@
     <Compile Include="CircleSelect.cs" />
     <Compile Include="DotCount.cs" />
     <Compile Include="DotDraw.cs" />
-    <Compile Include="FormState.cs" />
+    <Compile Include="ActionMode.cs" />
     <Compile Include="BindingBase.cs" />
     <Compile Include="GrainDetect.cs" />
     <Compile Include="ImageBinarize.cs" />

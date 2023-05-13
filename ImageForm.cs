@@ -8,6 +8,7 @@ namespace GrainDetector
         private ImageDisplay imageDisplay;
         private RangeSelect rangeSelect;
         private CircleSelect circleSelect;
+        private ImageFilter imageFilter;
         private ImageBinarize imageBinarize;
         private DotDraw dotDraw;
 
@@ -25,13 +26,14 @@ namespace GrainDetector
             }
         }
 
-        public ImageForm(ImageDisplay imageDisplay, RangeSelect rangeSelect, CircleSelect circleSelect, ImageBinarize imageBinarize, DotDraw dotDraw)
+        public ImageForm(ImageDisplay imageDisplay, RangeSelect rangeSelect, CircleSelect circleSelect, ImageFilter imageFilter, ImageBinarize imageBinarize, DotDraw dotDraw)
         {
             InitializeComponent();
 
             this.imageDisplay = imageDisplay;
             this.rangeSelect = rangeSelect;
             this.circleSelect = circleSelect;
+            this.imageFilter = imageFilter;
             this.imageBinarize = imageBinarize;
             this.dotDraw = dotDraw;
 
@@ -52,6 +54,10 @@ namespace GrainDetector
             else if (ActionMode == ActionMode.CircleSelect)
             {
                 circleSelect.DrawOnPaintEvent(e.Graphics);
+            }
+            else if (ActionMode == ActionMode.ImageFilter)
+            {
+                imageFilter.DrawOnPaintEvent(e.Graphics);
             }
             else if (ActionMode == ActionMode.ImageBinarize)
             {

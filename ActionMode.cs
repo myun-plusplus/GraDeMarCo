@@ -5,6 +5,7 @@
         None,
         ImageRangeSelect,
         CircleSelect,
+        ImageFilter,
         ImageBinarize,
         DotDraw
     }

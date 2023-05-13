@@ -17,6 +17,7 @@ namespace GrainDetector
         private ImageDisplay imageDisplay;
         private RangeSelect rangeSelect;
         private CircleSelect circleSelect;
+        private ImageFilter imageFilter;
         private ImageBinarize imageBinarize;
         private GrainDetect grainDetect;
         private DotDraw dotDraw;
@@ -95,6 +96,7 @@ namespace GrainDetector
             imageDisplay.Initialize();
             rangeSelect = new RangeSelect(imageDisplay);
             circleSelect = new CircleSelect(imageDisplay);
+            imageFilter = new ImageFilter(imageDisplay, rangeSelect);
             imageBinarize = new ImageBinarize(imageDisplay, rangeSelect);
             grainDetect = new GrainDetect(imageDisplay, rangeSelect, circleSelect);
             dotDraw = new DotDraw(imageDisplay);
@@ -167,6 +169,9 @@ namespace GrainDetector
             grainDetect.DotColorOnCircle = Color.Yellow;
             grainDetect.DotSizeOnCircle = (int)this.dotSizeOnCircleNumericUpDown.Value;
 
+            this.blurCcomboBox.SelectedIndex = 0;
+            this.edgeDetectComboBox.SelectedIndex = 0;
+
             this.dotDrawColorLabel.BackColor = Color.Red;
             dotDraw.DotColor = Color.Red;
             dotDraw.DotSize = (int)this.dotDrawNumericUpDown.Value;
@@ -183,8 +188,8 @@ namespace GrainDetector
             imageDisplay.Image = new Bitmap(originalImage);
             imageDisplay.Initialize();
 
-            this.imageForm = new ImageForm(imageDisplay, rangeSelect, circleSelect, imageBinarize, dotDraw);
-            this.imageForm.Location = new Point(this.Location.X + 300, this.Location.Y);
+            this.imageForm = new ImageForm(imageDisplay, rangeSelect, circleSelect, imageFilter, imageBinarize, dotDraw);
+            this.imageForm.Location = new Point(this.Location.X + 320, this.Location.Y);
             this.imageForm.ActionMode = ActionMode.None;
             this.imageForm.FormClosing += imageForm_FormClosing;
             this.imageForm.MouseWheel += imageForm_MouseWheel;
@@ -212,6 +217,7 @@ namespace GrainDetector
                 {
                     this.rangeSelectPanel.Enabled = true;
                     this.circleSelectPanel.Enabled = true;
+                    //this.
                     this.grainDetectPanel.Enabled = true;
                     this.dotDrawPanel.Enabled = true;
                     this.dotCountPanel.Enabled = true;
@@ -237,6 +243,18 @@ namespace GrainDetector
                     this.rangeSelectPanel.Enabled = false;
                     this.circleSelectPanel.Enabled = true;
                     this.grainDetectPanel.Enabled = false;
+                    this.dotDrawPanel.Enabled = false;
+                    this.dotCountPanel.Enabled = false;
+                    this.shownImageSelectCLB.Enabled = false;
+                    this.zoomInButton.Enabled = true;
+                    this.zoomOutButton.Enabled = true;
+                    this.imageSaveButton.Enabled = false;
+                }
+                else if (actionMode == ActionMode.ImageFilter)
+                {
+                    this.rangeSelectPanel.Enabled = false;
+                    this.circleSelectPanel.Enabled = false;
+                    this.grainDetectPanel.Enabled = true;
                     this.dotDrawPanel.Enabled = false;
                     this.dotCountPanel.Enabled = false;
                     this.shownImageSelectCLB.Enabled = false;

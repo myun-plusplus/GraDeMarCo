@@ -46,19 +46,29 @@
             this.circleXLabel = new System.Windows.Forms.Label();
             this.circleYLabel = new System.Windows.Forms.Label();
             this.grainDetectTabPage = new System.Windows.Forms.TabPage();
-            this.grainDetectPanel = new System.Windows.Forms.Panel();
-            this.whitePixelMinimumNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.whitePixelMinimumLabel = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.edgeDetectComboBox = new System.Windows.Forms.ComboBox();
+            this.blurCcomboBox = new System.Windows.Forms.ComboBox();
             this.binarizationCheckBox = new System.Windows.Forms.CheckBox();
             this.binarizationThresholdLabel = new System.Windows.Forms.Label();
             this.binarizationThresholdNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.imageFilterCheckBox = new System.Windows.Forms.CheckBox();
+            this.binarizationThresholdTrackBar = new System.Windows.Forms.TrackBar();
+            this.grainDetectPanel = new System.Windows.Forms.Panel();
+            this.whitePixelMinimumNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.whitePixelMinimumLabel = new System.Windows.Forms.Label();
             this.dotSizeOnCircleNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.grainDetectButton = new System.Windows.Forms.Button();
             this.dotSizeInCircleNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.detectOnCircleCheckBox = new System.Windows.Forms.CheckBox();
             this.detectInCircleCheckBox = new System.Windows.Forms.CheckBox();
-            this.binarizationThresholdTrackBar = new System.Windows.Forms.TrackBar();
             this.dotDrawTabPage = new System.Windows.Forms.TabPage();
+            this.dotDrawPanel = new System.Windows.Forms.Panel();
+            this.dotDrawCheckBox = new System.Windows.Forms.CheckBox();
+            this.dotDrawRedoButton = new System.Windows.Forms.Button();
+            this.dotDrawNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.dotDrawUndoButton = new System.Windows.Forms.Button();
+            this.dotDrawColorLabel = new System.Windows.Forms.Label();
             this.dotCountPageTab = new System.Windows.Forms.TabPage();
             this.dotCountPanel = new System.Windows.Forms.Panel();
             this.dotCountCheckBox4 = new System.Windows.Forms.CheckBox();
@@ -79,12 +89,6 @@
             this.zoomInButton = new System.Windows.Forms.Button();
             this.shownImageSelectCLB = new System.Windows.Forms.CheckedListBox();
             this.imageSaveButton = new System.Windows.Forms.Button();
-            this.dotDrawPanel = new System.Windows.Forms.Panel();
-            this.dotDrawCheckBox = new System.Windows.Forms.CheckBox();
-            this.dotDrawRedoButton = new System.Windows.Forms.Button();
-            this.dotDrawNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.dotDrawUndoButton = new System.Windows.Forms.Button();
-            this.dotDrawColorLabel = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
             this.imageSelectPanel.SuspendLayout();
@@ -101,18 +105,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.circleXNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleYNumericUpDown)).BeginInit();
             this.grainDetectTabPage.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdTrackBar)).BeginInit();
             this.grainDetectPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.whitePixelMinimumNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeOnCircleNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeInCircleNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdTrackBar)).BeginInit();
             this.dotDrawTabPage.SuspendLayout();
+            this.dotDrawPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dotDrawNumericUpDown)).BeginInit();
             this.dotCountPageTab.SuspendLayout();
             this.dotCountPanel.SuspendLayout();
             this.lowerPanel.SuspendLayout();
-            this.dotDrawPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dotDrawNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -437,6 +442,7 @@
             // 
             // grainDetectTabPage
             // 
+            this.grainDetectTabPage.Controls.Add(this.panel1);
             this.grainDetectTabPage.Controls.Add(this.grainDetectPanel);
             this.grainDetectTabPage.Location = new System.Drawing.Point(4, 22);
             this.grainDetectTabPage.Name = "grainDetectTabPage";
@@ -446,22 +452,119 @@
             this.grainDetectTabPage.Text = "粒検出";
             this.grainDetectTabPage.UseVisualStyleBackColor = true;
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.edgeDetectComboBox);
+            this.panel1.Controls.Add(this.blurCcomboBox);
+            this.panel1.Controls.Add(this.binarizationCheckBox);
+            this.panel1.Controls.Add(this.binarizationThresholdLabel);
+            this.panel1.Controls.Add(this.binarizationThresholdNumericUpDown);
+            this.panel1.Controls.Add(this.imageFilterCheckBox);
+            this.panel1.Controls.Add(this.binarizationThresholdTrackBar);
+            this.panel1.Location = new System.Drawing.Point(6, 6);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(264, 91);
+            this.panel1.TabIndex = 17;
+            // 
+            // edgeDetectComboBox
+            // 
+            this.edgeDetectComboBox.FormattingEnabled = true;
+            this.edgeDetectComboBox.Items.AddRange(new object[] {
+            "エッジ検出なし",
+            "ソーベル",
+            "ラプラシアン"});
+            this.edgeDetectComboBox.Location = new System.Drawing.Point(165, 5);
+            this.edgeDetectComboBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 4);
+            this.edgeDetectComboBox.Name = "edgeDetectComboBox";
+            this.edgeDetectComboBox.Size = new System.Drawing.Size(75, 20);
+            this.edgeDetectComboBox.TabIndex = 20;
+            this.edgeDetectComboBox.SelectedIndexChanged += new System.EventHandler(this.edgeDetectComboBox_SelectedIndexChanged);
+            // 
+            // blurCcomboBox
+            // 
+            this.blurCcomboBox.FormattingEnabled = true;
+            this.blurCcomboBox.Items.AddRange(new object[] {
+            "ぼかしなし",
+            "ガウシアン",
+            "ガウシアン×3"});
+            this.blurCcomboBox.Location = new System.Drawing.Point(84, 5);
+            this.blurCcomboBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 4);
+            this.blurCcomboBox.Name = "blurCcomboBox";
+            this.blurCcomboBox.Size = new System.Drawing.Size(75, 20);
+            this.blurCcomboBox.TabIndex = 19;
+            this.blurCcomboBox.SelectedIndexChanged += new System.EventHandler(this.blurCcomboBox_SelectedIndexChanged);
+            // 
+            // binarizationCheckBox
+            // 
+            this.binarizationCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.binarizationCheckBox.Location = new System.Drawing.Point(3, 32);
+            this.binarizationCheckBox.Name = "binarizationCheckBox";
+            this.binarizationCheckBox.Size = new System.Drawing.Size(49, 23);
+            this.binarizationCheckBox.TabIndex = 14;
+            this.binarizationCheckBox.Text = "二値化";
+            this.binarizationCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.binarizationCheckBox.UseVisualStyleBackColor = true;
+            this.binarizationCheckBox.CheckedChanged += new System.EventHandler(this.binarizationCheckBox_CheckedChanged);
+            // 
+            // binarizationThresholdLabel
+            // 
+            this.binarizationThresholdLabel.Location = new System.Drawing.Point(58, 38);
+            this.binarizationThresholdLabel.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
+            this.binarizationThresholdLabel.Name = "binarizationThresholdLabel";
+            this.binarizationThresholdLabel.Size = new System.Drawing.Size(65, 12);
+            this.binarizationThresholdLabel.TabIndex = 12;
+            this.binarizationThresholdLabel.Text = "二値化閾値";
+            // 
+            // binarizationThresholdNumericUpDown
+            // 
+            this.binarizationThresholdNumericUpDown.Location = new System.Drawing.Point(217, 34);
+            this.binarizationThresholdNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.binarizationThresholdNumericUpDown.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.binarizationThresholdNumericUpDown.Name = "binarizationThresholdNumericUpDown";
+            this.binarizationThresholdNumericUpDown.Size = new System.Drawing.Size(39, 19);
+            this.binarizationThresholdNumericUpDown.TabIndex = 11;
+            this.binarizationThresholdNumericUpDown.ValueChanged += new System.EventHandler(this.binarizationThresholdNumericUpDown_ValueChanged);
+            // 
+            // imageFilterCheckBox
+            // 
+            this.imageFilterCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.imageFilterCheckBox.Location = new System.Drawing.Point(3, 3);
+            this.imageFilterCheckBox.Name = "imageFilterCheckBox";
+            this.imageFilterCheckBox.Size = new System.Drawing.Size(75, 23);
+            this.imageFilterCheckBox.TabIndex = 14;
+            this.imageFilterCheckBox.Text = "フィルター";
+            this.imageFilterCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.imageFilterCheckBox.UseVisualStyleBackColor = true;
+            this.imageFilterCheckBox.CheckedChanged += new System.EventHandler(this.imageFilterCheckBox_CheckedChanged);
+            // 
+            // binarizationThresholdTrackBar
+            // 
+            this.binarizationThresholdTrackBar.AutoSize = false;
+            this.binarizationThresholdTrackBar.Location = new System.Drawing.Point(129, 32);
+            this.binarizationThresholdTrackBar.Maximum = 255;
+            this.binarizationThresholdTrackBar.Name = "binarizationThresholdTrackBar";
+            this.binarizationThresholdTrackBar.Size = new System.Drawing.Size(82, 23);
+            this.binarizationThresholdTrackBar.TabIndex = 0;
+            this.binarizationThresholdTrackBar.Scroll += new System.EventHandler(this.binarizationThresholdTrackBar_Scroll);
+            // 
             // grainDetectPanel
             // 
             this.grainDetectPanel.BackColor = System.Drawing.Color.Transparent;
             this.grainDetectPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.grainDetectPanel.Controls.Add(this.whitePixelMinimumNumericUpDown);
             this.grainDetectPanel.Controls.Add(this.whitePixelMinimumLabel);
-            this.grainDetectPanel.Controls.Add(this.binarizationCheckBox);
-            this.grainDetectPanel.Controls.Add(this.binarizationThresholdLabel);
-            this.grainDetectPanel.Controls.Add(this.binarizationThresholdNumericUpDown);
             this.grainDetectPanel.Controls.Add(this.dotSizeOnCircleNumericUpDown);
             this.grainDetectPanel.Controls.Add(this.grainDetectButton);
             this.grainDetectPanel.Controls.Add(this.dotSizeInCircleNumericUpDown);
             this.grainDetectPanel.Controls.Add(this.detectOnCircleCheckBox);
             this.grainDetectPanel.Controls.Add(this.detectInCircleCheckBox);
-            this.grainDetectPanel.Controls.Add(this.binarizationThresholdTrackBar);
-            this.grainDetectPanel.Location = new System.Drawing.Point(6, 6);
+            this.grainDetectPanel.Location = new System.Drawing.Point(6, 103);
             this.grainDetectPanel.Name = "grainDetectPanel";
             this.grainDetectPanel.Size = new System.Drawing.Size(210, 91);
             this.grainDetectPanel.TabIndex = 1;
@@ -499,41 +602,6 @@
             this.whitePixelMinimumLabel.Size = new System.Drawing.Size(53, 12);
             this.whitePixelMinimumLabel.TabIndex = 15;
             this.whitePixelMinimumLabel.Text = "検出下限";
-            // 
-            // binarizationCheckBox
-            // 
-            this.binarizationCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
-            this.binarizationCheckBox.Location = new System.Drawing.Point(101, 61);
-            this.binarizationCheckBox.Name = "binarizationCheckBox";
-            this.binarizationCheckBox.Size = new System.Drawing.Size(49, 23);
-            this.binarizationCheckBox.TabIndex = 14;
-            this.binarizationCheckBox.Text = "二値化";
-            this.binarizationCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.binarizationCheckBox.UseVisualStyleBackColor = true;
-            this.binarizationCheckBox.CheckedChanged += new System.EventHandler(this.binarizationCheckBox_CheckedChanged);
-            // 
-            // binarizationThresholdLabel
-            // 
-            this.binarizationThresholdLabel.Location = new System.Drawing.Point(5, 9);
-            this.binarizationThresholdLabel.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
-            this.binarizationThresholdLabel.Name = "binarizationThresholdLabel";
-            this.binarizationThresholdLabel.Size = new System.Drawing.Size(65, 12);
-            this.binarizationThresholdLabel.TabIndex = 12;
-            this.binarizationThresholdLabel.Text = "二値化閾値";
-            // 
-            // binarizationThresholdNumericUpDown
-            // 
-            this.binarizationThresholdNumericUpDown.Location = new System.Drawing.Point(164, 5);
-            this.binarizationThresholdNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.binarizationThresholdNumericUpDown.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.binarizationThresholdNumericUpDown.Name = "binarizationThresholdNumericUpDown";
-            this.binarizationThresholdNumericUpDown.Size = new System.Drawing.Size(39, 19);
-            this.binarizationThresholdNumericUpDown.TabIndex = 11;
-            this.binarizationThresholdNumericUpDown.ValueChanged += new System.EventHandler(this.binarizationThresholdNumericUpDown_ValueChanged);
             // 
             // dotSizeOnCircleNumericUpDown
             // 
@@ -619,16 +687,6 @@
             this.detectInCircleCheckBox.UseVisualStyleBackColor = false;
             this.detectInCircleCheckBox.CheckedChanged += new System.EventHandler(this.detectInCircleCheckBox_CheckedChanged);
             // 
-            // binarizationThresholdTrackBar
-            // 
-            this.binarizationThresholdTrackBar.AutoSize = false;
-            this.binarizationThresholdTrackBar.Location = new System.Drawing.Point(76, 3);
-            this.binarizationThresholdTrackBar.Maximum = 255;
-            this.binarizationThresholdTrackBar.Name = "binarizationThresholdTrackBar";
-            this.binarizationThresholdTrackBar.Size = new System.Drawing.Size(82, 23);
-            this.binarizationThresholdTrackBar.TabIndex = 0;
-            this.binarizationThresholdTrackBar.Scroll += new System.EventHandler(this.binarizationThresholdTrackBar_Scroll);
-            // 
             // dotDrawTabPage
             // 
             this.dotDrawTabPage.Controls.Add(this.dotDrawPanel);
@@ -639,6 +697,81 @@
             this.dotDrawTabPage.TabIndex = 1;
             this.dotDrawTabPage.Text = "点描画";
             this.dotDrawTabPage.UseVisualStyleBackColor = true;
+            // 
+            // dotDrawPanel
+            // 
+            this.dotDrawPanel.BackColor = System.Drawing.Color.Transparent;
+            this.dotDrawPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dotDrawPanel.Controls.Add(this.dotDrawCheckBox);
+            this.dotDrawPanel.Controls.Add(this.dotDrawRedoButton);
+            this.dotDrawPanel.Controls.Add(this.dotDrawNumericUpDown);
+            this.dotDrawPanel.Controls.Add(this.dotDrawUndoButton);
+            this.dotDrawPanel.Controls.Add(this.dotDrawColorLabel);
+            this.dotDrawPanel.Location = new System.Drawing.Point(6, 6);
+            this.dotDrawPanel.Name = "dotDrawPanel";
+            this.dotDrawPanel.Size = new System.Drawing.Size(210, 91);
+            this.dotDrawPanel.TabIndex = 3;
+            // 
+            // dotDrawCheckBox
+            // 
+            this.dotDrawCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.dotDrawCheckBox.Location = new System.Drawing.Point(3, 3);
+            this.dotDrawCheckBox.Name = "dotDrawCheckBox";
+            this.dotDrawCheckBox.Size = new System.Drawing.Size(75, 23);
+            this.dotDrawCheckBox.TabIndex = 13;
+            this.dotDrawCheckBox.Text = "点打ち";
+            this.dotDrawCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.dotDrawCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // dotDrawRedoButton
+            // 
+            this.dotDrawRedoButton.Location = new System.Drawing.Point(3, 61);
+            this.dotDrawRedoButton.Name = "dotDrawRedoButton";
+            this.dotDrawRedoButton.Size = new System.Drawing.Size(200, 23);
+            this.dotDrawRedoButton.TabIndex = 12;
+            this.dotDrawRedoButton.Text = "やり直す";
+            this.dotDrawRedoButton.UseVisualStyleBackColor = true;
+            // 
+            // dotDrawNumericUpDown
+            // 
+            this.dotDrawNumericUpDown.Location = new System.Drawing.Point(164, 5);
+            this.dotDrawNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.dotDrawNumericUpDown.Maximum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.dotDrawNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.dotDrawNumericUpDown.Name = "dotDrawNumericUpDown";
+            this.dotDrawNumericUpDown.Size = new System.Drawing.Size(39, 19);
+            this.dotDrawNumericUpDown.TabIndex = 11;
+            this.dotDrawNumericUpDown.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // dotDrawUndoButton
+            // 
+            this.dotDrawUndoButton.Location = new System.Drawing.Point(3, 32);
+            this.dotDrawUndoButton.Name = "dotDrawUndoButton";
+            this.dotDrawUndoButton.Size = new System.Drawing.Size(200, 23);
+            this.dotDrawUndoButton.TabIndex = 8;
+            this.dotDrawUndoButton.Text = "元に戻す";
+            this.dotDrawUndoButton.UseVisualStyleBackColor = true;
+            // 
+            // dotDrawColorLabel
+            // 
+            this.dotDrawColorLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.dotDrawColorLabel.Location = new System.Drawing.Point(109, 3);
+            this.dotDrawColorLabel.Margin = new System.Windows.Forms.Padding(3);
+            this.dotDrawColorLabel.Name = "dotDrawColorLabel";
+            this.dotDrawColorLabel.Size = new System.Drawing.Size(49, 23);
+            this.dotDrawColorLabel.TabIndex = 6;
             // 
             // dotCountPageTab
             // 
@@ -867,81 +1000,6 @@
             this.imageSaveButton.UseVisualStyleBackColor = true;
             this.imageSaveButton.Click += new System.EventHandler(this.imageSaveButton_Click);
             // 
-            // dotDrawPanel
-            // 
-            this.dotDrawPanel.BackColor = System.Drawing.Color.Transparent;
-            this.dotDrawPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dotDrawPanel.Controls.Add(this.dotDrawCheckBox);
-            this.dotDrawPanel.Controls.Add(this.dotDrawRedoButton);
-            this.dotDrawPanel.Controls.Add(this.dotDrawNumericUpDown);
-            this.dotDrawPanel.Controls.Add(this.dotDrawUndoButton);
-            this.dotDrawPanel.Controls.Add(this.dotDrawColorLabel);
-            this.dotDrawPanel.Location = new System.Drawing.Point(6, 6);
-            this.dotDrawPanel.Name = "dotDrawPanel";
-            this.dotDrawPanel.Size = new System.Drawing.Size(210, 91);
-            this.dotDrawPanel.TabIndex = 3;
-            // 
-            // dotDrawCheckBox
-            // 
-            this.dotDrawCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
-            this.dotDrawCheckBox.Location = new System.Drawing.Point(3, 3);
-            this.dotDrawCheckBox.Name = "dotDrawCheckBox";
-            this.dotDrawCheckBox.Size = new System.Drawing.Size(75, 23);
-            this.dotDrawCheckBox.TabIndex = 13;
-            this.dotDrawCheckBox.Text = "点打ち";
-            this.dotDrawCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.dotDrawCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // dotDrawRedoButton
-            // 
-            this.dotDrawRedoButton.Location = new System.Drawing.Point(3, 61);
-            this.dotDrawRedoButton.Name = "dotDrawRedoButton";
-            this.dotDrawRedoButton.Size = new System.Drawing.Size(200, 23);
-            this.dotDrawRedoButton.TabIndex = 12;
-            this.dotDrawRedoButton.Text = "やり直す";
-            this.dotDrawRedoButton.UseVisualStyleBackColor = true;
-            // 
-            // dotDrawNumericUpDown
-            // 
-            this.dotDrawNumericUpDown.Location = new System.Drawing.Point(164, 5);
-            this.dotDrawNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.dotDrawNumericUpDown.Maximum = new decimal(new int[] {
-            9,
-            0,
-            0,
-            0});
-            this.dotDrawNumericUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.dotDrawNumericUpDown.Name = "dotDrawNumericUpDown";
-            this.dotDrawNumericUpDown.Size = new System.Drawing.Size(39, 19);
-            this.dotDrawNumericUpDown.TabIndex = 11;
-            this.dotDrawNumericUpDown.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            // 
-            // dotDrawUndoButton
-            // 
-            this.dotDrawUndoButton.Location = new System.Drawing.Point(3, 32);
-            this.dotDrawUndoButton.Name = "dotDrawUndoButton";
-            this.dotDrawUndoButton.Size = new System.Drawing.Size(200, 23);
-            this.dotDrawUndoButton.TabIndex = 8;
-            this.dotDrawUndoButton.Text = "元に戻す";
-            this.dotDrawUndoButton.UseVisualStyleBackColor = true;
-            // 
-            // dotDrawColorLabel
-            // 
-            this.dotDrawColorLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.dotDrawColorLabel.Location = new System.Drawing.Point(109, 3);
-            this.dotDrawColorLabel.Margin = new System.Windows.Forms.Padding(3);
-            this.dotDrawColorLabel.Name = "dotDrawColorLabel";
-            this.dotDrawColorLabel.Size = new System.Drawing.Size(49, 23);
-            this.dotDrawColorLabel.TabIndex = 6;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -970,19 +1028,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.circleXNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleYNumericUpDown)).EndInit();
             this.grainDetectTabPage.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdTrackBar)).EndInit();
             this.grainDetectPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.whitePixelMinimumNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeOnCircleNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeInCircleNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdTrackBar)).EndInit();
             this.dotDrawTabPage.ResumeLayout(false);
+            this.dotDrawPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dotDrawNumericUpDown)).EndInit();
             this.dotCountPageTab.ResumeLayout(false);
             this.dotCountPanel.ResumeLayout(false);
             this.dotCountPanel.PerformLayout();
             this.lowerPanel.ResumeLayout(false);
-            this.dotDrawPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dotDrawNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1057,6 +1116,10 @@
         private System.Windows.Forms.NumericUpDown dotDrawNumericUpDown;
         private System.Windows.Forms.Button dotDrawUndoButton;
         private System.Windows.Forms.Label dotDrawColorLabel;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.CheckBox imageFilterCheckBox;
+        private System.Windows.Forms.ComboBox blurCcomboBox;
+        private System.Windows.Forms.ComboBox edgeDetectComboBox;
     }
 }
 

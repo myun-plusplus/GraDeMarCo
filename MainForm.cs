@@ -171,6 +171,83 @@ namespace GrainDetector
 
         #endregion
 
+        #region ImageFiltering
+
+        private void imageFilterCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (imageFilterCheckBox.Checked)
+            {
+                imageFilter.OriginalImage = originalImage;
+
+                actionMode = ActionMode.ImageFilter;
+            }
+            else
+            {
+                actionMode = ActionMode.None;
+            }
+            imageFilter.Filter();
+
+            this.imageForm.Refresh();
+        }
+
+        private void blurCcomboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (blurCcomboBox.SelectedIndex)
+            {
+                case 0:
+                    imageFilter.ApplysGaussian = false;
+                    imageFilter.ApplysGaussian3 = false;
+                    break;
+                case 1:
+                    imageFilter.ApplysGaussian = true;
+                    imageFilter.ApplysGaussian3 = false;
+                    break;
+                case 2:
+                    imageFilter.ApplysGaussian = false;
+                    imageFilter.ApplysGaussian3 = true;
+                    break;
+            }
+            if (imageFilter.OriginalImage != null)
+            {
+                imageFilter.Filter();
+            }
+
+            if (imageForm != null)
+            {
+                this.imageForm.Refresh();
+            }
+        }
+
+        private void edgeDetectComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (edgeDetectComboBox.SelectedIndex)
+            {
+                case 0:
+                    imageFilter.ApplysSobel = false;
+                    imageFilter.ApplysLaplacian = false;
+                    break;
+                case 1:
+                    imageFilter.ApplysSobel = true;
+                    imageFilter.ApplysLaplacian = false;
+                    break;
+                case 2:
+                    imageFilter.ApplysSobel = false;
+                    imageFilter.ApplysLaplacian = true;
+                    break;
+            }
+            if (imageFilter.OriginalImage != null)
+            {
+                imageFilter.Filter();
+            }
+
+            if (imageForm != null)
+            {
+                this.imageForm.Refresh();
+            }
+        }
+
+        #endregion
+
         #region ImageBinarization
 
         private void binarizationThresholdTrackBar_Scroll(object sender, EventArgs e)
