@@ -24,7 +24,12 @@ namespace GrainDetector
         public Point ZoomLocation;
         public double ZoomMagnification;
 
-        public void Reset()
+        ~ImageDisplay()
+        {
+            Image = null;
+        }
+
+        public void Initialize()
         {
             ZoomLocation = new Point(0, 0);
             ZoomMagnification = 1;

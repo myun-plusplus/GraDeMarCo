@@ -6,9 +6,9 @@ namespace GrainDetector
 {
     public class GrainDetect
     {
-        private static readonly int[] dx = new int[] { 1, 0, -1, 0 }, dy = new int[] { 0, 1, 0, -1 };
-
         private ImageDisplay imageDisplay;
+        private RangeSelect rangeSelect;
+        private CircleSelect circleSelect;
 
         public bool IsFinished
         {
@@ -19,11 +19,11 @@ namespace GrainDetector
         public Bitmap OriginalImage;
         public Bitmap CircleImage;
         public Bitmap BinarizedImage;
+
         public int MinWhitePixel;
-        public int LowerX, UpperX, LowerY, UpperY;
-        public int CircleX, CircleY, CircleDiameter;
 
         private Color circleColor;
+
         private BitmapPixels originalImagePixels;
         private BitmapPixels circleImagePixels;
         private BitmapPixels binarizedImagePixels;
@@ -33,6 +33,7 @@ namespace GrainDetector
         #region DotOptions
 
         public bool DetectsGrainInCircle, DetectsGrainOnCircle;
+
         private Color _dotColorInCircle, _dotColorOnCircle;
         public Color DotColorInCircle
         {
@@ -58,6 +59,7 @@ namespace GrainDetector
                 brushOnCircle.Color = value;
             }
         }
+
         public int DotSizeInCircle, DotSizeOnCircle;
 
         private SolidBrush brushInCircle;
@@ -65,9 +67,11 @@ namespace GrainDetector
 
         #endregion
 
-        public GrainDetect(ImageDisplay imageDisplay)
+        public GrainDetect(ImageDisplay imageDisplay, RangeSelect rangeSelect, CircleSelect circleSelect)
         {
             this.imageDisplay = imageDisplay;
+            this.rangeSelect = rangeSelect;
+            this.circleSelect = circleSelect;
             IsFinished = false;
             circleColor = Color.Transparent;
             dotLocationsInCircle = new List<Point>();
@@ -128,6 +132,9 @@ namespace GrainDetector
             }
         }
 
+        private static readonly int[] dx = new int[] { 1, 0, -1, 0 };
+        private static readonly int[] dy = new int[] { 0, 1, 0, -1 };
+
         public void Detect()
         {
             IsFinished = false;
@@ -142,28 +149,26 @@ namespace GrainDetector
 
                 int width = originalImagePixels.Width;
                 int height = originalImagePixels.Height;
+                int lowerX = rangeSelect.LowerX, upperX = rangeSelect.UpperX;
+                int lowerY = rangeSelect.LowerY, upperY = rangeSelect.UpperY;
 
                 bool[,] circleMap = new bool[height, width];
                 {
-                    int a = 0;
-                    for (int y = LowerY; y < UpperY; ++y)
+
+                    for (int y = lowerY; y <= upperY; ++y)
                     {
-                        for (int x = LowerX; x < UpperX; ++x)
+                        for (int x = lowerX; x <= upperX; ++x)
                         {
                             circleMap[y, x] = circleImagePixels.Equals(x, y, circleColor);
-                            if (circleMap[y, x])
-                            {
-                                a++;
-                            }
                         }
                     }
 
-                    if (CircleDiameter >= 3)
+                    if (circleSelect.Diameter >= 3)
                     {
                         var stack = new Stack<Tuple<int, int>>();
 
-                        circleMap[CircleY + CircleDiameter / 2, CircleX + CircleDiameter / 2] = true;
-                        stack.Push(Tuple.Create(CircleX + CircleDiameter / 2, CircleY + CircleDiameter / 2));
+                        circleMap[circleSelect.LowerY + circleSelect.Diameter / 2, circleSelect.LowerX + circleSelect.Diameter / 2] = true;
+                        stack.Push(Tuple.Create(circleSelect.LowerX + circleSelect.Diameter / 2, circleSelect.LowerY + circleSelect.Diameter / 2));
 
                         while (stack.Count != 0)
                         {
@@ -172,7 +177,7 @@ namespace GrainDetector
                             for (int d = 0; d < 4; ++d)
                             {
                                 int nx = t.Item1 + dx[d], ny = t.Item2 + dy[d];
-                                if (nx < LowerX || UpperX <= nx || ny < LowerY || UpperY <= ny || circleMap[ny, nx])
+                                if (nx < lowerX || upperX < nx || ny < lowerY || upperY < ny || circleMap[ny, nx])
                                 {
                                     continue;
                                 }
@@ -184,9 +189,9 @@ namespace GrainDetector
                 }
 
                 bool[,] whiteMap = new bool[height, width];
-                for (int y = LowerY; y < UpperY; ++y)
+                for (int y = lowerY; y <= upperY; ++y)
                 {
-                    for (int x = LowerX; x < UpperX; ++x)
+                    for (int x = lowerX; x <= upperX; ++x)
                     {
                         whiteMap[y, x] = binarizedImagePixels.GetValue(x, y, 0) == 255;
                     }
@@ -196,9 +201,9 @@ namespace GrainDetector
                     bool[,] visited = new bool[height, width];
                     var stack = new Stack<Tuple<int, int>>();
 
-                    for (int y = LowerY; y < UpperY; ++y)
+                    for (int y = lowerY; y <= upperY; ++y)
                     {
-                        for (int x = LowerX; x < UpperX; ++x)
+                        for (int x = lowerX; x <= upperX; ++x)
                         {
                             if (!circleMap[y, x] || !whiteMap[y, x])
                             {
@@ -218,7 +223,7 @@ namespace GrainDetector
                                 for (int d = 0; d < 4; ++d)
                                 {
                                     int nx = t.Item1 + dx[d], ny = t.Item2 + dy[d];
-                                    if (nx < LowerX || UpperX <= nx || ny < LowerY || UpperY <= ny || visited[ny, nx])
+                                    if (nx < lowerX || upperX < nx || ny < lowerY || upperY < ny || visited[ny, nx])
                                     {
                                         continue;
                                     }
@@ -268,9 +273,11 @@ namespace GrainDetector
 
         private void searchCircleColor()
         {
-            for (int y = LowerY; y < UpperY; ++y)
+            int lowerX = rangeSelect.LowerX, upperX = rangeSelect.UpperX;
+            int lowerY = rangeSelect.LowerY, upperY = rangeSelect.UpperY;
+            for (int y = lowerY; y <= upperY; ++y)
             {
-                for (int x = LowerX; x < UpperX; ++x)
+                for (int x = lowerX; x <= upperX; ++x)
                 {
                     if (circleImagePixels.GetValue(x, y, 0) != circleImagePixels.GetValue(x, y, 1) ||
                         circleImagePixels.GetValue(x, y, 0) != circleImagePixels.GetValue(x, y, 2))

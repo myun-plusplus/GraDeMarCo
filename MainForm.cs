@@ -16,7 +16,7 @@ namespace GrainDetector
             {
                 e.Cancel = true;
             }
-            if (actionMode != FormState.ActionMode.None)
+            if (actionMode != ActionMode.None)
             {
                 e.Cancel = true;
             }
@@ -26,19 +26,10 @@ namespace GrainDetector
 
         private void fileSelectButton_Click(object sender, EventArgs e)
         {
-            var ofd = new OpenFileDialog();
-            ofd.FileName = "";
-            ofd.Filter = "画像ファイル(*.bmp;*.exif;*.gif;*.jpg;*.png;*.tiff)|*.bmp;*.exif;*.gif;*.jpg;*.png;*.tiff|すべてのファイル(*.*)|*.*";
-            ofd.FilterIndex = 1;
-            ofd.Title = "開くファイルを選択してください";
-            ofd.RestoreDirectory = true;
-
-            if (ofd.ShowDialog() == DialogResult.OK)
+            if (this.openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                this.filePathTextBox.Text = ofd.FileName;
+                this.filePathTextBox.Text = this.openFileDialog.FileName;
             }
-
-            ofd.Dispose();
         }
 
         private void imageOpenButton_Click(object sender, EventArgs e)
@@ -62,15 +53,6 @@ namespace GrainDetector
                 MessageBox.Show("選択したファイルは画像ファイルではありません。", "エラー");
                 return;
             }
-
-            initializeRangeSelectValidation();
-            initializeCircleSelectValidation();
-
-            imageDisplay.Image = new Bitmap(originalImage);
-            imageDisplay.Reset();
-
-            imageBinarize.OriginalImage = originalImage;
-            imageBinarize.Binarize();
 
             isImageFormOpened = true;
             openImageForm();
@@ -124,14 +106,16 @@ namespace GrainDetector
         {
             if (rangeSelectCheckBox.Checked)
             {
-                actionMode = FormState.ActionMode.ImageRangeSelect;
+                actionMode = ActionMode.ImageRangeSelect;
                 rangeSelect.Start();
             }
             else
             {
-                actionMode = FormState.ActionMode.None;
+                actionMode = ActionMode.None;
                 rangeSelect.Stop();
             }
+
+            this.imageForm.Refresh();
         }
 
         #endregion
@@ -143,10 +127,10 @@ namespace GrainDetector
             decimal x = this.circleXNumericUpDown.Value;
             decimal y = this.circleYNumericUpDown.Value;
             decimal d = this.circleDiameterNumericUpDown.Value;
-            if (rangeSelect.StartX <= x && x <= rangeSelect.EndX &&
-                rangeSelect.StartY <= y && y <= rangeSelect.EndY &&
-                x + d - 1 <= rangeSelect.EndX &&
-                y + d - 1 <= rangeSelect.EndY)
+            if (rangeSelect.LowerX <= x && x <= rangeSelect.UpperX &&
+                rangeSelect.LowerY <= y && y <= rangeSelect.UpperY &&
+                x + d - 1 <= rangeSelect.UpperX &&
+                y + d - 1 <= rangeSelect.UpperY)
             {
                 this.circleXNumericUpDown.BackColor = SystemColors.Window;
                 this.circleYNumericUpDown.BackColor = SystemColors.Window;
@@ -164,14 +148,16 @@ namespace GrainDetector
         {
             if (circleSelectCheckBox.Checked)
             {
-                actionMode = FormState.ActionMode.CircleSelect;
+                actionMode = ActionMode.CircleSelect;
                 circleSelect.Start();
             }
             else
             {
-                actionMode = FormState.ActionMode.None;
+                actionMode = ActionMode.None;
                 circleSelect.Stop();
             }
+
+            this.imageForm.Refresh();
         }
 
         private void circleColorSelectLabel_Click(object sender, EventArgs e)
@@ -192,8 +178,6 @@ namespace GrainDetector
             int tmp = binarizationThresholdTrackBar.Value;
             binarizationThresholdNumericUpDown.Value = tmp;
             binarizationThresholdTrackBar.Value = tmp;
-            imageBinarize.BinarizationThreshold = tmp;
-            imageBinarize.Binarize();
         }
 
         private void binarizationThresholdNumericUpDown_ValueChanged(object sender, EventArgs e)
@@ -201,9 +185,8 @@ namespace GrainDetector
             decimal tmp = binarizationThresholdNumericUpDown.Value;
             binarizationThresholdTrackBar.Value = (int)tmp;
             binarizationThresholdNumericUpDown.Value = tmp;
-            imageBinarize.BinarizationThreshold = (int)tmp;
-            imageBinarize.Binarize();
 
+            imageBinarize.BinarizationThreshold = (int)tmp;
             this.imageForm.Refresh();
         }
 
@@ -211,14 +194,16 @@ namespace GrainDetector
         {
             if (binarizationCheckBox.Checked)
             {
-                actionMode = FormState.ActionMode.ImageBinarize;
-                imageBinarize.Start();
+                imageBinarize.OriginalImage = originalImage;
+
+                actionMode = ActionMode.ImageBinarize;
             }
             else
             {
-                actionMode = FormState.ActionMode.None;
-                imageBinarize.Stop();
+                actionMode = ActionMode.None;
             }
+
+            this.imageForm.Refresh();
         }
 
         #endregion
@@ -280,15 +265,6 @@ namespace GrainDetector
             imageBinarize.DrawOnBitmap(binarizedImage);
             grainDetect.BinarizedImage = binarizedImage;
 
-            grainDetect.LowerX = rangeSelect.StartY;
-            grainDetect.LowerY = rangeSelect.StartY;
-            grainDetect.UpperX = rangeSelect.EndX + 1;
-            grainDetect.UpperY = rangeSelect.EndY + 1;
-
-            grainDetect.CircleX = circleSelect.StartX;
-            grainDetect.CircleY = circleSelect.StartY;
-            grainDetect.CircleDiameter = circleSelect.Diameter;
-
             grainDetect.Detect();
 
             circleImage.Dispose();
@@ -303,13 +279,11 @@ namespace GrainDetector
         {
             if (dotDrawCheckBox.Checked)
             {
-                actionMode = FormState.ActionMode.DotDraw;
-                dotDraw.Start();
+                actionMode = ActionMode.DotDraw;
             }
             else
             {
-                actionMode = FormState.ActionMode.None;
-                dotDraw.Stop();
+                actionMode = ActionMode.None;
             }
         }
 
@@ -378,10 +352,6 @@ namespace GrainDetector
         private void dotCountStartButton_Click(object sender, EventArgs e)
         {
             dotCount.Image = createModifiedImage();
-            dotCount.LowerX = rangeSelect.StartY;
-            dotCount.LowerY = rangeSelect.StartY;
-            dotCount.UpperX = rangeSelect.EndX;
-            dotCount.UpperY = rangeSelect.EndY;
             dotCount.TargetColors = new List<Color>
             {
                 this.dotCountColorLabel1.BackColor,
@@ -446,28 +416,23 @@ namespace GrainDetector
                 return;
             }
 
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.FileName = fileName;
-            sfd.InitialDirectory = directory;
-            sfd.Filter = "BMPファイル(*.bmp)|*.bmp|EXIFファイル(*.exif)|*.exif|GIFファイル(*.gif)|*.gif|JPEGファイル(*.jpg)|*.jpg|PNGファイル(*.png)|*.png|TIFFファイル(*.tiff)|*.tiff|すべてのファイル(*.*)|*.*";
-            sfd.FilterIndex = 0;
-            sfd.Title = "保存先を選択してください";
-            sfd.RestoreDirectory = true;
+            this.saveFileDialog.FileName = fileName;
+            this.saveFileDialog.InitialDirectory = directory;
 
-            if (sfd.ShowDialog() == DialogResult.OK)
+            if (this.saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                string extension = Path.GetExtension(sfd.FileName);
+                string extension = Path.GetExtension(this.saveFileDialog.FileName);
                 if (extension == ".bmp")
                 {
-                    imageDisplay.Image.Save(sfd.FileName, ImageFormat.Bmp);
+                    imageDisplay.Image.Save(this.saveFileDialog.FileName, ImageFormat.Bmp);
                 }
                 else if (extension == ".exif")
                 {
-                    imageDisplay.Image.Save(sfd.FileName, ImageFormat.Exif);
+                    imageDisplay.Image.Save(this.saveFileDialog.FileName, ImageFormat.Exif);
                 }
                 else if (extension == ".gif")
                 {
-                    imageDisplay.Image.Save(sfd.FileName, ImageFormat.Gif);
+                    imageDisplay.Image.Save(this.saveFileDialog.FileName, ImageFormat.Gif);
                 }
                 else if (extension == ".jpg")
                 {
@@ -485,26 +450,24 @@ namespace GrainDetector
                         }
                     }
 
-                    imageDisplay.Image.Save(sfd.FileName, jpgEncoder, eps);
+                    imageDisplay.Image.Save(this.saveFileDialog.FileName, jpgEncoder, eps);
                 }
                 else if (extension == ".png")
                 {
-                    imageDisplay.Image.Save(sfd.FileName, ImageFormat.Png);
+                    imageDisplay.Image.Save(this.saveFileDialog.FileName, ImageFormat.Png);
                 }
                 else if (extension == ".tiff")
                 {
-                    imageDisplay.Image.Save(sfd.FileName, ImageFormat.Tiff);
+                    imageDisplay.Image.Save(this.saveFileDialog.FileName, ImageFormat.Tiff);
                 }
             }
-
-            sfd.Dispose();
         }
 
         #endregion
 
         private void imageForm_FormClosing(object sender, CancelEventArgs e)
         {
-            actionMode = FormState.ActionMode.None;
+            actionMode = ActionMode.None;
 
             this.tabControl.SelectedIndex = 0;
             for (int i = 0; i < 5; ++i)
