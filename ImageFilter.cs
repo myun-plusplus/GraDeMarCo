@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading.Tasks;
 
 namespace GrainDetector
 {
@@ -215,19 +216,24 @@ namespace GrainDetector
             filteredImagePixels.CopyToBitmap(FilteredImage);
         }
 
+        private byte[,] sourcePixels, destPixels;
+        private int[,] filter;
+        int denominator;
+
         private void applyFilter(byte[,] sourcePixels, byte[,] destPixels, int[,] filter, int denominator)
         {
             int lowerY = rangeSelect.LowerY, upperY = rangeSelect.UpperY;
 
-            for (int y = 1 + lowerY; y <= upperY + 1; ++y)
-            {
-                filterOneLine(sourcePixels, destPixels, filter, denominator, y);
-            }
+            this.sourcePixels = sourcePixels;
+            this.destPixels = destPixels;
+            this.filter = filter;
+            this.denominator = denominator;
+
+            Parallel.For(1 + lowerY, upperY + 2, filterOneLine);
         }
 
-        private void filterOneLine(byte[,] sourcePixels, byte[,] destPixels, int[,] filter, int denominator, int y)
+        private void filterOneLine(int y)
         {
-            int width = OriginalImage.Width;
             int lowerX = rangeSelect.LowerX, upperX = rangeSelect.UpperX;
 
             for (int x = 1 + lowerX; x <= upperX + 1; ++x)
