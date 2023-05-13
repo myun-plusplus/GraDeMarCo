@@ -77,5 +77,14 @@ namespace GrainDetector
                 pixels[stride * y + 3 * x + 1] == color.G &&
                 pixels[stride * y + 3 * x] == color.B;
         }
+
+        public static void Copy(BitmapPixels source, BitmapPixels destination)
+        {
+            Array.Copy(source.pixels, destination.pixels, source.pixels.Length);
+            destination.Width = source.Width;
+            destination.Height = source.Height;
+            destination.stride = source.stride;
+            destination.disposedValue = source.disposedValue;
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace GrainDetector
@@ -8,6 +10,8 @@ namespace GrainDetector
     public partial class MainForm
     {
         private ImageForm imageForm;
+        private OpenFileDialog openFileDialog;
+        private SaveFileDialog saveFileDialog;
         private ColorDialog colorDialog;
 
         private ImageDisplay imageDisplay;
@@ -32,8 +36,8 @@ namespace GrainDetector
             }
         }
 
-        private FormState.ActionMode _actionMode;
-        private FormState.ActionMode actionMode
+        private ActionMode _actionMode;
+        private ActionMode actionMode
         {
             get
             {
@@ -69,29 +73,39 @@ namespace GrainDetector
 
         public MainForm()
         {
-            colorDialog = new ColorDialog();
-            colorDialog.CustomColors = new int[]
-{
+            this.openFileDialog = new OpenFileDialog();
+            this.openFileDialog.Filter = "画像ファイル(*.bmp;*.exif;*.gif;*.jpg;*.png;*.tiff)|*.bmp;*.exif;*.gif;*.jpg;*.png;*.tiff|すべてのファイル(*.*)|*.*";
+            this.openFileDialog.FilterIndex = 1;
+            this.openFileDialog.Title = "開くファイルを選択してください";
+            this.openFileDialog.RestoreDirectory = true;
+
+            this.saveFileDialog = new SaveFileDialog();
+            this.saveFileDialog.Filter = "BMPファイル(*.bmp)|*.bmp|EXIFファイル(*.exif)|*.exif|GIFファイル(*.gif)|*.gif|JPEGファイル(*.jpg)|*.jpg|PNGファイル(*.png)|*.png|TIFFファイル(*.tiff)|*.tiff|すべてのファイル(*.*)|*.*";
+            this.saveFileDialog.FilterIndex = 0;
+            this.saveFileDialog.Title = "保存先を選択してください";
+            this.saveFileDialog.RestoreDirectory = true;
+
+            this.colorDialog = new ColorDialog();
+            this.colorDialog.CustomColors = new int[] {
                 0x150088, 0x241CED, 0x277FFF, 0x00F2FF, 0x4CB122, 0xE8A200, 0xCC483F, 0xA449A3,
-                0x577AB9, 0xC9AEFF, 0x0EC9FF, 0xB0E4EF, 0x1DE6B5, 0xEAD999, 0xBE9270, 0xE7BFC8
-};
-            colorDialog.FullOpen = true;
+                0x577AB9, 0xC9AEFF, 0x0EC9FF, 0xB0E4EF, 0x1DE6B5, 0xEAD999, 0xBE9270, 0xE7BFC8 };
+            this.colorDialog.FullOpen = true;
 
             imageDisplay = new ImageDisplay();
-            imageDisplay.Reset();
+            imageDisplay.Initialize();
             rangeSelect = new RangeSelect(imageDisplay);
             circleSelect = new CircleSelect(imageDisplay);
-            imageBinarize = new ImageBinarize(imageDisplay);
-            grainDetect = new GrainDetect(imageDisplay);
+            imageBinarize = new ImageBinarize(imageDisplay, rangeSelect);
+            grainDetect = new GrainDetect(imageDisplay, rangeSelect, circleSelect);
             dotDraw = new DotDraw(imageDisplay);
-            dotCount = new DotCount();
+            dotCount = new DotCount(rangeSelect);
 
             InitializeComponent();
             this.rangeSelectBindingSource.DataSource = rangeSelect;
             this.circleSelectBindingSource.DataSource = circleSelect;
 
             isImageFormOpened = false;
-            actionMode = FormState.ActionMode.None;
+            actionMode = ActionMode.None;
 
             setInitialParameters();
         }
@@ -107,13 +121,22 @@ namespace GrainDetector
                 this.imageForm.Dispose();
             }
             this.imageForm = null;
+            if (this.openFileDialog != null)
+            {
+                this.openFileDialog.Dispose();
+            }
+            this.openFileDialog = null;
+            if (this.saveFileDialog != null)
+            {
+                this.saveFileDialog.Dispose();
+            }
+            this.saveFileDialog = null;
             if (this.colorDialog != null)
             {
                 this.colorDialog.Dispose();
             }
             this.colorDialog = null;
 
-            imageDisplay.Image = null;
             originalImage = null;
 
             if (disposing && (components != null))
@@ -154,9 +177,15 @@ namespace GrainDetector
 
         private void openImageForm()
         {
+            initializeRangeSelect();
+            initializeCircleSelect();
+
+            imageDisplay.Image = new Bitmap(originalImage);
+            imageDisplay.Initialize();
+
             this.imageForm = new ImageForm(imageDisplay, rangeSelect, circleSelect, imageBinarize, dotDraw);
             this.imageForm.Location = new Point(this.Location.X + 300, this.Location.Y);
-            this.imageForm.ActionMode = FormState.ActionMode.None;
+            this.imageForm.ActionMode = ActionMode.None;
             this.imageForm.FormClosing += imageForm_FormClosing;
             this.imageForm.MouseWheel += imageForm_MouseWheel;
 
@@ -179,7 +208,7 @@ namespace GrainDetector
 
             if (isImageFormOpened)
             {
-                if (actionMode == FormState.ActionMode.None)
+                if (actionMode == ActionMode.None)
                 {
                     this.rangeSelectPanel.Enabled = true;
                     this.circleSelectPanel.Enabled = true;
@@ -191,7 +220,7 @@ namespace GrainDetector
                     this.zoomOutButton.Enabled = true;
                     this.imageSaveButton.Enabled = true;
                 }
-                else if (actionMode == FormState.ActionMode.ImageRangeSelect)
+                else if (actionMode == ActionMode.ImageRangeSelect)
                 {
                     this.rangeSelectPanel.Enabled = true;
                     this.circleSelectPanel.Enabled = false;
@@ -203,7 +232,7 @@ namespace GrainDetector
                     this.zoomOutButton.Enabled = true;
                     this.imageSaveButton.Enabled = false;
                 }
-                else if (actionMode == FormState.ActionMode.CircleSelect)
+                else if (actionMode == ActionMode.CircleSelect)
                 {
                     this.rangeSelectPanel.Enabled = false;
                     this.circleSelectPanel.Enabled = true;
@@ -215,7 +244,7 @@ namespace GrainDetector
                     this.zoomOutButton.Enabled = true;
                     this.imageSaveButton.Enabled = false;
                 }
-                else if (actionMode == FormState.ActionMode.ImageBinarize)
+                else if (actionMode == ActionMode.ImageBinarize)
                 {
                     this.rangeSelectPanel.Enabled = false;
                     this.circleSelectPanel.Enabled = false;
@@ -227,7 +256,7 @@ namespace GrainDetector
                     this.zoomOutButton.Enabled = true;
                     this.imageSaveButton.Enabled = false;
                 }
-                else if (actionMode == FormState.ActionMode.DotDraw)
+                else if (actionMode == ActionMode.DotDraw)
                 {
                     this.rangeSelectPanel.Enabled = false;
                     this.circleSelectPanel.Enabled = false;
@@ -256,19 +285,28 @@ namespace GrainDetector
             this.ResumeLayout(false);
         }
 
-        private void initializeRangeSelectValidation()
+        private void initializeRangeSelect()
         {
             this.lowerXNumericUpDown.Maximum = originalImage.Width - 1;
             this.lowerYNumericUpDown.Maximum = originalImage.Height - 1;
             this.upperXNumericUpDown.Maximum = originalImage.Width - 1;
             this.upperYNumericUpDown.Maximum = originalImage.Height - 1;
+
+            this.lowerXNumericUpDown.Value = 0;
+            this.lowerYNumericUpDown.Value = 0;
+            this.upperXNumericUpDown.Value = 0;
+            this.upperYNumericUpDown.Value = 0;
         }
 
-        private void initializeCircleSelectValidation()
+        private void initializeCircleSelect()
         {
             this.circleXNumericUpDown.Maximum = originalImage.Width - 1;
             this.circleYNumericUpDown.Maximum = originalImage.Height - 1;
             this.circleDiameterNumericUpDown.Maximum = Math.Min(originalImage.Width, originalImage.Width);
+
+            this.circleXNumericUpDown.Value = 0;
+            this.circleYNumericUpDown.Value = 0;
+            this.circleDiameterNumericUpDown.Value = 1;
         }
 
         private void validateZoomMagnification()

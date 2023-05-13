@@ -67,10 +67,11 @@
     <Compile Include="DotCount.cs" />
     <Compile Include="DotDraw.cs" />
     <Compile Include="FormState.cs" />
-    <Compile Include="FunctionBase.cs" />
+    <Compile Include="BindingBase.cs" />
     <Compile Include="GrainDetect.cs" />
     <Compile Include="ImageBinarize.cs" />
     <Compile Include="ImageDisplay.cs" />
+    <Compile Include="ImageFilter.cs" />
     <Compile Include="ImageForm.cs">
       <SubType>Form</SubType>
     </Compile>

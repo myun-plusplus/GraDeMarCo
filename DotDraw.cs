@@ -4,9 +4,12 @@ using System.Drawing;
 
 namespace GrainDetector
 {
-    public class DotDraw : FunctionBase
+    public class DotDraw : BindingBase
     {
+        private ImageDisplay imageDisplay;
+
         private SolidBrush brush;
+
         private Color _dotColor;
         public Color DotColor
         {
@@ -20,6 +23,7 @@ namespace GrainDetector
                 brush.Color = value;
             }
         }
+
         private int _dotSize;
         public int DotSize
         {
@@ -39,8 +43,8 @@ namespace GrainDetector
         private Point mouseLocation;
 
         public DotDraw(ImageDisplay imageDisplay)
-            : base(imageDisplay)
         {
+            this.imageDisplay = imageDisplay;
             brush = new SolidBrush(Color.Transparent);
             dots = new Stack<Tuple<Point, SolidBrush, int>>();
             undoDots = new Stack<Tuple<Point, SolidBrush, int>>();
@@ -48,7 +52,6 @@ namespace GrainDetector
 
         ~DotDraw()
         {
-            // pen.Dispose();
             brush.Dispose();
             foreach (var dot in dots)
             {
@@ -60,17 +63,7 @@ namespace GrainDetector
             }
         }
 
-        public override void Start()
-        {
-
-        }
-
-        public override void Stop()
-        {
-
-        }
-
-        public override void DrawOnPaintEvent(Graphics graphics)
+        public void DrawOnPaintEvent(Graphics graphics)
         {
             foreach (var dot in dots)
             {
@@ -91,7 +84,7 @@ namespace GrainDetector
                 (float)(DotSize * imageDisplay.ZoomMagnification));
         }
 
-        public override void DrawOnBitmap(Bitmap bitmap)
+        public void DrawOnBitmap(Bitmap bitmap)
         {
             using (var graphics = Graphics.FromImage(bitmap))
             {

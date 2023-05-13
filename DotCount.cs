@@ -7,11 +7,18 @@ namespace GrainDetector
 {
     public class DotCount
     {
+        private RangeSelect rangeSelect;
+
         public Bitmap Image;
-        public int LowerX, UpperX;
-        public int LowerY, UpperY;
+
         public List<Color> TargetColors;
+
         public List<bool> IsCounted;
+
+        public DotCount(RangeSelect rangeSelect)
+        {
+            this.rangeSelect = rangeSelect;
+        }
 
         public List<int> CountDots()
         {
@@ -30,9 +37,11 @@ namespace GrainDetector
 
             int count = 0;
 
-            for (int y = LowerY; y < UpperY; ++y)
+            int lowerX = rangeSelect.LowerX, upperX = rangeSelect.UpperX;
+            int lowerY = rangeSelect.LowerY, upperY = rangeSelect.UpperY;
+            for (int y = lowerY; y <= upperY; ++y)
             {
-                for (int x = LowerX; x < UpperX; ++x)
+                for (int x = lowerX; x <= upperX; ++x)
                 {
                     if (Image.GetPixel(x, y).ToArgb() != targetColor.ToArgb())
                     {
@@ -50,14 +59,16 @@ namespace GrainDetector
             return count;
         }
 
-        static readonly int[] dx = new int[] { 1, 0, -1, 0 };
-        static readonly int[] dy = new int[] { 0, 1, 0, -1 };
+        private static readonly int[] dx = new int[] { 1, 0, -1, 0 };
+        private static readonly int[] dy = new int[] { 0, 1, 0, -1 };
 
         private void dfs(int x, int y)
         {
             visited[y, x] = true;
             stack.Push(new Tuple<int, int>(x, y));
 
+            int lowerX = rangeSelect.LowerX, upperX = rangeSelect.UpperX;
+            int lowerY = rangeSelect.LowerY, upperY = rangeSelect.UpperY;
             while (stack.Count != 0)
             {
                 var t = stack.Pop();
@@ -69,7 +80,7 @@ namespace GrainDetector
                     {
                         continue;
                     }
-                    if (nx < LowerX || UpperX <= nx || ny < LowerY || UpperY <= ny || visited[ny, nx])
+                    if (nx < lowerX || upperX < nx || ny < lowerY || upperY < ny || visited[ny, nx])
                     {
                         continue;
                     }

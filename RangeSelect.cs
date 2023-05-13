@@ -3,8 +3,10 @@ using System.Drawing;
 
 namespace GrainDetector
 {
-    public class RangeSelect : FunctionBase
+    public class RangeSelect : BindingBase
     {
+        private ImageDisplay imageDisplay;
+
         enum State
         {
             NotActive,
@@ -29,10 +31,10 @@ namespace GrainDetector
                 var t = orderPoints(_startLocation, _endLocation);
                 Point sp = imageDisplay.GetAdjustedLocation(t.Item1);
                 Point ep = imageDisplay.GetAdjustedLocation(t.Item2);
-                StartX = sp.X;
-                StartY = sp.Y;
-                EndX = ep.X;
-                EndY = ep.Y;
+                LowerX = sp.X;
+                LowerY = sp.Y;
+                UpperX = ep.X;
+                UpperY = ep.Y;
             }
         }
         public Point EndLocation
@@ -47,60 +49,61 @@ namespace GrainDetector
                 var t = orderPoints(_startLocation, _endLocation);
                 Point sp = imageDisplay.GetAdjustedLocation(t.Item1);
                 Point ep = imageDisplay.GetAdjustedLocation(t.Item2);
-                StartX = sp.X;
-                StartY = sp.Y;
-                EndX = ep.X;
-                EndY = ep.Y;
+                LowerX = sp.X;
+                LowerY = sp.Y;
+                UpperX = ep.X;
+                UpperY = ep.Y;
             }
         }
 
-        private int _startX, _startY, _endX, _endY;
-        public int StartX
+        private int _lowerX, _upperX;
+        private int _lowerY, _upperY;
+        public int LowerX
         {
             get
             {
-                return _startX;
+                return _lowerX;
             }
             private set
             {
-                _startX = value;
-                OnPropertyChanged(GetName.Of(() => StartX));
+                _lowerX = value;
+                OnPropertyChanged(GetName.Of(() => LowerX));
             }
         }
-        public int StartY
+        public int UpperX
         {
             get
             {
-                return _startY;
+                return _upperX;
             }
             private set
             {
-                _startY = value;
-                OnPropertyChanged(GetName.Of(() => StartY));
+                _upperX = value;
+                OnPropertyChanged(GetName.Of(() => UpperX));
             }
         }
-        public int EndX
+        public int LowerY
         {
             get
             {
-                return _endX;
+                return _lowerY;
             }
             private set
             {
-                _endX = value;
-                OnPropertyChanged(GetName.Of(() => EndX));
+                _lowerY = value;
+                OnPropertyChanged(GetName.Of(() => LowerY));
             }
         }
-        public int EndY
+        public int UpperY
         {
             get
             {
-                return _endY;
+                return _upperY;
             }
             private set
             {
-                _endY = value;
-                OnPropertyChanged(GetName.Of(() => EndY));
+                _upperY = value;
+                OnPropertyChanged(GetName.Of(() => UpperY));
             }
         }
 
@@ -109,29 +112,29 @@ namespace GrainDetector
         private Pen pen;
 
         public RangeSelect(ImageDisplay imageDisplay)
-            : base(imageDisplay)
         {
+            this.imageDisplay = imageDisplay;
             state = State.NotActive;
             pen = new Pen(Color.Red, 1);
         }
 
-        public override void Start()
+        public void Start()
         {
             state = State.NoneSelected;
             _startLocation = new Point(0, 0);
             _endLocation = new Point(0, 0);
-            StartX = 0;
-            StartY = 0;
-            EndX = imageDisplay.Image.Width - 1;
-            EndY = imageDisplay.Image.Height - 1;
+            LowerX = 0;
+            UpperX = imageDisplay.Image.Width - 1;
+            LowerY = 0;
+            UpperY = imageDisplay.Image.Height - 1;
         }
 
-        public override void Stop()
+        public void Stop()
         {
             state = State.NotActive;
         }
 
-        public override void DrawOnPaintEvent(Graphics graphics)
+        public void DrawOnPaintEvent(Graphics graphics)
         {
             if (state == State.StartLocationSelected || state == State.RangeSelected)
             {
@@ -140,12 +143,12 @@ namespace GrainDetector
             }
         }
 
-        public override void DrawOnBitmap(Bitmap bitmap)
+        public void DrawOnBitmap(Bitmap bitmap)
         {
             using (var graphics = Graphics.FromImage(bitmap))
             {
                 graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
-                graphics.DrawRectangle(pen, StartX, StartY, EndX - StartX, EndY - StartY);
+                graphics.DrawRectangle(pen, LowerX, LowerY, UpperX - LowerX, UpperY - LowerY);
             }
         }
 
@@ -180,7 +183,7 @@ namespace GrainDetector
             }
         }
 
-        private Tuple<Point, Point> orderPoints(Point p1, Point p2)
+        private static Tuple<Point, Point> orderPoints(Point p1, Point p2)
         {
             if (p1.X > p2.X)
             {

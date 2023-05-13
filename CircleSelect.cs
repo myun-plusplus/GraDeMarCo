@@ -3,8 +3,10 @@ using System.Drawing;
 
 namespace GrainDetector
 {
-    public class CircleSelect : FunctionBase
+    public class CircleSelect : BindingBase
     {
+        private ImageDisplay imageDisplay;
+
         enum State
         {
             NotActive,
@@ -29,11 +31,12 @@ namespace GrainDetector
                 var t = orderPoints(_startLocation, _endLocation);
                 Point sp = imageDisplay.GetAdjustedLocation(t.Item1);
                 Point ep = imageDisplay.GetAdjustedLocation(t.Item2);
-                StartX = sp.X;
-                StartY = sp.Y;
+                LowerX = sp.X;
+                LowerY = sp.Y;
                 Diameter = Math.Min(ep.X - sp.X, ep.Y - sp.Y);
             }
         }
+
         public Point EndLocation
         {
             get
@@ -46,37 +49,39 @@ namespace GrainDetector
                 var t = orderPoints(_startLocation, _endLocation);
                 Point sp = imageDisplay.GetAdjustedLocation(t.Item1);
                 Point ep = imageDisplay.GetAdjustedLocation(t.Item2);
-                StartX = sp.X;
-                StartY = sp.Y;
+                LowerX = sp.X;
+                LowerY = sp.Y;
                 Diameter = Math.Min(ep.X - sp.X, ep.Y - sp.Y);
             }
         }
 
-        private int _startX, _startY, _diameter;
-        public int StartX
+        private int _lowerX, _lowerY;
+        public int LowerX
         {
             get
             {
-                return _startX;
+                return _lowerX;
             }
             private set
             {
-                _startX = value;
-                OnPropertyChanged(GetName.Of(() => StartX));
+                _lowerX = value;
+                OnPropertyChanged(GetName.Of(() => LowerX));
             }
         }
-        public int StartY
+        public int LowerY
         {
             get
             {
-                return _startY;
+                return _lowerY;
             }
             private set
             {
-                _startY = value;
-                OnPropertyChanged(GetName.Of(() => StartY));
+                _lowerY = value;
+                OnPropertyChanged(GetName.Of(() => LowerY));
             }
         }
+
+        private int _diameter;
         public int Diameter
         {
             get
@@ -93,6 +98,7 @@ namespace GrainDetector
         #endregion
 
         private Pen pen;
+
         private Color _circleColor;
         public Color CircleColor
         {
@@ -108,29 +114,29 @@ namespace GrainDetector
         }
 
         public CircleSelect(ImageDisplay imageDisplay)
-            : base(imageDisplay)
         {
+            this.imageDisplay = imageDisplay;
             state = State.NotActive;
             pen = new Pen(Color.Transparent, 1);
             CircleColor = Color.Transparent;
         }
 
-        public override void Start()
+        public void Start()
         {
             state = State.NoneSelected;
             _startLocation = new Point(0, 0);
             _endLocation = new Point(0, 0);
-            StartX = 0;
-            StartY = 0;
+            LowerX = 0;
+            LowerY = 0;
             Diameter = Math.Min(imageDisplay.Image.Width - 1, imageDisplay.Image.Height - 1);
         }
 
-        public override void Stop()
+        public void Stop()
         {
             state = State.NotActive;
         }
 
-        public override void DrawOnPaintEvent(Graphics graphics)
+        public void DrawOnPaintEvent(Graphics graphics)
         {
             if (state == State.StartLocationSelected || state == State.RangeSelected)
             {
@@ -140,12 +146,12 @@ namespace GrainDetector
             }
         }
 
-        public override void DrawOnBitmap(Bitmap bitmap)
+        public void DrawOnBitmap(Bitmap bitmap)
         {
             using (var graphics = Graphics.FromImage(bitmap))
             {
                 graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
-                graphics.DrawEllipse(pen, StartX, StartY, Diameter, Diameter);
+                graphics.DrawEllipse(pen, LowerX, LowerY, Diameter, Diameter);
             }
         }
 
@@ -180,7 +186,7 @@ namespace GrainDetector
             }
         }
 
-        private Tuple<Point, Point> orderPoints(Point p1, Point p2)
+        private static Tuple<Point, Point> orderPoints(Point p1, Point p2)
         {
             if (p1.X > p2.X)
             {

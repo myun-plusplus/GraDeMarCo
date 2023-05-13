@@ -1,14 +1,11 @@
 ﻿namespace GrainDetector
 {
-    public class FormState
+    public enum ActionMode
     {
-        public enum ActionMode
-        {
-            None,
-            ImageRangeSelect,
-            CircleSelect,
-            ImageBinarize,
-            DotDraw
-        }
+        None,
+        ImageRangeSelect,
+        CircleSelect,
+        ImageBinarize,
+        DotDraw
     }
 }

@@ -11,8 +11,8 @@ namespace GrainDetector
         private ImageBinarize imageBinarize;
         private DotDraw dotDraw;
 
-        private FormState.ActionMode _actionMode;
-        public FormState.ActionMode ActionMode
+        private ActionMode _actionMode;
+        public ActionMode ActionMode
         {
             get
             {
@@ -45,19 +45,19 @@ namespace GrainDetector
         {
             imageDisplay.DrawImage(e.Graphics);
 
-            if (ActionMode == FormState.ActionMode.ImageRangeSelect)
+            if (ActionMode == ActionMode.ImageRangeSelect)
             {
                 rangeSelect.DrawOnPaintEvent(e.Graphics);
             }
-            else if (ActionMode == FormState.ActionMode.CircleSelect)
+            else if (ActionMode == ActionMode.CircleSelect)
             {
                 circleSelect.DrawOnPaintEvent(e.Graphics);
             }
-            else if (ActionMode == FormState.ActionMode.ImageBinarize)
+            else if (ActionMode == ActionMode.ImageBinarize)
             {
                 imageBinarize.DrawOnPaintEvent(e.Graphics);
             }
-            else if (ActionMode == FormState.ActionMode.DotDraw)
+            else if (ActionMode == ActionMode.DotDraw)
             {
                 dotDraw.DrawOnPaintEvent(e.Graphics);
             }
@@ -65,15 +65,15 @@ namespace GrainDetector
 
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            if (ActionMode == FormState.ActionMode.ImageRangeSelect)
+            if (ActionMode == ActionMode.ImageRangeSelect)
             {
                 rangeSelect.Click(e.Location);
             }
-            else if (ActionMode == FormState.ActionMode.CircleSelect)
+            else if (ActionMode == ActionMode.CircleSelect)
             {
                 circleSelect.Click(e.Location);
             }
-            else if (ActionMode == FormState.ActionMode.DotDraw)
+            else if (ActionMode == ActionMode.DotDraw)
             {
                 dotDraw.Click(e.Location);
             }
@@ -82,15 +82,15 @@ namespace GrainDetector
 
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (ActionMode == FormState.ActionMode.ImageRangeSelect)
+            if (ActionMode == ActionMode.ImageRangeSelect)
             {
                 rangeSelect.MouseMove(e.Location);
             }
-            else if (ActionMode == FormState.ActionMode.CircleSelect)
+            else if (ActionMode == ActionMode.CircleSelect)
             {
                 circleSelect.MouseMove(e.Location);
             }
-            else if (ActionMode == FormState.ActionMode.DotDraw)
+            else if (ActionMode == ActionMode.DotDraw)
             {
                 dotDraw.MouseMove(e.Location);
             }
