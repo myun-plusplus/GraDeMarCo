@@ -24,6 +24,7 @@
             this.imageOpenButton = new System.Windows.Forms.Button();
             this.rangeSelectPanel = new System.Windows.Forms.Panel();
             this.upperYNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.rangeSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.lowerYNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.rangeYHyphenLabel = new System.Windows.Forms.Label();
             this.upperXNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -36,6 +37,7 @@
             this.circleSelectPanel = new System.Windows.Forms.Panel();
             this.circleColorSelectLabel = new System.Windows.Forms.Label();
             this.circleDiameterNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.circleSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.circleColorLabel = new System.Windows.Forms.Label();
             this.circleXNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.circleYNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -44,12 +46,6 @@
             this.circleXLabel = new System.Windows.Forms.Label();
             this.circleYLabel = new System.Windows.Forms.Label();
             this.grainDetectTabPage = new System.Windows.Forms.TabPage();
-            this.dotDrawPanel = new System.Windows.Forms.Panel();
-            this.dotDrawCheckBox = new System.Windows.Forms.CheckBox();
-            this.dotDrawRedoButton = new System.Windows.Forms.Button();
-            this.dotDrawNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.dotDrawUndoButton = new System.Windows.Forms.Button();
-            this.dotDrawColorLabel = new System.Windows.Forms.Label();
             this.grainDetectPanel = new System.Windows.Forms.Panel();
             this.whitePixelMinimumNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.whitePixelMinimumLabel = new System.Windows.Forms.Label();
@@ -62,6 +58,7 @@
             this.detectOnCircleCheckBox = new System.Windows.Forms.CheckBox();
             this.detectInCircleCheckBox = new System.Windows.Forms.CheckBox();
             this.binarizationThresholdTrackBar = new System.Windows.Forms.TrackBar();
+            this.dotDrawTabPage = new System.Windows.Forms.TabPage();
             this.dotCountPageTab = new System.Windows.Forms.TabPage();
             this.dotCountPanel = new System.Windows.Forms.Panel();
             this.dotCountCheckBox4 = new System.Windows.Forms.CheckBox();
@@ -82,35 +79,40 @@
             this.zoomInButton = new System.Windows.Forms.Button();
             this.shownImageSelectCLB = new System.Windows.Forms.CheckedListBox();
             this.imageSaveButton = new System.Windows.Forms.Button();
-            this.rangeSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.circleSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dotDrawPanel = new System.Windows.Forms.Panel();
+            this.dotDrawCheckBox = new System.Windows.Forms.CheckBox();
+            this.dotDrawRedoButton = new System.Windows.Forms.Button();
+            this.dotDrawNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.dotDrawUndoButton = new System.Windows.Forms.Button();
+            this.dotDrawColorLabel = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
             this.imageSelectPanel.SuspendLayout();
             this.rangeSelectPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.upperYNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rangeSelectBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lowerYNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.upperXNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lowerXNumericUpDown)).BeginInit();
             this.circleSelectPageTab.SuspendLayout();
             this.circleSelectPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.circleDiameterNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.circleSelectBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleXNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleYNumericUpDown)).BeginInit();
             this.grainDetectTabPage.SuspendLayout();
-            this.dotDrawPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dotDrawNumericUpDown)).BeginInit();
             this.grainDetectPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.whitePixelMinimumNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeOnCircleNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeInCircleNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdTrackBar)).BeginInit();
+            this.dotDrawTabPage.SuspendLayout();
             this.dotCountPageTab.SuspendLayout();
             this.dotCountPanel.SuspendLayout();
             this.lowerPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.rangeSelectBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.circleSelectBindingSource)).BeginInit();
+            this.dotDrawPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dotDrawNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -118,12 +120,13 @@
             this.tabControl.Controls.Add(this.imageSelectTabPage);
             this.tabControl.Controls.Add(this.circleSelectPageTab);
             this.tabControl.Controls.Add(this.grainDetectTabPage);
+            this.tabControl.Controls.Add(this.dotDrawTabPage);
             this.tabControl.Controls.Add(this.dotCountPageTab);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Top;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(224, 214);
+            this.tabControl.Size = new System.Drawing.Size(284, 226);
             this.tabControl.TabIndex = 0;
             this.tabControl.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl_Selecting);
             // 
@@ -134,7 +137,7 @@
             this.imageSelectTabPage.Location = new System.Drawing.Point(4, 22);
             this.imageSelectTabPage.Name = "imageSelectTabPage";
             this.imageSelectTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.imageSelectTabPage.Size = new System.Drawing.Size(216, 188);
+            this.imageSelectTabPage.Size = new System.Drawing.Size(276, 200);
             this.imageSelectTabPage.TabIndex = 0;
             this.imageSelectTabPage.Text = "画像選択";
             this.imageSelectTabPage.UseVisualStyleBackColor = true;
@@ -146,9 +149,9 @@
             this.imageSelectPanel.Controls.Add(this.filePathTextBox);
             this.imageSelectPanel.Controls.Add(this.fileSelectButton);
             this.imageSelectPanel.Controls.Add(this.imageOpenButton);
-            this.imageSelectPanel.Location = new System.Drawing.Point(3, 3);
+            this.imageSelectPanel.Location = new System.Drawing.Point(6, 6);
             this.imageSelectPanel.Name = "imageSelectPanel";
-            this.imageSelectPanel.Size = new System.Drawing.Size(210, 88);
+            this.imageSelectPanel.Size = new System.Drawing.Size(210, 91);
             this.imageSelectPanel.TabIndex = 0;
             // 
             // filePathTextBox
@@ -158,15 +161,15 @@
             this.filePathTextBox.Location = new System.Drawing.Point(3, 5);
             this.filePathTextBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.filePathTextBox.Name = "filePathTextBox";
-            this.filePathTextBox.Size = new System.Drawing.Size(122, 19);
+            this.filePathTextBox.Size = new System.Drawing.Size(119, 19);
             this.filePathTextBox.TabIndex = 0;
             // 
             // fileSelectButton
             // 
             this.fileSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.fileSelectButton.Location = new System.Drawing.Point(131, 3);
+            this.fileSelectButton.Location = new System.Drawing.Point(128, 3);
             this.fileSelectButton.Name = "fileSelectButton";
-            this.fileSelectButton.Size = new System.Drawing.Size(74, 23);
+            this.fileSelectButton.Size = new System.Drawing.Size(75, 23);
             this.fileSelectButton.TabIndex = 0;
             this.fileSelectButton.Text = "選択";
             this.fileSelectButton.UseVisualStyleBackColor = true;
@@ -178,7 +181,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.imageOpenButton.Location = new System.Drawing.Point(3, 32);
             this.imageOpenButton.Name = "imageOpenButton";
-            this.imageOpenButton.Size = new System.Drawing.Size(202, 23);
+            this.imageOpenButton.Size = new System.Drawing.Size(200, 23);
             this.imageOpenButton.TabIndex = 0;
             this.imageOpenButton.Text = "開く";
             this.imageOpenButton.UseVisualStyleBackColor = true;
@@ -197,9 +200,9 @@
             this.rangeSelectPanel.Controls.Add(this.rangeXLabel);
             this.rangeSelectPanel.Controls.Add(this.rangeXHyphenLabel);
             this.rangeSelectPanel.Controls.Add(this.rangeYLabel);
-            this.rangeSelectPanel.Location = new System.Drawing.Point(3, 94);
+            this.rangeSelectPanel.Location = new System.Drawing.Point(6, 103);
             this.rangeSelectPanel.Name = "rangeSelectPanel";
-            this.rangeSelectPanel.Size = new System.Drawing.Size(210, 88);
+            this.rangeSelectPanel.Size = new System.Drawing.Size(210, 91);
             this.rangeSelectPanel.TabIndex = 0;
             // 
             // upperYNumericUpDown
@@ -212,6 +215,10 @@
             this.upperYNumericUpDown.TabIndex = 0;
             this.upperYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.upperYNumericUpDown.ValueChanged += new System.EventHandler(this.upperYNumericUpDown_ValueChanged);
+            // 
+            // rangeSelectBindingSource
+            // 
+            this.rangeSelectBindingSource.DataSource = typeof(GrainDetector.RangeSelect);
             // 
             // lowerYNumericUpDown
             // 
@@ -260,7 +267,7 @@
             this.rangeSelectCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
             this.rangeSelectCheckBox.Location = new System.Drawing.Point(142, 3);
             this.rangeSelectCheckBox.Name = "rangeSelectCheckBox";
-            this.rangeSelectCheckBox.Size = new System.Drawing.Size(63, 23);
+            this.rangeSelectCheckBox.Size = new System.Drawing.Size(61, 23);
             this.rangeSelectCheckBox.TabIndex = 1;
             this.rangeSelectCheckBox.Text = "範囲選択";
             this.rangeSelectCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -300,7 +307,7 @@
             this.circleSelectPageTab.Location = new System.Drawing.Point(4, 22);
             this.circleSelectPageTab.Name = "circleSelectPageTab";
             this.circleSelectPageTab.Padding = new System.Windows.Forms.Padding(3);
-            this.circleSelectPageTab.Size = new System.Drawing.Size(216, 188);
+            this.circleSelectPageTab.Size = new System.Drawing.Size(276, 200);
             this.circleSelectPageTab.TabIndex = 0;
             this.circleSelectPageTab.Text = "円描画";
             this.circleSelectPageTab.UseVisualStyleBackColor = true;
@@ -317,15 +324,15 @@
             this.circleSelectPanel.Controls.Add(this.circleDiameterLabel);
             this.circleSelectPanel.Controls.Add(this.circleXLabel);
             this.circleSelectPanel.Controls.Add(this.circleYLabel);
-            this.circleSelectPanel.Location = new System.Drawing.Point(3, 3);
+            this.circleSelectPanel.Location = new System.Drawing.Point(6, 6);
             this.circleSelectPanel.Name = "circleSelectPanel";
-            this.circleSelectPanel.Size = new System.Drawing.Size(210, 182);
+            this.circleSelectPanel.Size = new System.Drawing.Size(202, 188);
             this.circleSelectPanel.TabIndex = 0;
             // 
             // circleColorSelectLabel
             // 
             this.circleColorSelectLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.circleColorSelectLabel.Location = new System.Drawing.Point(154, 32);
+            this.circleColorSelectLabel.Location = new System.Drawing.Point(146, 32);
             this.circleColorSelectLabel.Margin = new System.Windows.Forms.Padding(3);
             this.circleColorSelectLabel.Name = "circleColorSelectLabel";
             this.circleColorSelectLabel.Size = new System.Drawing.Size(49, 23);
@@ -343,10 +350,14 @@
             this.circleDiameterNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.circleDiameterNumericUpDown.ValueChanged += new System.EventHandler(this.circleNumericUpDowns_ValueChanged);
             // 
+            // circleSelectBindingSource
+            // 
+            this.circleSelectBindingSource.DataSource = typeof(GrainDetector.CircleSelect);
+            // 
             // circleColorLabel
             // 
             this.circleColorLabel.AutoSize = true;
-            this.circleColorLabel.Location = new System.Drawing.Point(129, 38);
+            this.circleColorLabel.Location = new System.Drawing.Point(121, 38);
             this.circleColorLabel.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
             this.circleColorLabel.Name = "circleColorLabel";
             this.circleColorLabel.Size = new System.Drawing.Size(19, 12);
@@ -388,7 +399,7 @@
             // circleSelectCheckBox
             // 
             this.circleSelectCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
-            this.circleSelectCheckBox.Location = new System.Drawing.Point(128, 3);
+            this.circleSelectCheckBox.Location = new System.Drawing.Point(120, 3);
             this.circleSelectCheckBox.Name = "circleSelectCheckBox";
             this.circleSelectCheckBox.Size = new System.Drawing.Size(75, 23);
             this.circleSelectCheckBox.TabIndex = 2;
@@ -426,95 +437,14 @@
             // 
             // grainDetectTabPage
             // 
-            this.grainDetectTabPage.Controls.Add(this.dotDrawPanel);
             this.grainDetectTabPage.Controls.Add(this.grainDetectPanel);
             this.grainDetectTabPage.Location = new System.Drawing.Point(4, 22);
             this.grainDetectTabPage.Name = "grainDetectTabPage";
             this.grainDetectTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.grainDetectTabPage.Size = new System.Drawing.Size(216, 188);
+            this.grainDetectTabPage.Size = new System.Drawing.Size(276, 200);
             this.grainDetectTabPage.TabIndex = 0;
-            this.grainDetectTabPage.Text = "粒子検出";
+            this.grainDetectTabPage.Text = "粒検出";
             this.grainDetectTabPage.UseVisualStyleBackColor = true;
-            // 
-            // dotDrawPanel
-            // 
-            this.dotDrawPanel.BackColor = System.Drawing.Color.Transparent;
-            this.dotDrawPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dotDrawPanel.Controls.Add(this.dotDrawCheckBox);
-            this.dotDrawPanel.Controls.Add(this.dotDrawRedoButton);
-            this.dotDrawPanel.Controls.Add(this.dotDrawNumericUpDown);
-            this.dotDrawPanel.Controls.Add(this.dotDrawUndoButton);
-            this.dotDrawPanel.Controls.Add(this.dotDrawColorLabel);
-            this.dotDrawPanel.Location = new System.Drawing.Point(3, 94);
-            this.dotDrawPanel.Name = "dotDrawPanel";
-            this.dotDrawPanel.Size = new System.Drawing.Size(210, 88);
-            this.dotDrawPanel.TabIndex = 2;
-            // 
-            // dotDrawCheckBox
-            // 
-            this.dotDrawCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
-            this.dotDrawCheckBox.Location = new System.Drawing.Point(3, 3);
-            this.dotDrawCheckBox.Name = "dotDrawCheckBox";
-            this.dotDrawCheckBox.Size = new System.Drawing.Size(75, 23);
-            this.dotDrawCheckBox.TabIndex = 13;
-            this.dotDrawCheckBox.Text = "点打ち";
-            this.dotDrawCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.dotDrawCheckBox.UseVisualStyleBackColor = true;
-            this.dotDrawCheckBox.CheckedChanged += new System.EventHandler(this.dotDrawCheckBox_CheckedChanged);
-            // 
-            // dotDrawRedoButton
-            // 
-            this.dotDrawRedoButton.Location = new System.Drawing.Point(3, 61);
-            this.dotDrawRedoButton.Name = "dotDrawRedoButton";
-            this.dotDrawRedoButton.Size = new System.Drawing.Size(200, 23);
-            this.dotDrawRedoButton.TabIndex = 12;
-            this.dotDrawRedoButton.Text = "やり直す";
-            this.dotDrawRedoButton.UseVisualStyleBackColor = true;
-            this.dotDrawRedoButton.Click += new System.EventHandler(this.dotDrawRedoButton_Click);
-            // 
-            // dotDrawNumericUpDown
-            // 
-            this.dotDrawNumericUpDown.Location = new System.Drawing.Point(164, 5);
-            this.dotDrawNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.dotDrawNumericUpDown.Maximum = new decimal(new int[] {
-            9,
-            0,
-            0,
-            0});
-            this.dotDrawNumericUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.dotDrawNumericUpDown.Name = "dotDrawNumericUpDown";
-            this.dotDrawNumericUpDown.Size = new System.Drawing.Size(39, 19);
-            this.dotDrawNumericUpDown.TabIndex = 11;
-            this.dotDrawNumericUpDown.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.dotDrawNumericUpDown.ValueChanged += new System.EventHandler(this.dotDrawNumericUpDown_ValueChanged);
-            // 
-            // dotDrawUndoButton
-            // 
-            this.dotDrawUndoButton.Location = new System.Drawing.Point(3, 32);
-            this.dotDrawUndoButton.Name = "dotDrawUndoButton";
-            this.dotDrawUndoButton.Size = new System.Drawing.Size(200, 23);
-            this.dotDrawUndoButton.TabIndex = 8;
-            this.dotDrawUndoButton.Text = "元に戻す";
-            this.dotDrawUndoButton.UseVisualStyleBackColor = true;
-            this.dotDrawUndoButton.Click += new System.EventHandler(this.dotDrawUndoButton_Click);
-            // 
-            // dotDrawColorLabel
-            // 
-            this.dotDrawColorLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.dotDrawColorLabel.Location = new System.Drawing.Point(109, 3);
-            this.dotDrawColorLabel.Margin = new System.Windows.Forms.Padding(3);
-            this.dotDrawColorLabel.Name = "dotDrawColorLabel";
-            this.dotDrawColorLabel.Size = new System.Drawing.Size(49, 23);
-            this.dotDrawColorLabel.TabIndex = 6;
-            this.dotDrawColorLabel.Click += new System.EventHandler(this.dotDrawColorLabel_Click);
             // 
             // grainDetectPanel
             // 
@@ -531,9 +461,9 @@
             this.grainDetectPanel.Controls.Add(this.detectOnCircleCheckBox);
             this.grainDetectPanel.Controls.Add(this.detectInCircleCheckBox);
             this.grainDetectPanel.Controls.Add(this.binarizationThresholdTrackBar);
-            this.grainDetectPanel.Location = new System.Drawing.Point(3, 3);
+            this.grainDetectPanel.Location = new System.Drawing.Point(6, 6);
             this.grainDetectPanel.Name = "grainDetectPanel";
-            this.grainDetectPanel.Size = new System.Drawing.Size(210, 88);
+            this.grainDetectPanel.Size = new System.Drawing.Size(210, 91);
             this.grainDetectPanel.TabIndex = 1;
             // 
             // whitePixelMinimumNumericUpDown
@@ -699,13 +629,24 @@
             this.binarizationThresholdTrackBar.TabIndex = 0;
             this.binarizationThresholdTrackBar.Scroll += new System.EventHandler(this.binarizationThresholdTrackBar_Scroll);
             // 
+            // dotDrawTabPage
+            // 
+            this.dotDrawTabPage.Controls.Add(this.dotDrawPanel);
+            this.dotDrawTabPage.Location = new System.Drawing.Point(4, 22);
+            this.dotDrawTabPage.Name = "dotDrawTabPage";
+            this.dotDrawTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.dotDrawTabPage.Size = new System.Drawing.Size(276, 200);
+            this.dotDrawTabPage.TabIndex = 1;
+            this.dotDrawTabPage.Text = "点描画";
+            this.dotDrawTabPage.UseVisualStyleBackColor = true;
+            // 
             // dotCountPageTab
             // 
             this.dotCountPageTab.Controls.Add(this.dotCountPanel);
             this.dotCountPageTab.Location = new System.Drawing.Point(4, 22);
             this.dotCountPageTab.Name = "dotCountPageTab";
             this.dotCountPageTab.Padding = new System.Windows.Forms.Padding(3);
-            this.dotCountPageTab.Size = new System.Drawing.Size(216, 188);
+            this.dotCountPageTab.Size = new System.Drawing.Size(276, 200);
             this.dotCountPageTab.TabIndex = 0;
             this.dotCountPageTab.Text = "点検出";
             this.dotCountPageTab.UseVisualStyleBackColor = true;
@@ -726,9 +667,9 @@
             this.dotCountPanel.Controls.Add(this.dotCountStartButton);
             this.dotCountPanel.Controls.Add(this.dotCountTextBox1);
             this.dotCountPanel.Controls.Add(this.dotCountColorLabel1);
-            this.dotCountPanel.Location = new System.Drawing.Point(3, 3);
+            this.dotCountPanel.Location = new System.Drawing.Point(6, 6);
             this.dotCountPanel.Name = "dotCountPanel";
-            this.dotCountPanel.Size = new System.Drawing.Size(210, 182);
+            this.dotCountPanel.Size = new System.Drawing.Size(210, 188);
             this.dotCountPanel.TabIndex = 1;
             // 
             // dotCountCheckBox4
@@ -874,9 +815,9 @@
             this.lowerPanel.Controls.Add(this.zoomInButton);
             this.lowerPanel.Controls.Add(this.shownImageSelectCLB);
             this.lowerPanel.Controls.Add(this.imageSaveButton);
-            this.lowerPanel.Location = new System.Drawing.Point(3, 217);
+            this.lowerPanel.Location = new System.Drawing.Point(10, 232);
             this.lowerPanel.Name = "lowerPanel";
-            this.lowerPanel.Size = new System.Drawing.Size(218, 101);
+            this.lowerPanel.Size = new System.Drawing.Size(218, 91);
             this.lowerPanel.TabIndex = 1;
             // 
             // zoomOutButton
@@ -911,7 +852,7 @@
             "粒子点（手動）"});
             this.shownImageSelectCLB.Location = new System.Drawing.Point(3, 3);
             this.shownImageSelectCLB.Name = "shownImageSelectCLB";
-            this.shownImageSelectCLB.Size = new System.Drawing.Size(120, 88);
+            this.shownImageSelectCLB.Size = new System.Drawing.Size(120, 74);
             this.shownImageSelectCLB.TabIndex = 5;
             this.shownImageSelectCLB.SelectedIndexChanged += new System.EventHandler(this.shownImageSelectCLB_SelectedIndexChanged);
             // 
@@ -926,19 +867,86 @@
             this.imageSaveButton.UseVisualStyleBackColor = true;
             this.imageSaveButton.Click += new System.EventHandler(this.imageSaveButton_Click);
             // 
-            // rangeSelectBindingSource
+            // dotDrawPanel
             // 
-            this.rangeSelectBindingSource.DataSource = typeof(GrainDetector.RangeSelect);
+            this.dotDrawPanel.BackColor = System.Drawing.Color.Transparent;
+            this.dotDrawPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dotDrawPanel.Controls.Add(this.dotDrawCheckBox);
+            this.dotDrawPanel.Controls.Add(this.dotDrawRedoButton);
+            this.dotDrawPanel.Controls.Add(this.dotDrawNumericUpDown);
+            this.dotDrawPanel.Controls.Add(this.dotDrawUndoButton);
+            this.dotDrawPanel.Controls.Add(this.dotDrawColorLabel);
+            this.dotDrawPanel.Location = new System.Drawing.Point(6, 6);
+            this.dotDrawPanel.Name = "dotDrawPanel";
+            this.dotDrawPanel.Size = new System.Drawing.Size(210, 91);
+            this.dotDrawPanel.TabIndex = 3;
             // 
-            // circleSelectBindingSource
+            // dotDrawCheckBox
             // 
-            this.circleSelectBindingSource.DataSource = typeof(GrainDetector.CircleSelect);
+            this.dotDrawCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.dotDrawCheckBox.Location = new System.Drawing.Point(3, 3);
+            this.dotDrawCheckBox.Name = "dotDrawCheckBox";
+            this.dotDrawCheckBox.Size = new System.Drawing.Size(75, 23);
+            this.dotDrawCheckBox.TabIndex = 13;
+            this.dotDrawCheckBox.Text = "点打ち";
+            this.dotDrawCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.dotDrawCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // dotDrawRedoButton
+            // 
+            this.dotDrawRedoButton.Location = new System.Drawing.Point(3, 61);
+            this.dotDrawRedoButton.Name = "dotDrawRedoButton";
+            this.dotDrawRedoButton.Size = new System.Drawing.Size(200, 23);
+            this.dotDrawRedoButton.TabIndex = 12;
+            this.dotDrawRedoButton.Text = "やり直す";
+            this.dotDrawRedoButton.UseVisualStyleBackColor = true;
+            // 
+            // dotDrawNumericUpDown
+            // 
+            this.dotDrawNumericUpDown.Location = new System.Drawing.Point(164, 5);
+            this.dotDrawNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.dotDrawNumericUpDown.Maximum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.dotDrawNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.dotDrawNumericUpDown.Name = "dotDrawNumericUpDown";
+            this.dotDrawNumericUpDown.Size = new System.Drawing.Size(39, 19);
+            this.dotDrawNumericUpDown.TabIndex = 11;
+            this.dotDrawNumericUpDown.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // dotDrawUndoButton
+            // 
+            this.dotDrawUndoButton.Location = new System.Drawing.Point(3, 32);
+            this.dotDrawUndoButton.Name = "dotDrawUndoButton";
+            this.dotDrawUndoButton.Size = new System.Drawing.Size(200, 23);
+            this.dotDrawUndoButton.TabIndex = 8;
+            this.dotDrawUndoButton.Text = "元に戻す";
+            this.dotDrawUndoButton.UseVisualStyleBackColor = true;
+            // 
+            // dotDrawColorLabel
+            // 
+            this.dotDrawColorLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.dotDrawColorLabel.Location = new System.Drawing.Point(109, 3);
+            this.dotDrawColorLabel.Margin = new System.Windows.Forms.Padding(3);
+            this.dotDrawColorLabel.Name = "dotDrawColorLabel";
+            this.dotDrawColorLabel.Size = new System.Drawing.Size(49, 23);
+            this.dotDrawColorLabel.TabIndex = 6;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(224, 321);
+            this.ClientSize = new System.Drawing.Size(284, 327);
             this.Controls.Add(this.lowerPanel);
             this.Controls.Add(this.tabControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -950,6 +958,7 @@
             this.imageSelectPanel.PerformLayout();
             this.rangeSelectPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.upperYNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rangeSelectBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lowerYNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.upperXNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lowerXNumericUpDown)).EndInit();
@@ -957,23 +966,23 @@
             this.circleSelectPanel.ResumeLayout(false);
             this.circleSelectPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.circleDiameterNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.circleSelectBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleXNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleYNumericUpDown)).EndInit();
             this.grainDetectTabPage.ResumeLayout(false);
-            this.dotDrawPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dotDrawNumericUpDown)).EndInit();
             this.grainDetectPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.whitePixelMinimumNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeOnCircleNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeInCircleNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdTrackBar)).EndInit();
+            this.dotDrawTabPage.ResumeLayout(false);
             this.dotCountPageTab.ResumeLayout(false);
             this.dotCountPanel.ResumeLayout(false);
             this.dotCountPanel.PerformLayout();
             this.lowerPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.rangeSelectBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.circleSelectBindingSource)).EndInit();
+            this.dotDrawPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dotDrawNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1020,26 +1029,20 @@
         private System.Windows.Forms.TextBox dotCountTextBox1;
         private System.Windows.Forms.Label dotCountColorLabel1;
         private System.Windows.Forms.Panel grainDetectPanel;
-        private System.Windows.Forms.Panel dotDrawPanel;
         private System.Windows.Forms.TrackBar binarizationThresholdTrackBar;
         private System.Windows.Forms.CheckBox detectOnCircleCheckBox;
         private System.Windows.Forms.CheckBox detectInCircleCheckBox;
         private System.Windows.Forms.NumericUpDown dotSizeInCircleNumericUpDown;
-        private System.Windows.Forms.Button dotDrawUndoButton;
-        private System.Windows.Forms.Label dotDrawColorLabel;
         private System.Windows.Forms.NumericUpDown binarizationThresholdNumericUpDown;
         private System.Windows.Forms.NumericUpDown dotSizeOnCircleNumericUpDown;
         private System.Windows.Forms.Button grainDetectButton;
-        private System.Windows.Forms.NumericUpDown dotDrawNumericUpDown;
         private System.Windows.Forms.Label binarizationThresholdLabel;
-        private System.Windows.Forms.Button dotDrawRedoButton;
         private System.Windows.Forms.TextBox dotCountTextBox4;
         private System.Windows.Forms.Label dotCountColorLabel4;
         private System.Windows.Forms.TextBox dotCountTextBox3;
         private System.Windows.Forms.Label dotCountColorLabel3;
         private System.Windows.Forms.TextBox dotCountTextBox2;
         private System.Windows.Forms.Label dotCountColorLabel2;
-        private System.Windows.Forms.CheckBox dotDrawCheckBox;
         private System.Windows.Forms.CheckBox binarizationCheckBox;
         private System.Windows.Forms.NumericUpDown whitePixelMinimumNumericUpDown;
         private System.Windows.Forms.Label whitePixelMinimumLabel;
@@ -1047,6 +1050,13 @@
         private System.Windows.Forms.CheckBox dotCountCheckBox3;
         private System.Windows.Forms.CheckBox dotCountCheckBox2;
         private System.Windows.Forms.CheckBox dotCountCheckBox1;
+        private System.Windows.Forms.TabPage dotDrawTabPage;
+        private System.Windows.Forms.Panel dotDrawPanel;
+        private System.Windows.Forms.CheckBox dotDrawCheckBox;
+        private System.Windows.Forms.Button dotDrawRedoButton;
+        private System.Windows.Forms.NumericUpDown dotDrawNumericUpDown;
+        private System.Windows.Forms.Button dotDrawUndoButton;
+        private System.Windows.Forms.Label dotDrawColorLabel;
     }
 }
 
