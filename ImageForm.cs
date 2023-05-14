@@ -55,13 +55,14 @@ namespace GrainDetector
             {
                 circleSelect.DrawOnPaintEvent(e.Graphics);
             }
-            else if (ActionMode == ActionMode.ImageFilter)
-            {
-                imageFilter.DrawOnPaintEvent(e.Graphics);
-            }
+            // 二値化優先
             else if (ActionMode == ActionMode.ImageBinarize)
             {
                 imageBinarize.DrawOnPaintEvent(e.Graphics);
+            }
+            else if (ActionMode == ActionMode.ImageFilter)
+            {
+                imageFilter.DrawOnPaintEvent(e.Graphics);
             }
             else if (ActionMode == ActionMode.DotDraw)
             {

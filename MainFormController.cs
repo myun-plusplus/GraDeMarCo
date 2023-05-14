@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
-using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace GrainDetector
@@ -188,6 +186,9 @@ namespace GrainDetector
             imageDisplay.Image = new Bitmap(originalImage);
             imageDisplay.Initialize();
 
+            imageFilter.OriginalImage = originalImage;
+            imageBinarize.OriginalImage = imageFilter.FilteredImage;
+
             this.imageForm = new ImageForm(imageDisplay, rangeSelect, circleSelect, imageFilter, imageBinarize, dotDraw);
             this.imageForm.Location = new Point(this.Location.X + 320, this.Location.Y);
             this.imageForm.ActionMode = ActionMode.None;
@@ -353,6 +354,7 @@ namespace GrainDetector
 
             if (this.shownImageSelectCLB.GetItemChecked(2))
             {
+                imageFilter.DrawOnBitmap(image);
                 imageBinarize.DrawOnBitmap(image);
             }
             if (this.shownImageSelectCLB.GetItemChecked(0))

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Threading.Tasks;
 
 namespace GrainDetector
@@ -19,7 +20,7 @@ namespace GrainDetector
             set
             {
                 _originalImage = value;
-                FilteredImage = new Bitmap(value);
+                FilteredImage = value.Clone(new Rectangle(0, 0, value.Width, value.Height), PixelFormat.Format24bppRgb);
                 originalImagePixels = new BitmapPixels(value);
                 filteredImagePixels = new BitmapPixels(value);
             }

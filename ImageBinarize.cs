@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace GrainDetector
 {
@@ -17,7 +18,7 @@ namespace GrainDetector
             set
             {
                 _originalImage = value;
-                BinarizedImage = new Bitmap(value);
+                BinarizedImage = value.Clone(new Rectangle(0, 0, value.Width, value.Height), PixelFormat.Format24bppRgb);
                 originalImagePixels = new BitmapPixels(value);
                 binarizedImagePixels = new BitmapPixels(value); // Copyの必要はないが、処理の共通化のため
                 Binarize();
@@ -53,6 +54,7 @@ namespace GrainDetector
                 _binarizationThreshold = value;
                 if (OriginalImage != null)
                 {
+                    originalImagePixels.CopyFromBitmap(OriginalImage);
                     Binarize();
                 }
             }

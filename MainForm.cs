@@ -177,8 +177,6 @@ namespace GrainDetector
         {
             if (imageFilterCheckBox.Checked)
             {
-                imageFilter.OriginalImage = originalImage;
-
                 actionMode = ActionMode.ImageFilter;
             }
             else
@@ -271,8 +269,6 @@ namespace GrainDetector
         {
             if (binarizationCheckBox.Checked)
             {
-                imageBinarize.OriginalImage = originalImage;
-
                 actionMode = ActionMode.ImageBinarize;
             }
             else
