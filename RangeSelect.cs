@@ -64,7 +64,7 @@ namespace GrainDetector
             {
                 return _lowerX;
             }
-            private set
+            set
             {
                 _lowerX = value;
                 OnPropertyChanged(GetName.Of(() => LowerX));
@@ -76,7 +76,7 @@ namespace GrainDetector
             {
                 return _upperX;
             }
-            private set
+            set
             {
                 _upperX = value;
                 OnPropertyChanged(GetName.Of(() => UpperX));
@@ -88,7 +88,7 @@ namespace GrainDetector
             {
                 return _lowerY;
             }
-            private set
+            set
             {
                 _lowerY = value;
                 OnPropertyChanged(GetName.Of(() => LowerY));
@@ -100,7 +100,7 @@ namespace GrainDetector
             {
                 return _upperY;
             }
-            private set
+            set
             {
                 _upperY = value;
                 OnPropertyChanged(GetName.Of(() => UpperY));
