@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace GrainDetector
 {
@@ -37,8 +38,8 @@ namespace GrainDetector
             }
         }
 
-        private Stack<Tuple<Point, SolidBrush, int>> dots;
-        private Stack<Tuple<Point, SolidBrush, int>> undoDots;
+        private List<Tuple<Point, SolidBrush, int>> dots;
+        private List<Tuple<Point, SolidBrush, int>> undoDots;
 
         private Point mouseLocation;
 
@@ -46,8 +47,8 @@ namespace GrainDetector
         {
             this.imageDisplay = imageDisplay;
             brush = new SolidBrush(Color.Transparent);
-            dots = new Stack<Tuple<Point, SolidBrush, int>>();
-            undoDots = new Stack<Tuple<Point, SolidBrush, int>>();
+            dots = new List<Tuple<Point, SolidBrush, int>>();
+            undoDots = new List<Tuple<Point, SolidBrush, int>>();
         }
 
         ~DotDraw()
@@ -98,12 +99,39 @@ namespace GrainDetector
         public void Click(Point location)
         {
             Point adjusted = imageDisplay.GetAdjustedLocation(location);
-            dots.Push(Tuple.Create(adjusted, (SolidBrush)brush.Clone(), DotSize));
+            dots.Add(Tuple.Create(adjusted, (SolidBrush)brush.Clone(), DotSize));
             foreach (var dot in undoDots)
             {
                 dot.Item2.Dispose();
             }
             undoDots.Clear();
+        }
+
+        public void RightClick(Point location)
+        {
+            var di_min = dots.Select(t => getDistance(t.Item1, location))
+                .Zip(Enumerable.Range(0, dots.Count), (d, i) => Tuple.Create(d, i))
+                .Min();
+
+            //int index = -1;
+            //double minDistance = double.MaxValue;
+            //for (int i = 0; i < dots.Count; ++i)
+            //{
+            //    double d = getDistance(dots[i].Item1, location);
+            //    if (d < minDistance)
+            //    {
+            //        index = i;
+            //        minDistance = d;
+            //    }
+            //}
+
+            // 適当
+            if (di_min.Item1 < 16.0)
+            {
+                //var t = dots[di_min.Item2];
+                dots.RemoveAt(di_min.Item2);
+                //undoDots.Add(t);
+            }
         }
 
         public void MouseMove(Point location)
@@ -115,7 +143,9 @@ namespace GrainDetector
         {
             if (dots.Count != 0)
             {
-                undoDots.Push(dots.Pop());
+                var t = dots.Last();
+                dots.RemoveAt(dots.Count - 1);
+                undoDots.Add(t);
             }
         }
 
@@ -123,8 +153,15 @@ namespace GrainDetector
         {
             if (undoDots.Count != 0)
             {
-                dots.Push(undoDots.Pop());
+                var t = undoDots.Last();
+                undoDots.RemoveAt(undoDots.Count - 1);
+                dots.Add(t);
             }
+        }
+
+        private static double getDistance(Point p1, Point p2)
+        {
+            return Math.Sqrt((p2.X - p1.X) * (p2.X - p1.X) + (p2.Y - p1.Y) * (p2.Y - p1.Y));
         }
     }
 }
