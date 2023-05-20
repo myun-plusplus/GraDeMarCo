@@ -44,6 +44,21 @@ namespace GrainDetector
             public Point Location;
             public SolidBrush Brush;
             public int Size;
+
+            ~Dot()
+            {
+                Brush.Dispose();
+            }
+
+            public Dot Clone()
+            {
+                return new Dot
+                {
+                    Location = this.Location,
+                    Brush = (SolidBrush)this.Brush.Clone(),
+                    Size = this.Size
+                };
+            }
         }
 
         private List<Dot> drawnDots;
@@ -65,18 +80,6 @@ namespace GrainDetector
         ~DotDraw()
         {
             brush.Dispose();
-            foreach (Dot dot in drawnDots)
-            {
-                dot.Brush.Dispose();
-            }
-            foreach (var t in doList)
-            {
-                t.Item1.Brush.Dispose();
-            }
-            foreach (var t in undoList)
-            {
-                t.Item1.Brush.Dispose();
-            }
         }
 
         public void DrawOnPaintEvent(Graphics graphics)
@@ -118,15 +121,17 @@ namespace GrainDetector
 
         public void Click(Point location)
         {
-            Dot dot = new Dot {
+            Dot dot = new Dot
+            {
                 Location = imageDisplay.GetAdjustedLocation(location),
                 Brush = (SolidBrush)brush.Clone(),
-                Size = DotSize };
+                Size = DotSize
+            };
 
             drawnDots.Add(dot);
 
-            doList.Add(Tuple.Create(dot, false));
-            clearUndoList();
+            doList.Add(Tuple.Create(dot.Clone(), false));
+            undoList.Clear();
         }
 
         public void RightClick(Point location)
@@ -156,8 +161,19 @@ namespace GrainDetector
                 drawnDots.RemoveAt(di_min.Item2);
 
                 doList.Add(Tuple.Create(dot, true));
-                clearUndoList();
+                undoList.Clear();
             }
+        }
+
+        public void ClearAllDots()
+        {
+            drawnDots.Reverse();
+            doList = drawnDots
+                .Select(dot => Tuple.Create(dot, true))
+                .ToList();
+            undoList.Clear();
+
+            drawnDots.Clear();
         }
 
         public void MouseMove(Point location)
@@ -179,7 +195,7 @@ namespace GrainDetector
             }
             else
             {
-                drawnDots.Add(t.Item1);
+                drawnDots.Add(t.Item1.Clone());
             }
 
             undoList.Add(t);
@@ -196,7 +212,7 @@ namespace GrainDetector
             var t = undoList.Last();
             if (!t.Item2)
             {
-                drawnDots.Add(t.Item1);
+                drawnDots.Add(t.Item1.Clone());
             }
             else
             {
@@ -205,20 +221,6 @@ namespace GrainDetector
 
             doList.Add(t);
             undoList.RemoveAt(undoList.Count - 1);
-        }
-
-        private void clearUndoList()
-        {
-            // BrushをDisposeできる条件がわからないので、GCに任せる
-
-            //foreach (var t in undoList)
-            //{
-            //    if (!t.Item2)
-            //    {
-            //        t.Item1.Brush.Dispose();
-            //    }
-            //}
-            undoList.Clear();
         }
 
         private static double getDistance(Point p1, Point p2)

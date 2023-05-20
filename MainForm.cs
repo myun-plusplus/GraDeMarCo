@@ -386,6 +386,12 @@ namespace GrainDetector
             this.imageForm.Refresh();
         }
 
+        private void clearAllDotsButton_Click(object sender, EventArgs e)
+        {
+            dotDraw.ClearAllDots();
+            this.imageForm.Refresh();
+        }
+
         #endregion
 
         #region DotCounting
