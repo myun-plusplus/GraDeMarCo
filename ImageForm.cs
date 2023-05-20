@@ -82,7 +82,14 @@ namespace GrainDetector
             }
             else if (ActionMode == ActionMode.DotDraw)
             {
-                dotDraw.Click(e.Location);
+                if (e.Button == MouseButtons.Left)
+                {
+                    dotDraw.Click(e.Location);
+                }
+                else if (e.Button == MouseButtons.Right)
+                {
+                    dotDraw.RightClick(e.Location);
+                }
             }
             this.pictureBox.Invalidate();
         }

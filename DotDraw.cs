@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace GrainDetector
 {
@@ -37,43 +38,57 @@ namespace GrainDetector
             }
         }
 
-        private Stack<Tuple<Point, SolidBrush, int>> dots;
-        private Stack<Tuple<Point, SolidBrush, int>> undoDots;
+        private class Dot
+        {
+            public Point Location;
+            public SolidBrush Brush;
+            public int Size;
+        }
+
+        private List<Dot> drawnDots;
 
         private Point mouseLocation;
+
+        // false:draw, true:erase
+        private List<Tuple<Dot, bool>> doList, undoList;
 
         public DotDraw(ImageDisplay imageDisplay)
         {
             this.imageDisplay = imageDisplay;
             brush = new SolidBrush(Color.Transparent);
-            dots = new Stack<Tuple<Point, SolidBrush, int>>();
-            undoDots = new Stack<Tuple<Point, SolidBrush, int>>();
+            drawnDots = new List<Dot>();
+            doList = new List<Tuple<Dot, bool>>();
+            undoList = new List<Tuple<Dot, bool>>();
         }
 
         ~DotDraw()
         {
             brush.Dispose();
-            foreach (var dot in dots)
+            foreach (Dot dot in drawnDots)
             {
-                dot.Item2.Dispose();
+                dot.Brush.Dispose();
             }
-            foreach (var dot in undoDots)
+            foreach (var t in doList)
             {
-                dot.Item2.Dispose();
+                t.Item1.Brush.Dispose();
+            }
+            foreach (var t in undoList)
+            {
+                t.Item1.Brush.Dispose();
             }
         }
 
         public void DrawOnPaintEvent(Graphics graphics)
         {
-            foreach (var dot in dots)
+            foreach (Dot dot in drawnDots)
             {
-                Point shown = imageDisplay.GetShownLocation(dot.Item1);
+                Point shown = imageDisplay.GetShownLocation(dot.Location);
                 graphics.FillRectangle(
-                    dot.Item2,
-                    (float)(shown.X - dot.Item3 * imageDisplay.ZoomMagnification / 2.0),
-                    (float)(shown.Y - dot.Item3 * imageDisplay.ZoomMagnification / 2.0),
-                    (float)(dot.Item3 * imageDisplay.ZoomMagnification),
-                    (float)(dot.Item3 * imageDisplay.ZoomMagnification));
+                    dot.Brush,
+                    (float)(shown.X - dot.Size * imageDisplay.ZoomMagnification / 2.0),
+                    (float)(shown.Y - dot.Size * imageDisplay.ZoomMagnification / 2.0),
+                    (float)(dot.Size * imageDisplay.ZoomMagnification),
+                    (float)(dot.Size * imageDisplay.ZoomMagnification));
             }
 
             graphics.FillRectangle(
@@ -88,22 +103,60 @@ namespace GrainDetector
         {
             using (var graphics = Graphics.FromImage(bitmap))
             {
-                foreach (var dot in dots)
+                foreach (Dot dot in drawnDots)
                 {
-                    graphics.FillRectangle(dot.Item2, (float)(dot.Item1.X - dot.Item3 / 2.0), (float)(dot.Item1.Y - dot.Item3 / 2.0), dot.Item3, dot.Item3);
+                    graphics.FillRectangle(
+                        dot.Brush,
+                        (float)(dot.Location.X - dot.Size / 2.0),
+                        (float)(dot.Location.Y - dot.Size / 2.0),
+                        dot.Size,
+                        dot.Size);
                 }
             }
         }
 
         public void Click(Point location)
         {
-            Point adjusted = imageDisplay.GetAdjustedLocation(location);
-            dots.Push(Tuple.Create(adjusted, (SolidBrush)brush.Clone(), DotSize));
-            foreach (var dot in undoDots)
+            Dot dot = new Dot {
+                Location = imageDisplay.GetAdjustedLocation(location),
+                Brush = (SolidBrush)brush.Clone(),
+                Size = DotSize };
+
+            drawnDots.Add(dot);
+
+            doList.Add(Tuple.Create(dot, false));
+            clearUndoList();
+        }
+
+        public void RightClick(Point location)
+        {
+            var di_min = drawnDots
+                .Select(dot => getDistance(dot.Location, location))
+                .Zip(Enumerable.Range(0, drawnDots.Count), (distance, index) => Tuple.Create(distance, index))
+                .Min();
+
+            //int index = -1;
+            //double minDistance = double.MaxValue;
+            //for (int i = 0; i < dots.Count; ++i)
+            //{
+            //    double d = getDistance(dots[i].Item1, location);
+            //    if (d < minDistance)
+            //    {
+            //        index = i;
+            //        minDistance = d;
+            //    }
+            //}
+
+            // 適当
+            if (di_min.Item1 < 16.0)
             {
-                dot.Item2.Dispose();
+                Dot dot = drawnDots[di_min.Item2];
+
+                drawnDots.RemoveAt(di_min.Item2);
+
+                doList.Add(Tuple.Create(dot, true));
+                clearUndoList();
             }
-            undoDots.Clear();
         }
 
         public void MouseMove(Point location)
@@ -113,18 +166,63 @@ namespace GrainDetector
 
         public void UndoDrawing()
         {
-            if (dots.Count != 0)
+            if (doList.Count == 0)
             {
-                undoDots.Push(dots.Pop());
+                return;
             }
+
+            var t = doList.Last();
+            if (!t.Item2)
+            {
+                drawnDots.RemoveAt(drawnDots.Count - 1);
+            }
+            else
+            {
+                drawnDots.Add(t.Item1);
+            }
+
+            undoList.Add(t);
+            doList.RemoveAt(doList.Count - 1);
         }
 
         public void RedoDrawing()
         {
-            if (undoDots.Count != 0)
+            if (undoList.Count == 0)
             {
-                dots.Push(undoDots.Pop());
+                return;
             }
+
+            var t = undoList.Last();
+            if (!t.Item2)
+            {
+                drawnDots.Add(t.Item1);
+            }
+            else
+            {
+                drawnDots.RemoveAt(drawnDots.Count - 1);
+            }
+
+            doList.Add(t);
+            undoList.RemoveAt(undoList.Count - 1);
+        }
+
+        private void clearUndoList()
+        {
+            // BrushをDisposeできる条件がわからないので、GCに任せる
+
+            //foreach (var t in undoList)
+            //{
+            //    if (!t.Item2)
+            //    {
+            //        t.Item1.Brush.Dispose();
+            //    }
+            //}
+            undoList.Clear();
+        }
+
+        private static double getDistance(Point p1, Point p2)
+        {
+            return Math.Sqrt((p2.X - p1.X) * (p2.X - p1.X) + (p2.Y - p1.Y) * (p2.Y - p1.Y));
         }
     }
 }

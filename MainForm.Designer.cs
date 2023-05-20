@@ -722,6 +722,7 @@
             this.dotDrawCheckBox.Text = "点打ち";
             this.dotDrawCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.dotDrawCheckBox.UseVisualStyleBackColor = true;
+            this.dotDrawCheckBox.CheckedChanged += new System.EventHandler(this.dotDrawCheckBox_CheckedChanged);
             // 
             // dotDrawRedoButton
             // 
@@ -731,6 +732,7 @@
             this.dotDrawRedoButton.TabIndex = 12;
             this.dotDrawRedoButton.Text = "やり直す";
             this.dotDrawRedoButton.UseVisualStyleBackColor = true;
+            this.dotDrawRedoButton.Click += new System.EventHandler(this.dotDrawRedoButton_Click);
             // 
             // dotDrawNumericUpDown
             // 
@@ -754,6 +756,7 @@
             0,
             0,
             0});
+            this.dotDrawNumericUpDown.ValueChanged += new System.EventHandler(this.dotDrawNumericUpDown_ValueChanged);
             // 
             // dotDrawUndoButton
             // 
@@ -763,6 +766,7 @@
             this.dotDrawUndoButton.TabIndex = 8;
             this.dotDrawUndoButton.Text = "元に戻す";
             this.dotDrawUndoButton.UseVisualStyleBackColor = true;
+            this.dotDrawUndoButton.Click += new System.EventHandler(this.dotDrawUndoButton_Click);
             // 
             // dotDrawColorLabel
             // 
@@ -772,6 +776,7 @@
             this.dotDrawColorLabel.Name = "dotDrawColorLabel";
             this.dotDrawColorLabel.Size = new System.Drawing.Size(49, 23);
             this.dotDrawColorLabel.TabIndex = 6;
+            this.dotDrawColorLabel.Click += new System.EventHandler(this.dotDrawColorLabel_Click);
             // 
             // dotCountPageTab
             // 
