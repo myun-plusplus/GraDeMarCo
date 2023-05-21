@@ -117,10 +117,27 @@ namespace GrainDetector
 
         public void Click(Point location)
         {
-            Dot dot = new Dot {
-                Location = imageDisplay.GetAdjustedLocation(location),
+            DrawDot(imageDisplay.GetAdjustedLocation(location), this.brush, this.DotSize);
+        }
+
+        public void RightClick(Point location)
+        {
+            EraseDot(imageDisplay.GetAdjustedLocation(location));
+        }
+
+        public void MouseMove(Point location)
+        {
+            mouseLocation = location;
+        }
+
+        public void DrawDot(Point location, SolidBrush brush, int dotSize)
+        {
+            Dot dot = new Dot
+            {
+                Location = location,
                 Brush = (SolidBrush)brush.Clone(),
-                Size = DotSize };
+                Size = dotSize
+            };
 
             drawnDots.Add(dot);
 
@@ -128,7 +145,7 @@ namespace GrainDetector
             clearUndoList();
         }
 
-        public void RightClick(Point location)
+        public void EraseDot(Point location)
         {
             var di_min = drawnDots
                 .Select(dot => getDistance(dot.Location, location))
@@ -157,11 +174,6 @@ namespace GrainDetector
                 doList.Add(Tuple.Create(dot, true));
                 clearUndoList();
             }
-        }
-
-        public void MouseMove(Point location)
-        {
-            mouseLocation = location;
         }
 
         public void UndoDrawing()

@@ -96,8 +96,9 @@ namespace GrainDetector
             circleSelect = new CircleSelect(imageDisplay);
             imageFilter = new ImageFilter(imageDisplay, rangeSelect);
             imageBinarize = new ImageBinarize(imageDisplay, rangeSelect);
-            grainDetect = new GrainDetect(imageDisplay, rangeSelect, circleSelect);
+            // GrainDetectに渡すため、初期化順が逆
             dotDraw = new DotDraw(imageDisplay);
+            grainDetect = new GrainDetect(imageDisplay, rangeSelect, circleSelect, dotDraw);
             dotCount = new DotCount(rangeSelect);
 
             InitializeComponent();
@@ -366,10 +367,6 @@ namespace GrainDetector
                 circleSelect.DrawOnBitmap(image);
             }
             if (this.shownImageSelectCLB.GetItemChecked(3))
-            {
-                grainDetect.DrawOnImage(image);
-            }
-            if (this.shownImageSelectCLB.GetItemChecked(4))
             {
                 dotDraw.DrawOnBitmap(image);
             }

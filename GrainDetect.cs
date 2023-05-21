@@ -9,12 +9,7 @@ namespace GrainDetector
         private ImageDisplay imageDisplay;
         private RangeSelect rangeSelect;
         private CircleSelect circleSelect;
-
-        public bool IsFinished
-        {
-            get;
-            private set;
-        }
+        private DotDraw dotDraw;
 
         public Bitmap OriginalImage;
         public Bitmap CircleImage;
@@ -67,12 +62,12 @@ namespace GrainDetector
 
         #endregion
 
-        public GrainDetect(ImageDisplay imageDisplay, RangeSelect rangeSelect, CircleSelect circleSelect)
+        public GrainDetect(ImageDisplay imageDisplay, RangeSelect rangeSelect, CircleSelect circleSelect, DotDraw dotDraw)
         {
             this.imageDisplay = imageDisplay;
             this.rangeSelect = rangeSelect;
             this.circleSelect = circleSelect;
-            IsFinished = false;
+            this.dotDraw = dotDraw;
             circleColor = Color.Transparent;
             dotLocationsInCircle = new List<Point>();
             dotLocationsOnCircle = new List<Point>();
@@ -82,28 +77,25 @@ namespace GrainDetector
 
         public void DrawOnPaintEvent(Graphics graphics)
         {
-            if (IsFinished)
+            foreach (Point location in dotLocationsInCircle)
             {
-                foreach (Point location in dotLocationsInCircle)
-                {
-                    Point shown = imageDisplay.GetShownLocation(location);
-                    graphics.FillRectangle(
-                        brushInCircle,
-                        (float)(shown.X - DotSizeInCircle * imageDisplay.ZoomMagnification / 2.0),
-                        (float)(shown.Y - DotSizeInCircle * imageDisplay.ZoomMagnification / 2.0),
-                        (float)(DotSizeInCircle * imageDisplay.ZoomMagnification),
-                        (float)(DotSizeInCircle * imageDisplay.ZoomMagnification));
-                }
-                foreach (Point location in dotLocationsOnCircle)
-                {
-                    Point shown = imageDisplay.GetShownLocation(location);
-                    graphics.FillRectangle(
-                        brushOnCircle,
-                        (float)(shown.X - DotSizeOnCircle * imageDisplay.ZoomMagnification / 2.0),
-                        (float)(shown.Y - DotSizeOnCircle * imageDisplay.ZoomMagnification / 2.0),
-                        (float)(DotSizeOnCircle * imageDisplay.ZoomMagnification),
-                        (float)(DotSizeOnCircle * imageDisplay.ZoomMagnification));
-                }
+                Point shown = imageDisplay.GetShownLocation(location);
+                graphics.FillRectangle(
+                    brushInCircle,
+                    (float)(shown.X - DotSizeInCircle * imageDisplay.ZoomMagnification / 2.0),
+                    (float)(shown.Y - DotSizeInCircle * imageDisplay.ZoomMagnification / 2.0),
+                    (float)(DotSizeInCircle * imageDisplay.ZoomMagnification),
+                    (float)(DotSizeInCircle * imageDisplay.ZoomMagnification));
+            }
+            foreach (Point location in dotLocationsOnCircle)
+            {
+                Point shown = imageDisplay.GetShownLocation(location);
+                graphics.FillRectangle(
+                    brushOnCircle,
+                    (float)(shown.X - DotSizeOnCircle * imageDisplay.ZoomMagnification / 2.0),
+                    (float)(shown.Y - DotSizeOnCircle * imageDisplay.ZoomMagnification / 2.0),
+                    (float)(DotSizeOnCircle * imageDisplay.ZoomMagnification),
+                    (float)(DotSizeOnCircle * imageDisplay.ZoomMagnification));
             }
         }
 
@@ -137,7 +129,6 @@ namespace GrainDetector
 
         public void Detect()
         {
-            IsFinished = false;
             dotLocationsInCircle.Clear();
             dotLocationsOnCircle.Clear();
 
@@ -268,7 +259,14 @@ namespace GrainDetector
                 }
             }
 
-            IsFinished = true;
+            foreach (Point location in dotLocationsInCircle)
+            {
+                dotDraw.DrawDot(location, brushInCircle, DotSizeInCircle);
+            }
+            foreach (Point location in dotLocationsOnCircle)
+            {
+                dotDraw.DrawDot(location, brushOnCircle, DotSizeOnCircle);
+            }
         }
 
         private void searchCircleColor()
