@@ -430,7 +430,7 @@ namespace GrainDetector
 
         private void dotCountStartButton_Click(object sender, EventArgs e)
         {
-            dotCount.Image = createModifiedImage();
+            dotCount.Image = imageDisplay.Image;
             dotCount.TargetColors = new List<Color>
             {
                 this.dotCountColorLabel1.BackColor,
@@ -461,7 +461,25 @@ namespace GrainDetector
         // 連打すると表示されないことがある
         private void shownImageSelectCLB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            imageDisplay.Image = createModifiedImage();
+            var flags = ImageModifyingFlags.None;
+            if (this.shownImageSelectCLB.GetItemChecked(0))
+            {
+                flags |= ImageModifyingFlags.ImageRange;
+            }
+            if (this.shownImageSelectCLB.GetItemChecked(1))
+            {
+                flags |= ImageModifyingFlags.Circle;
+            }
+            if (this.shownImageSelectCLB.GetItemChecked(2))
+            {
+                flags |= ImageModifyingFlags.Binarization;
+            }
+            if (this.shownImageSelectCLB.GetItemChecked(3))
+            {
+                flags |= ImageModifyingFlags.DrawnDots;
+            }
+
+            imageDisplay.Image = createModifiedImage(flags);
 
             imageForm.Refresh();
         }

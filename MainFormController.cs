@@ -349,24 +349,34 @@ namespace GrainDetector
             }
         }
 
-        private Bitmap createModifiedImage()
+        [Flags]
+        private enum ImageModifyingFlags
+        {
+            None = 0,
+            ImageRange = 0b00000001,
+            Circle = 0b00000010,
+            Binarization = 0b00000100,
+            DrawnDots = 0b00001000
+        }
+
+        private Bitmap createModifiedImage(ImageModifyingFlags flags)
         {
             Bitmap image = originalImage.Clone(new Rectangle(0, 0, originalImage.Width, originalImage.Height), PixelFormat.Format24bppRgb);
 
-            if (this.shownImageSelectCLB.GetItemChecked(2))
+            if ((flags & ImageModifyingFlags.Binarization) != ImageModifyingFlags.None)
             {
                 imageFilter.DrawOnBitmap(image);
                 imageBinarize.DrawOnBitmap(image);
             }
-            if (this.shownImageSelectCLB.GetItemChecked(0))
+            if ((flags & ImageModifyingFlags.ImageRange) != ImageModifyingFlags.None)
             {
                 rangeSelect.DrawOnBitmap(image);
             }
-            if (this.shownImageSelectCLB.GetItemChecked(1))
+            if ((flags & ImageModifyingFlags.Circle) != ImageModifyingFlags.None)
             {
                 circleSelect.DrawOnBitmap(image);
             }
-            if (this.shownImageSelectCLB.GetItemChecked(3))
+            if ((flags & ImageModifyingFlags.DrawnDots) != ImageModifyingFlags.None)
             {
                 dotDraw.DrawOnBitmap(image);
             }
