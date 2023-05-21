@@ -89,6 +89,7 @@
             this.imageSaveButton = new System.Windows.Forms.Button();
             this.rangeSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.circleSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.clearAllDotsButton = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
             this.imageSelectPanel.SuspendLayout();
@@ -694,6 +695,7 @@
             // 
             this.dotDrawPanel.BackColor = System.Drawing.Color.Transparent;
             this.dotDrawPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dotDrawPanel.Controls.Add(this.clearAllDotsButton);
             this.dotDrawPanel.Controls.Add(this.dotDrawCheckBox);
             this.dotDrawPanel.Controls.Add(this.dotDrawRedoButton);
             this.dotDrawPanel.Controls.Add(this.dotDrawNumericUpDown);
@@ -720,7 +722,7 @@
             // 
             this.dotDrawRedoButton.Location = new System.Drawing.Point(3, 61);
             this.dotDrawRedoButton.Name = "dotDrawRedoButton";
-            this.dotDrawRedoButton.Size = new System.Drawing.Size(200, 23);
+            this.dotDrawRedoButton.Size = new System.Drawing.Size(145, 23);
             this.dotDrawRedoButton.TabIndex = 12;
             this.dotDrawRedoButton.Text = "やり直す";
             this.dotDrawRedoButton.UseVisualStyleBackColor = true;
@@ -1003,6 +1005,16 @@
             // circleSelectBindingSource
             // 
             this.circleSelectBindingSource.DataSource = typeof(GrainDetector.CircleSelect);
+            //
+            // clearAllDotsButton
+            // 
+            this.clearAllDotsButton.Location = new System.Drawing.Point(154, 61);
+            this.clearAllDotsButton.Name = "clearAllDotsButton";
+            this.clearAllDotsButton.Size = new System.Drawing.Size(49, 23);
+            this.clearAllDotsButton.TabIndex = 14;
+            this.clearAllDotsButton.Text = "全消去";
+            this.clearAllDotsButton.UseVisualStyleBackColor = true;
+            this.clearAllDotsButton.Click += new System.EventHandler(this.clearAllDotsButton_Click);
             // 
             // MainForm
             // 
@@ -1124,6 +1136,7 @@
         private System.Windows.Forms.CheckBox imageFilterCheckBox;
         private System.Windows.Forms.ComboBox blurCcomboBox;
         private System.Windows.Forms.ComboBox edgeDetectComboBox;
+        private System.Windows.Forms.Button clearAllDotsButton;
     }
 }
 
