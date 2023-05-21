@@ -75,7 +75,6 @@ namespace GrainDetector
         private ImageDisplay imageDisplay;
         private ImageRange imageRange;
 
-        private Point _startLocation, _endLocation;
         public Point StartLocation
         {
             get
@@ -94,6 +93,7 @@ namespace GrainDetector
                 imageRange.UpperY = ep.Y;
             }
         }
+
         public Point EndLocation
         {
             get
@@ -113,6 +113,7 @@ namespace GrainDetector
             }
         }
 
+        private Point _startLocation, _endLocation;
         private Pen pen;
 
         public RangeSelect(ImageDisplay imageDisplay, ImageRange imageRange)

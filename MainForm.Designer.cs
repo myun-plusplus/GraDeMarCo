@@ -88,8 +88,8 @@
             this.zoomInButton = new System.Windows.Forms.Button();
             this.shownImageSelectCLB = new System.Windows.Forms.CheckedListBox();
             this.imageSaveButton = new System.Windows.Forms.Button();
-            this.circleSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.imageRangeBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.planimetricCircleBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
             this.imageSelectPanel.SuspendLayout();
@@ -117,8 +117,8 @@
             this.dotCountPageTab.SuspendLayout();
             this.dotCountPanel.SuspendLayout();
             this.lowerPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.circleSelectBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.planimetricCircleBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -343,7 +343,7 @@
             // 
             // circleDiameterNumericUpDown
             // 
-            this.circleDiameterNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.circleSelectBindingSource, "Diameter", true));
+            this.circleDiameterNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.planimetricCircleBindingSource, "Diameter", true));
             this.circleDiameterNumericUpDown.Location = new System.Drawing.Point(51, 63);
             this.circleDiameterNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.circleDiameterNumericUpDown.Name = "circleDiameterNumericUpDown";
@@ -364,7 +364,7 @@
             // 
             // circleXNumericUpDown
             // 
-            this.circleXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.circleSelectBindingSource, "LowerX", true));
+            this.circleXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.planimetricCircleBindingSource, "LowerX", true));
             this.circleXNumericUpDown.Location = new System.Drawing.Point(51, 5);
             this.circleXNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.circleXNumericUpDown.Maximum = new decimal(new int[] {
@@ -380,7 +380,7 @@
             // 
             // circleYNumericUpDown
             // 
-            this.circleYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.circleSelectBindingSource, "LowerY", true));
+            this.circleYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.planimetricCircleBindingSource, "LowerY", true));
             this.circleYNumericUpDown.Location = new System.Drawing.Point(51, 34);
             this.circleYNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.circleYNumericUpDown.Maximum = new decimal(new int[] {
@@ -1008,13 +1008,13 @@
             this.imageSaveButton.UseVisualStyleBackColor = true;
             this.imageSaveButton.Click += new System.EventHandler(this.imageSaveButton_Click);
             // 
-            // circleSelectBindingSource
-            // 
-            this.circleSelectBindingSource.DataSource = typeof(GrainDetector.CircleSelect);
-            // 
             // imageRangeBindingSource
             // 
             this.imageRangeBindingSource.DataSource = typeof(GrainDetector.ImageRange);
+            // 
+            // planimetricCircleBindingSource
+            // 
+            this.planimetricCircleBindingSource.DataSource = typeof(GrainDetector.PlanimetricCircle);
             // 
             // MainForm
             // 
@@ -1056,8 +1056,8 @@
             this.dotCountPanel.ResumeLayout(false);
             this.dotCountPanel.PerformLayout();
             this.lowerPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.circleSelectBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.planimetricCircleBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1096,7 +1096,6 @@
         private System.Windows.Forms.Button zoomInButton;
         private System.Windows.Forms.Label circleColorSelectLabel;
         private System.Windows.Forms.Label circleColorLabel;
-        private System.Windows.Forms.BindingSource circleSelectBindingSource;
         private System.Windows.Forms.TabPage dotCountPageTab;
         private System.Windows.Forms.Panel dotCountPanel;
         private System.Windows.Forms.Button dotCountStartButton;
@@ -1137,6 +1136,7 @@
         private System.Windows.Forms.ComboBox edgeDetectComboBox;
         private System.Windows.Forms.Button clearAllDotsButton;
         private System.Windows.Forms.BindingSource imageRangeBindingSource;
+        private System.Windows.Forms.BindingSource planimetricCircleBindingSource;
     }
 }
 

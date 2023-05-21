@@ -14,6 +14,7 @@ namespace GrainDetector
 
         private ImageDisplay imageDisplay;
         private ImageRange imageRange;
+        private PlanimetricCircle circle;
 
         private RangeSelect rangeSelect;
         private CircleSelect circleSelect;
@@ -95,19 +96,20 @@ namespace GrainDetector
             imageDisplay = new ImageDisplay();
             imageDisplay.Initialize();
             imageRange = new ImageRange();
+            circle = new PlanimetricCircle();
 
             rangeSelect = new RangeSelect(imageDisplay, imageRange);
-            circleSelect = new CircleSelect(imageDisplay);
+            circleSelect = new CircleSelect(imageDisplay, circle);
             imageFilter = new ImageFilter(imageDisplay, imageRange);
             imageBinarize = new ImageBinarize(imageDisplay, imageRange);
             // GrainDetectに渡すため、初期化順が逆
             dotDraw = new DotDraw(imageDisplay);
-            grainDetect = new GrainDetect(imageDisplay, imageRange, circleSelect, dotDraw);
+            grainDetect = new GrainDetect(imageDisplay, imageRange, circle, dotDraw);
             dotCount = new DotCount(imageRange);
 
             InitializeComponent();
             this.imageRangeBindingSource.DataSource = imageRange;
-            this.circleSelectBindingSource.DataSource = circleSelect;
+            this.planimetricCircleBindingSource.DataSource = circle;
 
             isImageFormOpened = false;
             actionMode = ActionMode.None;
@@ -158,7 +160,7 @@ namespace GrainDetector
 #endif
 
             this.circleColorSelectLabel.BackColor = Color.Blue;
-            circleSelect.CircleColor = Color.Blue;
+            circle.Color = Color.Blue;
 
             imageBinarize.BinarizationThreshold = (int)this.binarizationThresholdNumericUpDown.Value;
 

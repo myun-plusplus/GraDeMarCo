@@ -8,7 +8,7 @@ namespace GrainDetector
     {
         private ImageDisplay imageDisplay;
         private ImageRange imageRange;
-        private CircleSelect circleSelect;
+        private PlanimetricCircle circle;
         private DotDraw dotDraw;
 
         public Bitmap OriginalImage;
@@ -62,11 +62,11 @@ namespace GrainDetector
 
         #endregion
 
-        public GrainDetect(ImageDisplay imageDisplay, ImageRange imageRange, CircleSelect circleSelect, DotDraw dotDraw)
+        public GrainDetect(ImageDisplay imageDisplay, ImageRange imageRange, PlanimetricCircle circle, DotDraw dotDraw)
         {
             this.imageDisplay = imageDisplay;
             this.imageRange = imageRange;
-            this.circleSelect = circleSelect;
+            this.circle = circle;
             this.dotDraw = dotDraw;
             circleColor = Color.Transparent;
             dotLocationsInCircle = new List<Point>();
@@ -154,12 +154,12 @@ namespace GrainDetector
                         }
                     }
 
-                    if (circleSelect.Diameter >= 3)
+                    if (circle.Diameter >= 3)
                     {
                         var stack = new Stack<Tuple<int, int>>();
 
-                        circleMap[circleSelect.LowerY + circleSelect.Diameter / 2, circleSelect.LowerX + circleSelect.Diameter / 2] = true;
-                        stack.Push(Tuple.Create(circleSelect.LowerX + circleSelect.Diameter / 2, circleSelect.LowerY + circleSelect.Diameter / 2));
+                        circleMap[circle.LowerY + circle.Diameter / 2, circle.LowerX + circle.Diameter / 2] = true;
+                        stack.Push(Tuple.Create(circle.LowerX + circle.Diameter / 2, circle.LowerY + circle.Diameter / 2));
 
                         while (stack.Count != 0)
                         {

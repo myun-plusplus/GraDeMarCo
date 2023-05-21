@@ -165,7 +165,7 @@ namespace GrainDetector
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
                 this.circleColorSelectLabel.BackColor = colorDialog.Color;
-                circleSelect.CircleColor = colorDialog.Color;
+                circle.Color = colorDialog.Color;
             }
         }
 

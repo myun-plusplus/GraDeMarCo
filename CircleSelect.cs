@@ -3,59 +3,8 @@ using System.Drawing;
 
 namespace GrainDetector
 {
-    public class CircleSelect : BindingBase
+    public class PlanimetricCircle : BindingBase
     {
-        private ImageDisplay imageDisplay;
-
-        enum State
-        {
-            NotActive,
-            NoneSelected,
-            StartLocationSelected,
-            RangeSelected
-        }
-        private State state;
-
-        #region LocationCoordinates
-
-        private Point _startLocation, _endLocation;
-        public Point StartLocation
-        {
-            get
-            {
-                return _startLocation;
-            }
-            private set
-            {
-                _startLocation = value;
-                var t = orderPoints(_startLocation, _endLocation);
-                Point sp = imageDisplay.GetAdjustedLocation(t.Item1);
-                Point ep = imageDisplay.GetAdjustedLocation(t.Item2);
-                LowerX = sp.X;
-                LowerY = sp.Y;
-                Diameter = Math.Min(ep.X - sp.X, ep.Y - sp.Y);
-            }
-        }
-
-        public Point EndLocation
-        {
-            get
-            {
-                return _endLocation;
-            }
-            private set
-            {
-                _endLocation = value;
-                var t = orderPoints(_startLocation, _endLocation);
-                Point sp = imageDisplay.GetAdjustedLocation(t.Item1);
-                Point ep = imageDisplay.GetAdjustedLocation(t.Item2);
-                LowerX = sp.X;
-                LowerY = sp.Y;
-                Diameter = Math.Min(ep.X - sp.X, ep.Y - sp.Y);
-            }
-        }
-
-        private int _lowerX, _lowerY;
         public int LowerX
         {
             get
@@ -68,6 +17,7 @@ namespace GrainDetector
                 OnPropertyChanged(GetName.Of(() => LowerX));
             }
         }
+
         public int LowerY
         {
             get
@@ -95,40 +45,97 @@ namespace GrainDetector
             }
         }
 
-        #endregion
-
-        private Pen pen;
-
-        private Color _circleColor;
-        public Color CircleColor
+        public Color Color
         {
             get
             {
-                return _circleColor;
+                return _color;
             }
             set
             {
-                _circleColor = value;
-                pen.Color = value;
+                _color = value;
+                Pen.Color = value;
             }
         }
 
-        public CircleSelect(ImageDisplay imageDisplay)
+        public Pen Pen
+        {
+            get;
+            private set;
+        }
+
+        private int _lowerX, _lowerY;
+        private Color _color;
+
+        public PlanimetricCircle()
+        {
+            Pen = new Pen(Color.Transparent);
+            Color = Color.Transparent;
+        }
+    }
+
+    public class CircleSelect : BindingBase
+    {
+        enum State
+        {
+            NotActive,
+            NoneSelected,
+            StartLocationSelected,
+            RangeSelected
+        }
+        private State state;
+
+        private ImageDisplay imageDisplay;
+        private PlanimetricCircle circle;
+
+        public Point StartLocation
+        {
+            get
+            {
+                return _startLocation;
+            }
+            private set
+            {
+                _startLocation = value;
+                var t = orderPoints(_startLocation, _endLocation);
+                Point sp = imageDisplay.GetAdjustedLocation(t.Item1);
+                Point ep = imageDisplay.GetAdjustedLocation(t.Item2);
+                circle.LowerX = sp.X;
+                circle.LowerY = sp.Y;
+                circle.Diameter = Math.Min(ep.X - sp.X, ep.Y - sp.Y);
+            }
+        }
+
+        public Point EndLocation
+        {
+            get
+            {
+                return _endLocation;
+            }
+            private set
+            {
+                _endLocation = value;
+                var t = orderPoints(_startLocation, _endLocation);
+                Point sp = imageDisplay.GetAdjustedLocation(t.Item1);
+                Point ep = imageDisplay.GetAdjustedLocation(t.Item2);
+                circle.LowerX = sp.X;
+                circle.LowerY = sp.Y;
+                circle.Diameter = Math.Min(ep.X - sp.X, ep.Y - sp.Y);
+            }
+        }
+
+        private Point _startLocation, _endLocation;
+
+        public CircleSelect(ImageDisplay imageDisplay, PlanimetricCircle circle)
         {
             this.imageDisplay = imageDisplay;
+            this.circle = circle;
             state = State.NotActive;
-            pen = new Pen(Color.Transparent, 1);
-            CircleColor = Color.Transparent;
         }
 
         public void Start()
         {
             state = State.NoneSelected;
-            _startLocation = new Point(0, 0);
-            _endLocation = new Point(0, 0);
-            LowerX = 0;
-            LowerY = 0;
-            Diameter = Math.Min(imageDisplay.Image.Width - 1, imageDisplay.Image.Height - 1);
         }
 
         public void Stop()
@@ -142,7 +149,12 @@ namespace GrainDetector
             {
                 var t = orderPoints(StartLocation, EndLocation);
                 int diameter = Math.Min(t.Item2.X - t.Item1.X, t.Item2.Y - t.Item1.Y);
-                graphics.DrawEllipse(pen, t.Item1.X, t.Item1.Y, diameter, diameter);
+                graphics.DrawEllipse(
+                    circle.Pen,
+                    t.Item1.X,
+                    t.Item1.Y,
+                    diameter,
+                    diameter);
             }
         }
 
@@ -151,7 +163,12 @@ namespace GrainDetector
             using (var graphics = Graphics.FromImage(bitmap))
             {
                 graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
-                graphics.DrawEllipse(pen, LowerX, LowerY, Diameter, Diameter);
+                graphics.DrawEllipse(
+                    circle.Pen,
+                    circle.LowerX,
+                    circle.LowerY,
+                    circle.Diameter,
+                    circle.Diameter);
             }
         }
 
