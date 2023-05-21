@@ -8,7 +8,7 @@ namespace GrainDetector
     public class ImageFilter : BindingBase
     {
         private ImageDisplay imageDisplay;
-        private RangeSelect rangeSelect;
+        private ImageRange imageRange;
 
         private Bitmap _originalImage;
         public Bitmap OriginalImage
@@ -51,10 +51,10 @@ namespace GrainDetector
         private BitmapPixels originalImagePixels;
         private BitmapPixels filteredImagePixels;
 
-        public ImageFilter(ImageDisplay imageDisplay, RangeSelect rangeSelect)
+        public ImageFilter(ImageDisplay imageDisplay, ImageRange imageRange)
         {
             this.imageDisplay = imageDisplay;
-            this.rangeSelect = rangeSelect;
+            this.imageRange = imageRange;
         }
 
         ~ImageFilter()
@@ -120,8 +120,8 @@ namespace GrainDetector
         {
             int width = OriginalImage.Width;
             int height = OriginalImage.Height;
-            int lowerX = rangeSelect.LowerX, upperX = rangeSelect.UpperX;
-            int lowerY = rangeSelect.LowerY, upperY = rangeSelect.UpperY;
+            int lowerX = imageRange.LowerX, upperX = imageRange.UpperX;
+            int lowerY = imageRange.LowerY, upperY = imageRange.UpperY;
 
             byte[,] srcPixels = new byte[height + 2, (width + 2) * 3];
             for (int y = lowerY; y <= upperY; ++y)
@@ -223,7 +223,7 @@ namespace GrainDetector
 
         private void applyFilter(byte[,] sourcePixels, byte[,] destPixels, int[,] filter, int denominator)
         {
-            int lowerY = rangeSelect.LowerY, upperY = rangeSelect.UpperY;
+            int lowerY = imageRange.LowerY, upperY = imageRange.UpperY;
 
             this.sourcePixels = sourcePixels;
             this.destPixels = destPixels;
@@ -235,7 +235,7 @@ namespace GrainDetector
 
         private void filterOneLine(int y)
         {
-            int lowerX = rangeSelect.LowerX, upperX = rangeSelect.UpperX;
+            int lowerX = imageRange.LowerX, upperX = imageRange.UpperX;
 
             for (int x = 1 + lowerX; x <= upperX + 1; ++x)
             {
@@ -257,8 +257,8 @@ namespace GrainDetector
 
         private void reflectToFrame(byte[,] pixels)
         {
-            int lowerX = rangeSelect.LowerX, upperX = rangeSelect.UpperX;
-            int lowerY = rangeSelect.LowerY, upperY = rangeSelect.UpperY;
+            int lowerX = imageRange.LowerX, upperX = imageRange.UpperX;
+            int lowerY = imageRange.LowerY, upperY = imageRange.UpperY;
 
             for (int y = 1 + lowerY; y <= upperY + 1; ++y)
             {

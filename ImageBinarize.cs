@@ -6,7 +6,7 @@ namespace GrainDetector
     public class ImageBinarize
     {
         private ImageDisplay imageDisplay;
-        private RangeSelect rangeSelect;
+        private ImageRange imageRange;
 
         private Bitmap _originalImage;
         public Bitmap OriginalImage
@@ -63,10 +63,10 @@ namespace GrainDetector
         private BitmapPixels originalImagePixels;
         private BitmapPixels binarizedImagePixels;
 
-        public ImageBinarize(ImageDisplay imageDisplay, RangeSelect rangeSelect)
+        public ImageBinarize(ImageDisplay imageDisplay, ImageRange imageRange)
         {
             this.imageDisplay = imageDisplay;
-            this.rangeSelect = rangeSelect;
+            this.imageRange = imageRange;
             BinarizationThreshold = 0;
         }
 
@@ -103,8 +103,8 @@ namespace GrainDetector
         {
             BitmapPixels.Copy(originalImagePixels, binarizedImagePixels);
 
-            int lowerX = rangeSelect.LowerX, upperX = rangeSelect.UpperX;
-            int lowerY = rangeSelect.LowerY, upperY = rangeSelect.UpperY;
+            int lowerX = imageRange.LowerX, upperX = imageRange.UpperX;
+            int lowerY = imageRange.LowerY, upperY = imageRange.UpperY;
             for (int y = lowerY; y <= upperY; ++y)
             {
                 for (int x = lowerX; x <= upperX; ++x)

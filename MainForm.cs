@@ -127,10 +127,10 @@ namespace GrainDetector
             decimal x = this.circleXNumericUpDown.Value;
             decimal y = this.circleYNumericUpDown.Value;
             decimal d = this.circleDiameterNumericUpDown.Value;
-            if (rangeSelect.LowerX <= x && x <= rangeSelect.UpperX &&
-                rangeSelect.LowerY <= y && y <= rangeSelect.UpperY &&
-                x + d - 1 <= rangeSelect.UpperX &&
-                y + d - 1 <= rangeSelect.UpperY)
+            if (imageRange.LowerX <= x && x <= imageRange.UpperX &&
+                imageRange.LowerY <= y && y <= imageRange.UpperY &&
+                x + d - 1 <= imageRange.UpperX &&
+                y + d - 1 <= imageRange.UpperY)
             {
                 this.circleXNumericUpDown.BackColor = SystemColors.Window;
                 this.circleYNumericUpDown.BackColor = SystemColors.Window;

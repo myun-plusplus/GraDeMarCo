@@ -7,7 +7,7 @@ namespace GrainDetector
 {
     public class DotCount
     {
-        private RangeSelect rangeSelect;
+        private ImageRange imageRange;
 
         private Bitmap _image;
         public Bitmap Image
@@ -29,9 +29,9 @@ namespace GrainDetector
 
         private BitmapPixels bitmapPixels;
 
-        public DotCount(RangeSelect rangeSelect)
+        public DotCount(ImageRange imageRange)
         {
-            this.rangeSelect = rangeSelect;
+            this.imageRange = imageRange;
         }
 
         public List<int> CountDots()
@@ -51,8 +51,8 @@ namespace GrainDetector
 
             int count = 0;
 
-            int lowerX = rangeSelect.LowerX, upperX = rangeSelect.UpperX;
-            int lowerY = rangeSelect.LowerY, upperY = rangeSelect.UpperY;
+            int lowerX = imageRange.LowerX, upperX = imageRange.UpperX;
+            int lowerY = imageRange.LowerY, upperY = imageRange.UpperY;
             for (int y = lowerY; y <= upperY; ++y)
             {
                 for (int x = lowerX; x <= upperX; ++x)
@@ -81,8 +81,8 @@ namespace GrainDetector
             visited[y, x] = true;
             stack.Push(new Tuple<int, int>(x, y));
 
-            int lowerX = rangeSelect.LowerX, upperX = rangeSelect.UpperX;
-            int lowerY = rangeSelect.LowerY, upperY = rangeSelect.UpperY;
+            int lowerX = imageRange.LowerX, upperX = imageRange.UpperX;
+            int lowerY = imageRange.LowerY, upperY = imageRange.UpperY;
             while (stack.Count != 0)
             {
                 var t = stack.Pop();

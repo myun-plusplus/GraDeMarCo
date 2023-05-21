@@ -62,6 +62,7 @@
             this.detectInCircleCheckBox = new System.Windows.Forms.CheckBox();
             this.dotDrawTabPage = new System.Windows.Forms.TabPage();
             this.dotDrawPanel = new System.Windows.Forms.Panel();
+            this.clearAllDotsButton = new System.Windows.Forms.Button();
             this.dotDrawCheckBox = new System.Windows.Forms.CheckBox();
             this.dotDrawRedoButton = new System.Windows.Forms.Button();
             this.dotDrawNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -87,9 +88,8 @@
             this.zoomInButton = new System.Windows.Forms.Button();
             this.shownImageSelectCLB = new System.Windows.Forms.CheckedListBox();
             this.imageSaveButton = new System.Windows.Forms.Button();
-            this.rangeSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.circleSelectBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.clearAllDotsButton = new System.Windows.Forms.Button();
+            this.imageRangeBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
             this.imageSelectPanel.SuspendLayout();
@@ -117,8 +117,8 @@
             this.dotCountPageTab.SuspendLayout();
             this.dotCountPanel.SuspendLayout();
             this.lowerPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.rangeSelectBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleSelectBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -213,7 +213,7 @@
             // 
             // upperYNumericUpDown
             // 
-            this.upperYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.rangeSelectBindingSource, "UpperY", true));
+            this.upperYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "UpperY", true));
             this.upperYNumericUpDown.Location = new System.Drawing.Point(91, 34);
             this.upperYNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.upperYNumericUpDown.Name = "upperYNumericUpDown";
@@ -224,7 +224,7 @@
             // 
             // lowerYNumericUpDown
             // 
-            this.lowerYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.rangeSelectBindingSource, "LowerY", true));
+            this.lowerYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "LowerY", true));
             this.lowerYNumericUpDown.Location = new System.Drawing.Point(25, 34);
             this.lowerYNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lowerYNumericUpDown.Name = "lowerYNumericUpDown";
@@ -244,7 +244,7 @@
             // 
             // upperXNumericUpDown
             // 
-            this.upperXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.rangeSelectBindingSource, "UpperX", true));
+            this.upperXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "UpperX", true));
             this.upperXNumericUpDown.Location = new System.Drawing.Point(91, 5);
             this.upperXNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.upperXNumericUpDown.Name = "upperXNumericUpDown";
@@ -255,7 +255,7 @@
             // 
             // lowerXNumericUpDown
             // 
-            this.lowerXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.rangeSelectBindingSource, "LowerX", true));
+            this.lowerXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "LowerX", true));
             this.lowerXNumericUpDown.Location = new System.Drawing.Point(25, 5);
             this.lowerXNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lowerXNumericUpDown.Name = "lowerXNumericUpDown";
@@ -706,6 +706,16 @@
             this.dotDrawPanel.Size = new System.Drawing.Size(210, 91);
             this.dotDrawPanel.TabIndex = 3;
             // 
+            // clearAllDotsButton
+            // 
+            this.clearAllDotsButton.Location = new System.Drawing.Point(154, 61);
+            this.clearAllDotsButton.Name = "clearAllDotsButton";
+            this.clearAllDotsButton.Size = new System.Drawing.Size(49, 23);
+            this.clearAllDotsButton.TabIndex = 14;
+            this.clearAllDotsButton.Text = "全消去";
+            this.clearAllDotsButton.UseVisualStyleBackColor = true;
+            this.clearAllDotsButton.Click += new System.EventHandler(this.clearAllDotsButton_Click);
+            // 
             // dotDrawCheckBox
             // 
             this.dotDrawCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
@@ -998,23 +1008,13 @@
             this.imageSaveButton.UseVisualStyleBackColor = true;
             this.imageSaveButton.Click += new System.EventHandler(this.imageSaveButton_Click);
             // 
-            // rangeSelectBindingSource
-            // 
-            this.rangeSelectBindingSource.DataSource = typeof(GrainDetector.RangeSelect);
-            // 
             // circleSelectBindingSource
             // 
             this.circleSelectBindingSource.DataSource = typeof(GrainDetector.CircleSelect);
-            //
-            // clearAllDotsButton
             // 
-            this.clearAllDotsButton.Location = new System.Drawing.Point(154, 61);
-            this.clearAllDotsButton.Name = "clearAllDotsButton";
-            this.clearAllDotsButton.Size = new System.Drawing.Size(49, 23);
-            this.clearAllDotsButton.TabIndex = 14;
-            this.clearAllDotsButton.Text = "全消去";
-            this.clearAllDotsButton.UseVisualStyleBackColor = true;
-            this.clearAllDotsButton.Click += new System.EventHandler(this.clearAllDotsButton_Click);
+            // imageRangeBindingSource
+            // 
+            this.imageRangeBindingSource.DataSource = typeof(GrainDetector.ImageRange);
             // 
             // MainForm
             // 
@@ -1056,8 +1056,8 @@
             this.dotCountPanel.ResumeLayout(false);
             this.dotCountPanel.PerformLayout();
             this.lowerPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.rangeSelectBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleSelectBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1094,7 +1094,6 @@
         private System.Windows.Forms.NumericUpDown circleDiameterNumericUpDown;
         private System.Windows.Forms.Button zoomOutButton;
         private System.Windows.Forms.Button zoomInButton;
-        private System.Windows.Forms.BindingSource rangeSelectBindingSource;
         private System.Windows.Forms.Label circleColorSelectLabel;
         private System.Windows.Forms.Label circleColorLabel;
         private System.Windows.Forms.BindingSource circleSelectBindingSource;
@@ -1137,6 +1136,7 @@
         private System.Windows.Forms.ComboBox blurCcomboBox;
         private System.Windows.Forms.ComboBox edgeDetectComboBox;
         private System.Windows.Forms.Button clearAllDotsButton;
+        private System.Windows.Forms.BindingSource imageRangeBindingSource;
     }
 }
 

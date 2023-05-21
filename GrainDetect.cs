@@ -7,7 +7,7 @@ namespace GrainDetector
     public class GrainDetect
     {
         private ImageDisplay imageDisplay;
-        private RangeSelect rangeSelect;
+        private ImageRange imageRange;
         private CircleSelect circleSelect;
         private DotDraw dotDraw;
 
@@ -62,10 +62,10 @@ namespace GrainDetector
 
         #endregion
 
-        public GrainDetect(ImageDisplay imageDisplay, RangeSelect rangeSelect, CircleSelect circleSelect, DotDraw dotDraw)
+        public GrainDetect(ImageDisplay imageDisplay, ImageRange imageRange, CircleSelect circleSelect, DotDraw dotDraw)
         {
             this.imageDisplay = imageDisplay;
-            this.rangeSelect = rangeSelect;
+            this.imageRange = imageRange;
             this.circleSelect = circleSelect;
             this.dotDraw = dotDraw;
             circleColor = Color.Transparent;
@@ -140,8 +140,8 @@ namespace GrainDetector
 
                 int width = originalImagePixels.Width;
                 int height = originalImagePixels.Height;
-                int lowerX = rangeSelect.LowerX, upperX = rangeSelect.UpperX;
-                int lowerY = rangeSelect.LowerY, upperY = rangeSelect.UpperY;
+                int lowerX = imageRange.LowerX, upperX = imageRange.UpperX;
+                int lowerY = imageRange.LowerY, upperY = imageRange.UpperY;
 
                 bool[,] circleMap = new bool[height, width];
                 {
@@ -271,8 +271,8 @@ namespace GrainDetector
 
         private void searchCircleColor()
         {
-            int lowerX = rangeSelect.LowerX, upperX = rangeSelect.UpperX;
-            int lowerY = rangeSelect.LowerY, upperY = rangeSelect.UpperY;
+            int lowerX = imageRange.LowerX, upperX = imageRange.UpperX;
+            int lowerY = imageRange.LowerY, upperY = imageRange.UpperY;
             for (int y = lowerY; y <= upperY; ++y)
             {
                 for (int x = lowerX; x <= upperX; ++x)

@@ -13,6 +13,8 @@ namespace GrainDetector
         private ColorDialog colorDialog;
 
         private ImageDisplay imageDisplay;
+        private ImageRange imageRange;
+
         private RangeSelect rangeSelect;
         private CircleSelect circleSelect;
         private ImageFilter imageFilter;
@@ -92,17 +94,19 @@ namespace GrainDetector
 
             imageDisplay = new ImageDisplay();
             imageDisplay.Initialize();
-            rangeSelect = new RangeSelect(imageDisplay);
+            imageRange = new ImageRange();
+
+            rangeSelect = new RangeSelect(imageDisplay, imageRange);
             circleSelect = new CircleSelect(imageDisplay);
-            imageFilter = new ImageFilter(imageDisplay, rangeSelect);
-            imageBinarize = new ImageBinarize(imageDisplay, rangeSelect);
+            imageFilter = new ImageFilter(imageDisplay, imageRange);
+            imageBinarize = new ImageBinarize(imageDisplay, imageRange);
             // GrainDetectに渡すため、初期化順が逆
             dotDraw = new DotDraw(imageDisplay);
-            grainDetect = new GrainDetect(imageDisplay, rangeSelect, circleSelect, dotDraw);
-            dotCount = new DotCount(rangeSelect);
+            grainDetect = new GrainDetect(imageDisplay, imageRange, circleSelect, dotDraw);
+            dotCount = new DotCount(imageRange);
 
             InitializeComponent();
-            this.rangeSelectBindingSource.DataSource = rangeSelect;
+            this.imageRangeBindingSource.DataSource = imageRange;
             this.circleSelectBindingSource.DataSource = circleSelect;
 
             isImageFormOpened = false;
