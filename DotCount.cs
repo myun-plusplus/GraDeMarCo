@@ -9,11 +9,25 @@ namespace GrainDetector
     {
         private RangeSelect rangeSelect;
 
-        public Bitmap Image;
+        private Bitmap _image;
+        public Bitmap Image
+        {
+            get
+            {
+                return _image;
+            }
+            set
+            {
+                _image = value;
+                bitmapPixels = new BitmapPixels(value);
+            }
+        }
 
         public List<Color> TargetColors;
 
         public List<bool> IsCounted;
+
+        private BitmapPixels bitmapPixels;
 
         public DotCount(RangeSelect rangeSelect)
         {
@@ -22,14 +36,14 @@ namespace GrainDetector
 
         public List<int> CountDots()
         {
-            return TargetColors.Zip(IsCounted, (c, i) => Tuple.Create(c, i)).Select(t => t.Item2 ? useDFS(t.Item1) : 0).ToList();
+            return TargetColors.Zip(IsCounted, (c, i) => Tuple.Create(c, i)).Select(t => t.Item2 ? countDotsWithDfs(t.Item1) : 0).ToList();
         }
 
         private Color targetColor;
         private bool[,] visited;
         private Stack<Tuple<int, int>> stack;
 
-        private int useDFS(Color color)
+        private int countDotsWithDfs(Color color)
         {
             targetColor = color;
             visited = new bool[Image.Height, Image.Width];
@@ -43,7 +57,7 @@ namespace GrainDetector
             {
                 for (int x = lowerX; x <= upperX; ++x)
                 {
-                    if (Image.GetPixel(x, y).ToArgb() != targetColor.ToArgb())
+                    if (!bitmapPixels.Equals(x, y, targetColor))
                     {
                         continue;
                     }
@@ -76,7 +90,7 @@ namespace GrainDetector
                 {
                     int nx = t.Item1 + dx[d];
                     int ny = t.Item2 + dy[d];
-                    if (Image.GetPixel(nx, ny).ToArgb() != targetColor.ToArgb())
+                    if (!bitmapPixels.Equals(nx, ny, targetColor))
                     {
                         continue;
                     }
