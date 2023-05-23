@@ -12,7 +12,7 @@ namespace GrainDetector
     {
         private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            if (!isImageFormOpened)
+            if (!imageFormIsLoaded)
             {
                 e.Cancel = true;
             }
@@ -35,7 +35,7 @@ namespace GrainDetector
         private void imageOpenButton_Click(object sender, EventArgs e)
         {
             closeImageForm();
-            imageDisplay.Image = null;
+            //imageDisplay.Image = null;
 
             String filePath = this.filePathTextBox.Text;
             if (!File.Exists(filePath))
@@ -43,18 +43,27 @@ namespace GrainDetector
                 MessageBox.Show("選択したファイルが存在しません。", "エラー");
                 return;
             }
+
+            Bitmap tmp = null;
+
             try
             {
-                Bitmap tmp = new Bitmap(filePath);
-                originalImage = tmp.Clone(new Rectangle(0, 0, tmp.Width, tmp.Height), PixelFormat.Format24bppRgb);
+                tmp = new Bitmap(filePath);
+                imageData.OriginalImage = tmp.Clone(new Rectangle(0, 0, tmp.Width, tmp.Height), PixelFormat.Format24bppRgb);
             }
             catch (ArgumentException)
             {
                 MessageBox.Show("選択したファイルは画像ファイルではありません。", "エラー");
                 return;
             }
+            finally
+            {
+                if (tmp != null)
+                {
+                    tmp.Dispose();
+                }
+            }
 
-            isImageFormOpened = true;
             openImageForm();
         }
 
@@ -188,9 +197,9 @@ namespace GrainDetector
             this.imageForm.Refresh();
         }
 
-        private void blurCcomboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void blurComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (blurCcomboBox.SelectedIndex)
+            switch (blurComboBox.SelectedIndex)
             {
                 case 0:
                     imageFilter.ApplysGaussian = false;
@@ -205,12 +214,9 @@ namespace GrainDetector
                     imageFilter.ApplysGaussian3 = true;
                     break;
             }
-            if (imageFilter.OriginalImage != null)
-            {
-                imageFilter.Filter();
-            }
+            imageFilter.Filter();
 
-            if (imageForm != null)
+            if (imageFormIsLoaded)
             {
                 this.imageForm.Refresh();
             }
@@ -233,12 +239,9 @@ namespace GrainDetector
                     imageFilter.ApplysLaplacian = true;
                     break;
             }
-            if (imageFilter.OriginalImage != null)
-            {
-                imageFilter.Filter();
-            }
+            imageFilter.Filter();
 
-            if (imageForm != null)
+            if (imageFormIsLoaded)
             {
                 this.imageForm.Refresh();
             }
@@ -328,20 +331,19 @@ namespace GrainDetector
 
         private void dotDetectButton_Click(object sender, EventArgs e)
         {
-            grainDetect.OriginalImage = originalImage;
-
-            Bitmap circleImage = originalImage.Clone(new Rectangle(0, 0, originalImage.Width, originalImage.Height), PixelFormat.Format24bppRgb);
+            Bitmap circleImage = imageData.OriginalImage.Clone(
+                new Rectangle(0, 0, imageData.OriginalImage.Width, imageData.OriginalImage.Height),
+                PixelFormat.Format24bppRgb);
             circleSelect.DrawOnBitmap(circleImage);
-            grainDetect.CircleImage = circleImage;
+            imageData.CircleImage = circleImage;
 
-            Bitmap binarizedImage = originalImage.Clone(new Rectangle(0, 0, originalImage.Width, originalImage.Height), PixelFormat.Format24bppRgb);
+            Bitmap binarizedImage = imageData.OriginalImage.Clone(
+                new Rectangle(0, 0, imageData.OriginalImage.Width, imageData.OriginalImage.Height),
+                PixelFormat.Format24bppRgb);
             imageBinarize.DrawOnBitmap(binarizedImage);
-            grainDetect.BinarizedImage = binarizedImage;
+            imageData.BinarizedImage = binarizedImage;
 
             grainDetect.Detect();
-
-            circleImage.Dispose();
-            binarizedImage.Dispose();
         }
 
         #endregion
@@ -430,7 +432,6 @@ namespace GrainDetector
 
         private void dotCountStartButton_Click(object sender, EventArgs e)
         {
-            dotCount.Image = imageDisplay.Image;
             dotCount.TargetColors = new List<Color>
             {
                 this.dotCountColorLabel1.BackColor,
@@ -479,7 +480,7 @@ namespace GrainDetector
                 flags |= ImageModifyingFlags.DrawnDots;
             }
 
-            imageDisplay.Image = createModifiedImage(flags);
+            imageData.ShownImage = createModifiedImage(flags);
 
             imageForm.Refresh();
         }
@@ -521,15 +522,15 @@ namespace GrainDetector
                 string extension = Path.GetExtension(this.saveFileDialog.FileName);
                 if (extension == ".bmp")
                 {
-                    imageDisplay.Image.Save(this.saveFileDialog.FileName, ImageFormat.Bmp);
+                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Bmp);
                 }
                 else if (extension == ".exif")
                 {
-                    imageDisplay.Image.Save(this.saveFileDialog.FileName, ImageFormat.Exif);
+                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Exif);
                 }
                 else if (extension == ".gif")
                 {
-                    imageDisplay.Image.Save(this.saveFileDialog.FileName, ImageFormat.Gif);
+                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Gif);
                 }
                 else if (extension == ".jpg")
                 {
@@ -547,15 +548,15 @@ namespace GrainDetector
                         }
                     }
 
-                    imageDisplay.Image.Save(this.saveFileDialog.FileName, jpgEncoder, eps);
+                    imageData.ShownImage.Save(this.saveFileDialog.FileName, jpgEncoder, eps);
                 }
                 else if (extension == ".png")
                 {
-                    imageDisplay.Image.Save(this.saveFileDialog.FileName, ImageFormat.Png);
+                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Png);
                 }
                 else if (extension == ".tiff")
                 {
-                    imageDisplay.Image.Save(this.saveFileDialog.FileName, ImageFormat.Tiff);
+                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Tiff);
                 }
             }
         }
@@ -567,12 +568,12 @@ namespace GrainDetector
             actionMode = ActionMode.None;
 
             this.tabControl.SelectedIndex = 0;
-            for (int i = 0; i < 5; ++i)
+            for (int i = 0; i < this.shownImageSelectCLB.Items.Count; ++i)
             {
                 this.shownImageSelectCLB.SetItemChecked(i, false);
             }
 
-            isImageFormOpened = false;
+            imageFormIsLoaded = false;
         }
 
         private void imageForm_MouseWheel(object sender, MouseEventArgs e)

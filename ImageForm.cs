@@ -5,6 +5,7 @@ namespace GrainDetector
 {
     public partial class ImageForm : Form
     {
+        private ImageData imageData;
         private ImageDisplay imageDisplay;
         private RangeSelect rangeSelect;
         private CircleSelect circleSelect;
@@ -26,10 +27,11 @@ namespace GrainDetector
             }
         }
 
-        public ImageForm(ImageDisplay imageDisplay, RangeSelect rangeSelect, CircleSelect circleSelect, ImageFilter imageFilter, ImageBinarize imageBinarize, DotDraw dotDraw)
+        public ImageForm(ImageData imageData, ImageDisplay imageDisplay, RangeSelect rangeSelect, CircleSelect circleSelect, ImageFilter imageFilter, ImageBinarize imageBinarize, DotDraw dotDraw)
         {
             InitializeComponent();
 
+            this.imageData = imageData;
             this.imageDisplay = imageDisplay;
             this.rangeSelect = rangeSelect;
             this.circleSelect = circleSelect;
@@ -37,10 +39,10 @@ namespace GrainDetector
             this.imageBinarize = imageBinarize;
             this.dotDraw = dotDraw;
 
-            int defaultWidth = imageDisplay.Image.Width / 2;
+            int defaultWidth = imageData.ShownImage.Width / 2;
             Size size = imageDisplay.GetSizeToWidth(defaultWidth);
             this.ClientSize = size;
-            this.pictureBox.Size = imageDisplay.Image.Size;;
+            this.pictureBox.Size = imageData.ShownImage.Size;;
         }
 
         private void pictureBox_Paint(object sender, PaintEventArgs e)
@@ -111,18 +113,6 @@ namespace GrainDetector
             this.pictureBox.Invalidate();
         }
 
-        private void ImageForm_Scroll(object sender, ScrollEventArgs e)
-        {
-            if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll)
-            {
-                imageDisplay.ZoomLocation.X = e.NewValue;
-            }
-            else
-            {
-                imageDisplay.ZoomLocation.Y = e.NewValue;
-            }
-        }
-
         public void MultipleZoomMagnification(double coefficient)
         {
             ChangeZoomMagnification(imageDisplay.ZoomMagnification * coefficient);
@@ -133,8 +123,8 @@ namespace GrainDetector
             double preValue = imageDisplay.ZoomMagnification;
             imageDisplay.ZoomMagnification = zoomMagnification;
 
-            this.pictureBox.Width = (int)(imageDisplay.Image.Width * zoomMagnification);
-            this.pictureBox.Height = (int)(imageDisplay.Image.Height * zoomMagnification);
+            this.pictureBox.Width = (int)(imageData.ShownImage.Width * zoomMagnification);
+            this.pictureBox.Height = (int)(imageData.ShownImage.Height * zoomMagnification);
 
             if (preValue != 0)
             {

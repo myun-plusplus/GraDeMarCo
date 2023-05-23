@@ -53,7 +53,6 @@
             this.Name = "ImageForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "画像";
-            this.Scroll += new System.Windows.Forms.ScrollEventHandler(this.ImageForm_Scroll);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

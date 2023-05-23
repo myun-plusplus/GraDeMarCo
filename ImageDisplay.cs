@@ -4,56 +4,46 @@ namespace GrainDetector
 {
     public class ImageDisplay
     {
-        private Bitmap _image;
-        public Bitmap Image
-        {
-            get
-            {
-                return _image;
-            }
-            set
-            {
-                if (_image != null && value != _image)
-                {
-                    _image.Dispose();
-                }
-                _image = value;
-            }
-        }
+        private ImageData imageData;
 
-        public Point ZoomLocation;
         public double ZoomMagnification;
 
-        ~ImageDisplay()
+        public ImageDisplay(ImageData imageData)
         {
-            Image = null;
+            this.imageData = imageData;
         }
 
         public void Initialize()
         {
-            ZoomLocation = new Point(0, 0);
             ZoomMagnification = 1;
         }
 
         public void DrawImage(Graphics graphics)
         {
             graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
-            graphics.DrawImage(Image, 0, 0, (int)(Image.Width * ZoomMagnification), (int)(Image.Height * ZoomMagnification));
+            graphics.DrawImage(
+                imageData.ShownImage,
+                0,
+                0,
+                (int)(imageData.ShownImage.Width * ZoomMagnification),
+                (int)(imageData.ShownImage.Height * ZoomMagnification));
         }
 
         public Size GetPictureBoxSize()
         {
-            return new Size((int)(Image.Width * ZoomMagnification), (int)(Image.Height * ZoomMagnification));
+            return new Size(
+                (int)(imageData.ShownImage.Width * ZoomMagnification),
+                (int)(imageData.ShownImage.Height * ZoomMagnification));
         }
 
         public Size GetSizeToWidth(int width)
         {
-            return new Size(width, Image.Height * width / Image.Width);
+            return new Size(width, imageData.ShownImage.Height * width / imageData.ShownImage.Width);
         }
 
         public Size GetSizeToHeight(int height)
         {
-            return new Size(Image.Width * height / Image.Height, height);
+            return new Size(imageData.ShownImage.Width * height / imageData.ShownImage.Height, height);
         }
 
         public Point GetAdjustedLocation(Point location)

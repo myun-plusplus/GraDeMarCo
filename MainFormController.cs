@@ -12,6 +12,8 @@ namespace GrainDetector
         private SaveFileDialog saveFileDialog;
         private ColorDialog colorDialog;
 
+        private ImageData imageData;
+
         private ImageDisplay imageDisplay;
         private ImageRange imageRange;
         private PlanimetricCircle circle;
@@ -25,7 +27,7 @@ namespace GrainDetector
         private DotCount dotCount;
 
         private bool _isImageFormOpened;
-        private bool isImageFormOpened
+        private bool imageFormIsLoaded
         {
             get
             {
@@ -49,27 +51,10 @@ namespace GrainDetector
             {
                 _actionMode = value;
                 turnOnOffControls();
-                if (isImageFormOpened)
+                if (imageFormIsLoaded)
                 {
                     this.imageForm.ActionMode = value;
                 }
-            }
-        }
-
-        private Bitmap _originalImage;
-        private Bitmap originalImage
-        {
-            get
-            { 
-                return _originalImage;
-            }
-            set
-            {
-                if (_originalImage != null && value != _originalImage)
-                {
-                    _originalImage.Dispose();
-                }
-                _originalImage = value;
             }
         }
 
@@ -93,25 +78,28 @@ namespace GrainDetector
                 0x577AB9, 0xC9AEFF, 0x0EC9FF, 0xB0E4EF, 0x1DE6B5, 0xEAD999, 0xBE9270, 0xE7BFC8 };
             this.colorDialog.FullOpen = true;
 
-            imageDisplay = new ImageDisplay();
+            imageData = new ImageData();
+            imageData.OriginalImage = new Bitmap(1280, 1024, PixelFormat.Format24bppRgb);
+
+            imageDisplay = new ImageDisplay(imageData);
             imageDisplay.Initialize();
             imageRange = new ImageRange();
             circle = new PlanimetricCircle();
 
             rangeSelect = new RangeSelect(imageDisplay, imageRange);
             circleSelect = new CircleSelect(imageDisplay, circle);
-            imageFilter = new ImageFilter(imageDisplay, imageRange);
-            imageBinarize = new ImageBinarize(imageDisplay, imageRange);
+            imageFilter = new ImageFilter(imageData, imageDisplay, imageRange);
+            imageBinarize = new ImageBinarize(imageData, imageDisplay, imageRange);
             // GrainDetectに渡すため、初期化順が逆
             dotDraw = new DotDraw(imageDisplay);
-            grainDetect = new GrainDetect(imageDisplay, imageRange, circle, dotDraw);
-            dotCount = new DotCount(imageRange);
+            grainDetect = new GrainDetect(imageData, imageDisplay, imageRange, circle, dotDraw);
+            dotCount = new DotCount(imageData, imageRange);
 
             InitializeComponent();
             this.imageRangeBindingSource.DataSource = imageRange;
             this.planimetricCircleBindingSource.DataSource = circle;
 
-            isImageFormOpened = false;
+            imageFormIsLoaded = false;
             actionMode = ActionMode.None;
 
             setInitialParameters();
@@ -144,8 +132,6 @@ namespace GrainDetector
             }
             this.colorDialog = null;
 
-            originalImage = null;
-
             if (disposing && (components != null))
             {
                 components.Dispose();
@@ -174,7 +160,7 @@ namespace GrainDetector
             grainDetect.DotColorOnCircle = Color.Yellow;
             grainDetect.DotSizeOnCircle = (int)this.dotSizeOnCircleNumericUpDown.Value;
 
-            this.blurCcomboBox.SelectedIndex = 0;
+            this.blurComboBox.SelectedIndex = 0;
             this.edgeDetectComboBox.SelectedIndex = 0;
 
             this.dotDrawColorLabel.BackColor = Color.Red;
@@ -187,22 +173,18 @@ namespace GrainDetector
 
         private void openImageForm()
         {
-            initializeRangeSelect();
-            initializeCircleSelect();
+            imageFormIsLoaded = true;
 
-            imageDisplay.Image = new Bitmap(originalImage);
-            imageDisplay.Initialize();
-
-            imageFilter.OriginalImage = originalImage;
-            imageBinarize.OriginalImage = imageFilter.FilteredImage;
-
-            this.imageForm = new ImageForm(imageDisplay, rangeSelect, circleSelect, imageFilter, imageBinarize, dotDraw);
+            this.imageForm = new ImageForm(imageData, imageDisplay, rangeSelect, circleSelect, imageFilter, imageBinarize, dotDraw);
             this.imageForm.Location = new Point(this.Location.X + 320, this.Location.Y);
             this.imageForm.ActionMode = ActionMode.None;
             this.imageForm.FormClosing += imageForm_FormClosing;
-            this.imageForm.MouseWheel += imageForm_MouseWheel;
+            this.imageForm.ChangeZoomMagnification(1.0);
 
             this.imageForm.Show();
+
+            initializeRangeSelect();
+            initializeCircleSelect();
         }
 
         private void closeImageForm()
@@ -219,7 +201,7 @@ namespace GrainDetector
         {
             this.SuspendLayout();
 
-            if (isImageFormOpened)
+            if (imageFormIsLoaded)
             {
                 if (actionMode == ActionMode.None)
                 {
@@ -313,26 +295,26 @@ namespace GrainDetector
 
         private void initializeRangeSelect()
         {
-            this.lowerXNumericUpDown.Maximum = originalImage.Width - 1;
-            this.lowerYNumericUpDown.Maximum = originalImage.Height - 1;
-            this.upperXNumericUpDown.Maximum = originalImage.Width - 1;
-            this.upperYNumericUpDown.Maximum = originalImage.Height - 1;
+            this.lowerXNumericUpDown.Maximum = imageData.OriginalImage.Width - 1;
+            this.upperXNumericUpDown.Maximum = imageData.OriginalImage.Width - 1;
+            this.lowerYNumericUpDown.Maximum = imageData.OriginalImage.Height - 1;
+            this.upperYNumericUpDown.Maximum = imageData.OriginalImage.Height - 1;
 
-            this.lowerXNumericUpDown.Value = 0;
-            this.lowerYNumericUpDown.Value = 0;
-            this.upperXNumericUpDown.Value = 0;
-            this.upperYNumericUpDown.Value = 0;
+            imageRange.LowerX = 0;
+            imageRange.UpperX = imageData.OriginalImage.Width - 1;
+            imageRange.LowerY = 0;
+            imageRange.UpperY = imageData.OriginalImage.Height - 1;
         }
 
         private void initializeCircleSelect()
         {
-            this.circleXNumericUpDown.Maximum = originalImage.Width - 1;
-            this.circleYNumericUpDown.Maximum = originalImage.Height - 1;
-            this.circleDiameterNumericUpDown.Maximum = Math.Min(originalImage.Width, originalImage.Width);
+            this.circleXNumericUpDown.Maximum = imageData.OriginalImage.Width - 1;
+            this.circleYNumericUpDown.Maximum = imageData.OriginalImage.Height - 1;
+            this.circleDiameterNumericUpDown.Maximum = Math.Min(imageData.OriginalImage.Width, imageData.OriginalImage.Width) - 1;
 
-            this.circleXNumericUpDown.Value = 0;
-            this.circleYNumericUpDown.Value = 0;
-            this.circleDiameterNumericUpDown.Value = 1;
+            circle.LowerX = 0;
+            circle.LowerY = 0;
+            circle.Diameter = Math.Min(imageData.OriginalImage.Width, imageData.OriginalImage.Width);
         }
 
         private void validateZoomMagnification()
@@ -367,7 +349,9 @@ namespace GrainDetector
 
         private Bitmap createModifiedImage(ImageModifyingFlags flags)
         {
-            Bitmap image = originalImage.Clone(new Rectangle(0, 0, originalImage.Width, originalImage.Height), PixelFormat.Format24bppRgb);
+            Bitmap image = imageData.OriginalImage.Clone(
+                new Rectangle(0, 0, imageData.OriginalImage.Width, imageData.OriginalImage.Height),
+                PixelFormat.Format24bppRgb);
 
             if ((flags & ImageModifyingFlags.Binarization) != ImageModifyingFlags.None)
             {

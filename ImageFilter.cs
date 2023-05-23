@@ -1,89 +1,41 @@
 ﻿using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Threading.Tasks;
 
 namespace GrainDetector
 {
     public class ImageFilter : BindingBase
     {
+        private ImageData imageData;
         private ImageDisplay imageDisplay;
         private ImageRange imageRange;
-
-        private Bitmap _originalImage;
-        public Bitmap OriginalImage
-        {
-            get
-            {
-                return _originalImage;
-            }
-            set
-            {
-                _originalImage = value;
-                FilteredImage = value.Clone(new Rectangle(0, 0, value.Width, value.Height), PixelFormat.Format24bppRgb);
-                originalImagePixels = new BitmapPixels(value);
-                filteredImagePixels = new BitmapPixels(value);
-            }
-        }
-
-        private Bitmap _filteredImage;
-        public Bitmap FilteredImage
-        {
-            get
-            {
-                return _filteredImage;
-            }
-            private set
-            {
-                if (_filteredImage != null && value != _filteredImage)
-                {
-                    _filteredImage.Dispose();
-                }
-                _filteredImage = value;
-            }
-        }
 
         public bool ApplysGaussian;
         public bool ApplysGaussian3;
         public bool ApplysSobel;
         public bool ApplysLaplacian;
 
-        private BitmapPixels originalImagePixels;
-        private BitmapPixels filteredImagePixels;
-
-        public ImageFilter(ImageDisplay imageDisplay, ImageRange imageRange)
+        public ImageFilter(ImageData imageData, ImageDisplay imageDisplay, ImageRange imageRange)
         {
+            this.imageData = imageData;
             this.imageDisplay = imageDisplay;
             this.imageRange = imageRange;
-        }
-
-        ~ImageFilter()
-        {
-            FilteredImage = null;
-            if (originalImagePixels != null)
-            {
-                originalImagePixels.Dispose();
-            }
-            if (filteredImagePixels != null)
-            {
-                filteredImagePixels.Dispose();
-            }
         }
 
         public void DrawOnPaintEvent(Graphics graphics)
         {
             graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
             graphics.DrawImage(
-                FilteredImage,
+                imageData.FilteredImage,
                 0,
                 0,
-                (int)(FilteredImage.Width * imageDisplay.ZoomMagnification),
-                (int)(FilteredImage.Height * imageDisplay.ZoomMagnification));
+                (int)(imageData.FilteredImage.Width * imageDisplay.ZoomMagnification),
+                (int)(imageData.FilteredImage.Height * imageDisplay.ZoomMagnification));
         }
 
         public void DrawOnBitmap(Bitmap bitmap)
         {
-            filteredImagePixels.CopyToBitmap(bitmap);
+            imageData.FilteredImagePixels.CopyToBitmap(bitmap);
         }
 
         private static readonly int[,] Gaussian = new int[,]
@@ -118,8 +70,8 @@ namespace GrainDetector
 
         public void Filter()
         {
-            int width = OriginalImage.Width;
-            int height = OriginalImage.Height;
+            int width = imageData.OriginalImage.Width;
+            int height = imageData.OriginalImage.Height;
             int lowerX = imageRange.LowerX, upperX = imageRange.UpperX;
             int lowerY = imageRange.LowerY, upperY = imageRange.UpperY;
 
@@ -130,7 +82,7 @@ namespace GrainDetector
                 {
                     for (int c = 0; c < 3; ++c)
                     {
-                        srcPixels[1 + y, 3 + x * 3 + c] = originalImagePixels.GetValue(x, y, c);
+                        srcPixels[1 + y, 3 + x * 3 + c] = imageData.OriginalImagePixels.GetValue(x, y, c);
                     }
                 }
             }
@@ -198,7 +150,7 @@ namespace GrainDetector
                 {
                     for (int c = 0; c < 3; ++c)
                     {
-                        filteredImagePixels.SetValue(x, y, c, originalImagePixels.GetValue(x, y, c));
+                        imageData.FilteredImagePixels.SetValue(x, y, c, imageData.OriginalImagePixels.GetValue(x, y, c));
                     }
                 }
             }
@@ -209,12 +161,12 @@ namespace GrainDetector
                 {
                     for (int c = 0; c < 3; ++c)
                     {
-                        filteredImagePixels.SetValue(x, y, c, srcPixels[1 + y, 3 + x * 3 + c]);
+                        imageData.FilteredImagePixels.SetValue(x, y, c, srcPixels[1 + y, 3 + x * 3 + c]);
                     }
                 }
             }
 
-            filteredImagePixels.CopyToBitmap(FilteredImage);
+            imageData.FilteredImagePixels.CopyToBitmap(imageData.FilteredImage);
         }
 
         private byte[,] sourcePixels, destPixels;

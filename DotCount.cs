@@ -7,30 +7,15 @@ namespace GrainDetector
 {
     public class DotCount
     {
+        private ImageData imageData;
         private ImageRange imageRange;
 
-        private Bitmap _image;
-        public Bitmap Image
-        {
-            get
-            {
-                return _image;
-            }
-            set
-            {
-                _image = value;
-                bitmapPixels = new BitmapPixels(value);
-            }
-        }
-
         public List<Color> TargetColors;
-
         public List<bool> IsCounted;
 
-        private BitmapPixels bitmapPixels;
-
-        public DotCount(ImageRange imageRange)
+        public DotCount(ImageData imageData, ImageRange imageRange)
         {
+            this.imageData = imageData;
             this.imageRange = imageRange;
         }
 
@@ -46,7 +31,7 @@ namespace GrainDetector
         private int countDotsWithDfs(Color color)
         {
             targetColor = color;
-            visited = new bool[Image.Height, Image.Width];
+            visited = new bool[imageData.OriginalImage.Height, imageData.OriginalImage.Width];
             stack = new Stack<Tuple<int, int>>();
 
             int count = 0;
@@ -57,7 +42,7 @@ namespace GrainDetector
             {
                 for (int x = lowerX; x <= upperX; ++x)
                 {
-                    if (!bitmapPixels.Equals(x, y, targetColor))
+                    if (!imageData.ShownImagePixels.Equals(x, y, targetColor))
                     {
                         continue;
                     }
@@ -90,7 +75,7 @@ namespace GrainDetector
                 {
                     int nx = t.Item1 + dx[d];
                     int ny = t.Item2 + dy[d];
-                    if (!bitmapPixels.Equals(nx, ny, targetColor))
+                    if (!imageData.ShownImagePixels.Equals(nx, ny, targetColor))
                     {
                         continue;
                     }

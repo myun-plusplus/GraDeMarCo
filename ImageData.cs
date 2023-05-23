@@ -19,11 +19,37 @@ namespace GrainDetector
                 }
                 _originalImage = value;
 
-                OriginalImagePixels = new BitmapPixels(value);
+                if (value != null)
+                {
+                    OriginalImagePixels = new BitmapPixels(value);
 
-                FilteredImage = value.Clone(
-                    new Rectangle(0, 0, value.Width, value.Height),
-                    PixelFormat.Format24bppRgb);
+                    ShownImage = value.Clone(
+                        new Rectangle(0, 0, value.Width, value.Height),
+                        PixelFormat.Format24bppRgb);
+                    FilteredImage = value.Clone(
+                        new Rectangle(0, 0, value.Width, value.Height),
+                        PixelFormat.Format24bppRgb);
+                }
+            }
+        }
+        public Bitmap ShownImage
+        {
+            get
+            {
+                return _shownImage;
+            }
+            set
+            {
+                if (_shownImage != null && value != _shownImage)
+                {
+                    _shownImage.Dispose();
+                }
+                _shownImage = value;
+
+                if (value != null)
+                {
+                    ShownImagePixels = new BitmapPixels(value);
+                }
             }
         }
 
@@ -41,7 +67,10 @@ namespace GrainDetector
                 }
                 _circleImage = value;
 
-                CircleImagePixels = new BitmapPixels(value);
+                if (value != null)
+                {
+                    CircleImagePixels = new BitmapPixels(value);
+                }
             }
         }
 
@@ -59,11 +88,14 @@ namespace GrainDetector
                 }
                 _filteredImage = value;
 
-                FilteredImagePixels = new BitmapPixels(value);
+                if (value != null)
+                {
+                    FilteredImagePixels = new BitmapPixels(value);
 
-                BinarizedImage = value.Clone(
-                    new Rectangle(0, 0, value.Width, value.Height),
-                    PixelFormat.Format24bppRgb);
+                    BinarizedImage = value.Clone(
+                        new Rectangle(0, 0, value.Width, value.Height),
+                        PixelFormat.Format24bppRgb);
+                }
             }
         }
 
@@ -81,7 +113,10 @@ namespace GrainDetector
                 }
                 _binarizedImage = value;
 
-                BinarizedImagePixels = new BitmapPixels(value);
+                if (value != null)
+                {
+                    BinarizedImagePixels = new BitmapPixels(value);
+                }
             }
         }
 
@@ -104,6 +139,22 @@ namespace GrainDetector
                     _originalImagePixels.Dispose();
                 }
                 _originalImagePixels = value;
+            }
+        }
+
+        public BitmapPixels ShownImagePixels
+        {
+            get
+            {
+                return _shownImagePixels;
+            }
+            set
+            {
+                if (_shownImagePixels != null && value != _shownImagePixels)
+                {
+                    _shownImagePixels.Dispose();
+                }
+                _shownImagePixels = value;
             }
         }
 
@@ -156,11 +207,13 @@ namespace GrainDetector
         }
 
         private Bitmap _originalImage;
+        private Bitmap _shownImage;
         private Bitmap _circleImage;
         private Bitmap _filteredImage;
         private Bitmap _binarizedImage;
 
         private BitmapPixels _originalImagePixels;
+        private BitmapPixels _shownImagePixels;
         private BitmapPixels _circleImagePixels;
         private BitmapPixels _filteredImagePixels;
         private BitmapPixels _binarizedImagePixels;

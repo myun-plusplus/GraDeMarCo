@@ -6,23 +6,15 @@ namespace GrainDetector
 {
     public class GrainDetect
     {
+        private ImageData imageData;
         private ImageDisplay imageDisplay;
         private ImageRange imageRange;
         private PlanimetricCircle circle;
         private DotDraw dotDraw;
 
-        public Bitmap OriginalImage;
-        public Bitmap CircleImage;
-        public Bitmap BinarizedImage;
-
         public int MinWhitePixel;
 
         private Color circleColor;
-
-        private BitmapPixels originalImagePixels;
-        private BitmapPixels circleImagePixels;
-        private BitmapPixels binarizedImagePixels;
-
         private List<Point> dotLocationsInCircle, dotLocationsOnCircle;
 
         #region DotOptions
@@ -62,8 +54,9 @@ namespace GrainDetector
 
         #endregion
 
-        public GrainDetect(ImageDisplay imageDisplay, ImageRange imageRange, PlanimetricCircle circle, DotDraw dotDraw)
+        public GrainDetect(ImageData imageData, ImageDisplay imageDisplay, ImageRange imageRange, PlanimetricCircle circle, DotDraw dotDraw)
         {
+            this.imageData = imageData;
             this.imageDisplay = imageDisplay;
             this.imageRange = imageRange;
             this.circle = circle;
@@ -132,34 +125,76 @@ namespace GrainDetector
             dotLocationsInCircle.Clear();
             dotLocationsOnCircle.Clear();
 
-            using (originalImagePixels = new BitmapPixels(OriginalImage))
-            using (circleImagePixels = new BitmapPixels(CircleImage))
-            using (binarizedImagePixels = new BitmapPixels(BinarizedImage))
+            searchCircleColor();
+
+            int width = imageData.OriginalImagePixels.Width;
+            int height = imageData.OriginalImagePixels.Height;
+            int lowerX = imageRange.LowerX, upperX = imageRange.UpperX;
+            int lowerY = imageRange.LowerY, upperY = imageRange.UpperY;
+
+            bool[,] circleMap = new bool[height, width];
             {
-                searchCircleColor();
 
-                int width = originalImagePixels.Width;
-                int height = originalImagePixels.Height;
-                int lowerX = imageRange.LowerX, upperX = imageRange.UpperX;
-                int lowerY = imageRange.LowerY, upperY = imageRange.UpperY;
-
-                bool[,] circleMap = new bool[height, width];
+                for (int y = lowerY; y <= upperY; ++y)
                 {
-
-                    for (int y = lowerY; y <= upperY; ++y)
+                    for (int x = lowerX; x <= upperX; ++x)
                     {
-                        for (int x = lowerX; x <= upperX; ++x)
+                        circleMap[y, x] = imageData.CircleImagePixels.Equals(x, y, circleColor);
+                    }
+                }
+
+                if (circle.Diameter >= 3)
+                {
+                    var stack = new Stack<Tuple<int, int>>();
+
+                    circleMap[circle.LowerY + circle.Diameter / 2, circle.LowerX + circle.Diameter / 2] = true;
+                    stack.Push(Tuple.Create(circle.LowerX + circle.Diameter / 2, circle.LowerY + circle.Diameter / 2));
+
+                    while (stack.Count != 0)
+                    {
+                        var t = stack.Pop();
+
+                        for (int d = 0; d < 4; ++d)
                         {
-                            circleMap[y, x] = circleImagePixels.Equals(x, y, circleColor);
+                            int nx = t.Item1 + dx[d], ny = t.Item2 + dy[d];
+                            if (nx < lowerX || upperX < nx || ny < lowerY || upperY < ny || circleMap[ny, nx])
+                            {
+                                continue;
+                            }
+                            circleMap[ny, nx] = true;
+                            stack.Push(Tuple.Create(nx, ny));
                         }
                     }
+                }
+            }
 
-                    if (circle.Diameter >= 3)
+            bool[,] whiteMap = new bool[height, width];
+            for (int y = lowerY; y <= upperY; ++y)
+            {
+                for (int x = lowerX; x <= upperX; ++x)
+                {
+                    whiteMap[y, x] = imageData.BinarizedImagePixels.GetValue(x, y, 0) == 255;
+                }
+            }
+
+            {
+                bool[,] visited = new bool[height, width];
+                var stack = new Stack<Tuple<int, int>>();
+
+                for (int y = lowerY; y <= upperY; ++y)
+                {
+                    for (int x = lowerX; x <= upperX; ++x)
                     {
-                        var stack = new Stack<Tuple<int, int>>();
+                        if (!circleMap[y, x] || !whiteMap[y, x])
+                        {
+                            continue;
+                        }
 
-                        circleMap[circle.LowerY + circle.Diameter / 2, circle.LowerX + circle.Diameter / 2] = true;
-                        stack.Push(Tuple.Create(circle.LowerX + circle.Diameter / 2, circle.LowerY + circle.Diameter / 2));
+                        int pixelCount = 1;
+                        bool onCircle = false;
+                        long sumX = x, sumY = y;
+                        visited[y, x] = true;
+                        stack.Push(Tuple.Create(x, y));
 
                         while (stack.Count != 0)
                         {
@@ -168,90 +203,43 @@ namespace GrainDetector
                             for (int d = 0; d < 4; ++d)
                             {
                                 int nx = t.Item1 + dx[d], ny = t.Item2 + dy[d];
-                                if (nx < lowerX || upperX < nx || ny < lowerY || upperY < ny || circleMap[ny, nx])
+                                if (nx < lowerX || upperX < nx || ny < lowerY || upperY < ny || visited[ny, nx])
                                 {
                                     continue;
                                 }
-                                circleMap[ny, nx] = true;
+                                if (!whiteMap[ny, nx])
+                                {
+                                    continue;
+                                }
+                                ++pixelCount;
+                                if (!circleMap[ny, nx])
+                                {
+                                    onCircle = true;
+                                }
+                                sumX += nx;
+                                sumY += ny;
+                                visited[ny, nx] = true;
                                 stack.Push(Tuple.Create(nx, ny));
                             }
                         }
-                    }
-                }
 
-                bool[,] whiteMap = new bool[height, width];
-                for (int y = lowerY; y <= upperY; ++y)
-                {
-                    for (int x = lowerX; x <= upperX; ++x)
-                    {
-                        whiteMap[y, x] = binarizedImagePixels.GetValue(x, y, 0) == 255;
-                    }
-                }
-
-                {
-                    bool[,] visited = new bool[height, width];
-                    var stack = new Stack<Tuple<int, int>>();
-
-                    for (int y = lowerY; y <= upperY; ++y)
-                    {
-                        for (int x = lowerX; x <= upperX; ++x)
+                        if (pixelCount >= MinWhitePixel)
                         {
-                            if (!circleMap[y, x] || !whiteMap[y, x])
+                            sumX /= pixelCount;
+                            sumY /= pixelCount;
+
+                            if (!onCircle)
                             {
-                                continue;
-                            }
-
-                            int pixelCount = 1;
-                            bool onCircle = false;
-                            long sumX = x, sumY = y;
-                            visited[y, x] = true;
-                            stack.Push(Tuple.Create(x, y));
-
-                            while (stack.Count != 0)
-                            {
-                                var t = stack.Pop();
-
-                                for (int d = 0; d < 4; ++d)
+                                if (DetectsGrainInCircle)
                                 {
-                                    int nx = t.Item1 + dx[d], ny = t.Item2 + dy[d];
-                                    if (nx < lowerX || upperX < nx || ny < lowerY || upperY < ny || visited[ny, nx])
-                                    {
-                                        continue;
-                                    }
-                                    if (!whiteMap[ny, nx])
-                                    {
-                                        continue;
-                                    }
-                                    ++pixelCount;
-                                    if (!circleMap[ny, nx])
-                                    {
-                                        onCircle = true;
-                                    }
-                                    sumX += nx;
-                                    sumY += ny;
-                                    visited[ny, nx] = true;
-                                    stack.Push(Tuple.Create(nx, ny));
+                                    dotLocationsInCircle.Add(new Point((int)sumX, (int)sumY));
                                 }
                             }
-
-                            if (pixelCount >= MinWhitePixel)
+                            else
                             {
-                                sumX /= pixelCount;
-                                sumY /= pixelCount;
-
-                                if (!onCircle)
+                                if (DetectsGrainOnCircle)
                                 {
-                                    if (DetectsGrainInCircle)
-                                    {
-                                        dotLocationsInCircle.Add(new Point((int)sumX, (int)sumY));
-                                    }
-                                }
-                                else
-                                {
-                                    if (DetectsGrainOnCircle)
-                                    {
-                                        dotLocationsOnCircle.Add(new Point((int)sumX, (int)sumY));
-                                    }
+                                    dotLocationsOnCircle.Add(new Point((int)sumX, (int)sumY));
                                 }
                             }
                         }
@@ -277,13 +265,13 @@ namespace GrainDetector
             {
                 for (int x = lowerX; x <= upperX; ++x)
                 {
-                    if (circleImagePixels.GetValue(x, y, 0) != circleImagePixels.GetValue(x, y, 1) ||
-                        circleImagePixels.GetValue(x, y, 0) != circleImagePixels.GetValue(x, y, 2))
+                    if (imageData.CircleImagePixels.GetValue(x, y, 0) != imageData.CircleImagePixels.GetValue(x, y, 1) ||
+                        imageData.CircleImagePixels.GetValue(x, y, 0) != imageData.CircleImagePixels.GetValue(x, y, 2))
                     {
                         circleColor = Color.FromArgb(
-                            circleImagePixels.GetValue(x, y, 0),
-                            circleImagePixels.GetValue(x, y, 1),
-                            circleImagePixels.GetValue(x, y, 2));
+                            imageData.CircleImagePixels.GetValue(x, y, 0),
+                            imageData.CircleImagePixels.GetValue(x, y, 1),
+                            imageData.CircleImagePixels.GetValue(x, y, 2));
                         break;
                     }
                 }

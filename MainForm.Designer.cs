@@ -46,7 +46,7 @@
             this.grainDetectTabPage = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.edgeDetectComboBox = new System.Windows.Forms.ComboBox();
-            this.blurCcomboBox = new System.Windows.Forms.ComboBox();
+            this.blurComboBox = new System.Windows.Forms.ComboBox();
             this.binarizationCheckBox = new System.Windows.Forms.CheckBox();
             this.binarizationThresholdLabel = new System.Windows.Forms.Label();
             this.binarizationThresholdNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -450,7 +450,7 @@
             this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.edgeDetectComboBox);
-            this.panel1.Controls.Add(this.blurCcomboBox);
+            this.panel1.Controls.Add(this.blurComboBox);
             this.panel1.Controls.Add(this.binarizationCheckBox);
             this.panel1.Controls.Add(this.binarizationThresholdLabel);
             this.panel1.Controls.Add(this.binarizationThresholdNumericUpDown);
@@ -475,19 +475,19 @@
             this.edgeDetectComboBox.TabIndex = 20;
             this.edgeDetectComboBox.SelectedIndexChanged += new System.EventHandler(this.edgeDetectComboBox_SelectedIndexChanged);
             // 
-            // blurCcomboBox
+            // blurComboBox
             // 
-            this.blurCcomboBox.FormattingEnabled = true;
-            this.blurCcomboBox.Items.AddRange(new object[] {
+            this.blurComboBox.FormattingEnabled = true;
+            this.blurComboBox.Items.AddRange(new object[] {
             "ぼかしなし",
             "ガウシアン",
             "ガウシアン×3"});
-            this.blurCcomboBox.Location = new System.Drawing.Point(84, 5);
-            this.blurCcomboBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 4);
-            this.blurCcomboBox.Name = "blurCcomboBox";
-            this.blurCcomboBox.Size = new System.Drawing.Size(75, 20);
-            this.blurCcomboBox.TabIndex = 19;
-            this.blurCcomboBox.SelectedIndexChanged += new System.EventHandler(this.blurCcomboBox_SelectedIndexChanged);
+            this.blurComboBox.Location = new System.Drawing.Point(84, 5);
+            this.blurComboBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 4);
+            this.blurComboBox.Name = "blurComboBox";
+            this.blurComboBox.Size = new System.Drawing.Size(75, 20);
+            this.blurComboBox.TabIndex = 19;
+            this.blurComboBox.SelectedIndexChanged += new System.EventHandler(this.blurComboBox_SelectedIndexChanged);
             // 
             // binarizationCheckBox
             // 
@@ -1132,7 +1132,7 @@
         private System.Windows.Forms.Label dotDrawColorLabel;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox imageFilterCheckBox;
-        private System.Windows.Forms.ComboBox blurCcomboBox;
+        private System.Windows.Forms.ComboBox blurComboBox;
         private System.Windows.Forms.ComboBox edgeDetectComboBox;
         private System.Windows.Forms.Button clearAllDotsButton;
         private System.Windows.Forms.BindingSource imageRangeBindingSource;
