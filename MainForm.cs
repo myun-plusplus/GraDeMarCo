@@ -202,16 +202,13 @@ namespace GrainDetector
             switch (blurComboBox.SelectedIndex)
             {
                 case 0:
-                    imageFilter.ApplysGaussian = false;
-                    imageFilter.ApplysGaussian3 = false;
+                    filterOptions.ApplysBlur = BlurOption.None;
                     break;
                 case 1:
-                    imageFilter.ApplysGaussian = true;
-                    imageFilter.ApplysGaussian3 = false;
+                    filterOptions.ApplysBlur = BlurOption.Gaussian;
                     break;
                 case 2:
-                    imageFilter.ApplysGaussian = false;
-                    imageFilter.ApplysGaussian3 = true;
+                    filterOptions.ApplysBlur = BlurOption.Gaussian3Times;
                     break;
             }
             imageFilter.Filter();
@@ -227,16 +224,13 @@ namespace GrainDetector
             switch (edgeDetectComboBox.SelectedIndex)
             {
                 case 0:
-                    imageFilter.ApplysSobel = false;
-                    imageFilter.ApplysLaplacian = false;
+                    filterOptions.EdgeDetects = EdgeDetectOption.None;
                     break;
                 case 1:
-                    imageFilter.ApplysSobel = true;
-                    imageFilter.ApplysLaplacian = false;
+                    filterOptions.EdgeDetects = EdgeDetectOption.Sobel;
                     break;
                 case 2:
-                    imageFilter.ApplysSobel = false;
-                    imageFilter.ApplysLaplacian = true;
+                    filterOptions.EdgeDetects = EdgeDetectOption.Laplacian;
                     break;
             }
             imageFilter.Filter();

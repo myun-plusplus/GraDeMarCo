@@ -17,6 +17,7 @@ namespace GrainDetector
         private ImageDisplay imageDisplay;
         private ImageRange imageRange;
         private PlanimetricCircle circle;
+        private FilterOptions filterOptions;
         private DotDrawTool dotDrawTool;
         private DrawnDotsData drawnDotsData;
 
@@ -87,12 +88,13 @@ namespace GrainDetector
             imageDisplay.Initialize();
             imageRange = new ImageRange();
             circle = new PlanimetricCircle();
+            filterOptions = new FilterOptions();
             dotDrawTool = new DotDrawTool();
             drawnDotsData = new DrawnDotsData();
 
             rangeSelect = new RangeSelect(imageDisplay, imageRange);
             circleSelect = new CircleSelect(imageDisplay, circle);
-            imageFilter = new ImageFilter(imageData, imageDisplay, imageRange);
+            imageFilter = new ImageFilter(imageData, imageDisplay, imageRange, filterOptions);
             imageBinarize = new ImageBinarize(imageData, imageDisplay, imageRange);
             // GrainDetectに渡すため、初期化順が逆
             dotDraw = new DotDraw(imageDisplay, dotDrawTool, drawnDotsData);

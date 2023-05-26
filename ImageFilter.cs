@@ -4,22 +4,45 @@ using System.Threading.Tasks;
 
 namespace GrainDetector
 {
+    public enum BlurOption
+    {
+        None,
+        Gaussian,
+        Gaussian3Times
+    }
+
+    public enum EdgeDetectOption
+    {
+        None,
+        Sobel,
+        Laplacian
+    }
+
+    public class FilterOptions
+    {
+        public BlurOption ApplysBlur;
+        public EdgeDetectOption EdgeDetects;
+
+        public FilterOptions()
+        {
+            ApplysBlur = BlurOption.None;
+            EdgeDetects = EdgeDetectOption.None;
+        }
+    }
+
     public class ImageFilter : BindingBase
     {
         private ImageData imageData;
         private ImageDisplay imageDisplay;
         private ImageRange imageRange;
+        private FilterOptions filterOptions;
 
-        public bool ApplysGaussian;
-        public bool ApplysGaussian3;
-        public bool ApplysSobel;
-        public bool ApplysLaplacian;
-
-        public ImageFilter(ImageData imageData, ImageDisplay imageDisplay, ImageRange imageRange)
+        public ImageFilter(ImageData imageData, ImageDisplay imageDisplay, ImageRange imageRange, FilterOptions filterOptions)
         {
             this.imageData = imageData;
             this.imageDisplay = imageDisplay;
             this.imageRange = imageRange;
+            this.filterOptions = filterOptions;
         }
 
         public void DrawOnPaintEvent(Graphics graphics)
@@ -87,61 +110,71 @@ namespace GrainDetector
                 }
             }
 
-            if (ApplysGaussian)
+            switch (filterOptions.ApplysBlur)
             {
-                reflectToFrame(srcPixels);
-                byte[,] dstPixels = new byte[height + 2, (width + 2) * 3];
-                applyFilter(srcPixels, dstPixels, Gaussian, GaussianDenominator);
-                swapArray(ref srcPixels, ref dstPixels);
-            }
-            else if (ApplysGaussian3)
-            {
-                reflectToFrame(srcPixels);
-                byte[,] dstPixels = new byte[height + 2, (width + 2) * 3];
-                applyFilter(srcPixels, dstPixels, Gaussian, GaussianDenominator);
-                swapArray(ref srcPixels, ref dstPixels);
-                reflectToFrame(srcPixels);
-                fillArrayWithZero(dstPixels);
-                applyFilter(srcPixels, dstPixels, Gaussian, GaussianDenominator);
-                swapArray(ref srcPixels, ref dstPixels);
-                reflectToFrame(srcPixels);
-                fillArrayWithZero(dstPixels);
-                applyFilter(srcPixels, dstPixels, Gaussian, GaussianDenominator);
-                swapArray(ref srcPixels, ref dstPixels);
-            }
-
-            if (ApplysSobel)
-            {
-                reflectToFrame(srcPixels);
-
-                byte[,] dstPixels_horizontal = new byte[height + 2, (width + 2) * 3];
-                applyFilter(srcPixels, dstPixels_horizontal, Sobel_horizontal, SobelDenominator);
-
-                byte[,] dstPixels_vertical = new byte[height + 2, (width + 2) * 3];
-                applyFilter(srcPixels, dstPixels_vertical, Sobel_vertical, SobelDenominator);
-
-                for (int y = 1 + lowerY; y <= upperY + 1; ++y)
-                {
-                    for (int x = 1 + lowerX; x <= upperX + 1; ++x)
+                case BlurOption.Gaussian:
                     {
-                        for (int c = 0; c < 3; ++c)
+                        reflectToFrame(srcPixels);
+                        byte[,] dstPixels = new byte[height + 2, (width + 2) * 3];
+                        applyFilter(srcPixels, dstPixels, Gaussian, GaussianDenominator);
+                        swapArray(ref srcPixels, ref dstPixels);
+                    }
+                    break;
+                case BlurOption.Gaussian3Times:
+                    {
+                        reflectToFrame(srcPixels);
+                        byte[,] dstPixels = new byte[height + 2, (width + 2) * 3];
+                        applyFilter(srcPixels, dstPixels, Gaussian, GaussianDenominator);
+                        swapArray(ref srcPixels, ref dstPixels);
+                        reflectToFrame(srcPixels);
+                        fillArrayWithZero(dstPixels);
+                        applyFilter(srcPixels, dstPixels, Gaussian, GaussianDenominator);
+                        swapArray(ref srcPixels, ref dstPixels);
+                        reflectToFrame(srcPixels);
+                        fillArrayWithZero(dstPixels);
+                        applyFilter(srcPixels, dstPixels, Gaussian, GaussianDenominator);
+                        swapArray(ref srcPixels, ref dstPixels);
+                    }
+                    break;
+            }
+
+            switch (filterOptions.EdgeDetects)
+            {
+                case EdgeDetectOption.Sobel:
+                    {
+                        reflectToFrame(srcPixels);
+
+                        byte[,] dstPixels_horizontal = new byte[height + 2, (width + 2) * 3];
+                        applyFilter(srcPixels, dstPixels_horizontal, Sobel_horizontal, SobelDenominator);
+
+                        byte[,] dstPixels_vertical = new byte[height + 2, (width + 2) * 3];
+                        applyFilter(srcPixels, dstPixels_vertical, Sobel_vertical, SobelDenominator);
+
+                        for (int y = 1 + lowerY; y <= upperY + 1; ++y)
                         {
-                            double value = Math.Sqrt(
-                                dstPixels_horizontal[y, x * 3 + c] * dstPixels_horizontal[y, x * 3 + c] +
-                                dstPixels_vertical[y, x * 3 + c] * dstPixels_vertical[y, x * 3 + c]);
-                            srcPixels[y, x * 3 + c] = value <= byte.MaxValue ? (byte)value : (byte)255;
+                            for (int x = 1 + lowerX; x <= upperX + 1; ++x)
+                            {
+                                for (int c = 0; c < 3; ++c)
+                                {
+                                    double value = Math.Sqrt(
+                                        dstPixels_horizontal[y, x * 3 + c] * dstPixels_horizontal[y, x * 3 + c] +
+                                        dstPixels_vertical[y, x * 3 + c] * dstPixels_vertical[y, x * 3 + c]);
+                                    srcPixels[y, x * 3 + c] = value <= byte.MaxValue ? (byte)value : (byte)255;
+                                }
+                            }
                         }
                     }
-                }
-            }
-            else if (ApplysLaplacian)
-            {
-                reflectToFrame(srcPixels);
+                    break;
+                case EdgeDetectOption.Laplacian:
+                    {
+                        reflectToFrame(srcPixels);
 
-                byte[,] dstPixels = new byte[height + 2, (width + 2) * 3];
-                applyFilter(srcPixels, dstPixels, Laplacian, LaplacianDenominator);
+                        byte[,] dstPixels = new byte[height + 2, (width + 2) * 3];
+                        applyFilter(srcPixels, dstPixels, Laplacian, LaplacianDenominator);
 
-                swapArray(ref srcPixels, ref dstPixels);
+                        swapArray(ref srcPixels, ref dstPixels);
+                    }
+                    break;
             }
 
             for (int y = 0; y < height; ++y)
