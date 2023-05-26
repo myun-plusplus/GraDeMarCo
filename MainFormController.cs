@@ -18,6 +18,7 @@ namespace GrainDetector
         private ImageRange imageRange;
         private PlanimetricCircle circle;
         private FilterOptions filterOptions;
+        private BinarizeOptions binarizeOptions;
         private DotDrawTool dotDrawTool;
         private DrawnDotsData drawnDotsData;
 
@@ -89,13 +90,14 @@ namespace GrainDetector
             imageRange = new ImageRange();
             circle = new PlanimetricCircle();
             filterOptions = new FilterOptions();
+            binarizeOptions = new BinarizeOptions();
             dotDrawTool = new DotDrawTool();
             drawnDotsData = new DrawnDotsData();
 
             rangeSelect = new RangeSelect(imageDisplay, imageRange);
             circleSelect = new CircleSelect(imageDisplay, circle);
             imageFilter = new ImageFilter(imageData, imageDisplay, imageRange, filterOptions);
-            imageBinarize = new ImageBinarize(imageData, imageDisplay, imageRange);
+            imageBinarize = new ImageBinarize(imageData, imageDisplay, imageRange, binarizeOptions);
             // GrainDetectに渡すため、初期化順が逆
             dotDraw = new DotDraw(imageDisplay, dotDrawTool, drawnDotsData);
             grainDetect = new GrainDetect(imageData, imageDisplay, imageRange, circle, dotDraw);
@@ -347,10 +349,10 @@ namespace GrainDetector
         private enum ImageModifyingFlags
         {
             None = 0,
-            ImageRange = 0b00000001,
-            Circle = 0b00000010,
-            Binarization = 0b00000100,
-            DrawnDots = 0b00001000
+            ImageRange = 1,
+            Circle = 2,
+            Binarization = 4,
+            DrawnDots = 8
         }
 
         private Bitmap createModifiedImage(ImageModifyingFlags flags)

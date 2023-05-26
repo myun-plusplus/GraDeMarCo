@@ -262,6 +262,21 @@ namespace GrainDetector
             this.imageForm.Refresh();
         }
 
+        private void monochromeInvertCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (monochromeInvertCheckBox.Checked)
+            {
+                binarizeOptions.MonochromeInverts = true;
+            }
+            else
+            {
+                binarizeOptions.MonochromeInverts = false;
+            }
+            imageBinarize.Binarize();
+
+            this.imageForm.Refresh();
+        }
+
         private void binarizationCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (binarizationCheckBox.Checked)
