@@ -17,6 +17,8 @@ namespace GrainDetector
         private ImageDisplay imageDisplay;
         private ImageRange imageRange;
         private PlanimetricCircle circle;
+        private DotDrawTool dotDrawTool;
+        private DrawnDotsData drawnDotsData;
 
         private RangeSelect rangeSelect;
         private CircleSelect circleSelect;
@@ -85,13 +87,15 @@ namespace GrainDetector
             imageDisplay.Initialize();
             imageRange = new ImageRange();
             circle = new PlanimetricCircle();
+            dotDrawTool = new DotDrawTool();
+            drawnDotsData = new DrawnDotsData();
 
             rangeSelect = new RangeSelect(imageDisplay, imageRange);
             circleSelect = new CircleSelect(imageDisplay, circle);
             imageFilter = new ImageFilter(imageData, imageDisplay, imageRange);
             imageBinarize = new ImageBinarize(imageData, imageDisplay, imageRange);
             // GrainDetectに渡すため、初期化順が逆
-            dotDraw = new DotDraw(imageDisplay);
+            dotDraw = new DotDraw(imageDisplay, dotDrawTool, drawnDotsData);
             grainDetect = new GrainDetect(imageData, imageDisplay, imageRange, circle, dotDraw);
             dotCount = new DotCount(imageData, imageRange);
 
@@ -164,8 +168,8 @@ namespace GrainDetector
             this.edgeDetectComboBox.SelectedIndex = 0;
 
             this.dotDrawColorLabel.BackColor = Color.Red;
-            dotDraw.DotColor = Color.Red;
-            dotDraw.DotSize = (int)this.dotDrawNumericUpDown.Value;
+            dotDrawTool.Color = Color.Red;
+            dotDrawTool.Size = (int)this.dotDrawNumericUpDown.Value;
 
             this.dotCountColorLabel1.BackColor = Color.Red;
             this.dotCountColorLabel2.BackColor = Color.Yellow;

@@ -17,7 +17,7 @@ namespace GrainDetector
             {
                 _color = value;
                 Brush.Color = value;
-                OnPropertyChanged(GetName.Of(() => Color));
+                //OnPropertyChanged(GetName.Of(() => Color));
             }
         }
 
@@ -30,7 +30,7 @@ namespace GrainDetector
             set
             {
                 _size = value;
-                OnPropertyChanged(GetName.Of(() => Size));
+                //OnPropertyChanged(GetName.Of(() => Size));
             }
         }
 
@@ -99,11 +99,11 @@ namespace GrainDetector
 
         private Point mouseLocation;
 
-        public DotDraw(ImageDisplay imageDisplay)
+        public DotDraw(ImageDisplay imageDisplay, DotDrawTool tool, DrawnDotsData dotsData)
         {
             this.imageDisplay = imageDisplay;
-            tool = new DotDrawTool();
-            dotsData = new DrawnDotsData();
+            this.tool = tool;
+            this.dotsData = dotsData;
         }
 
         public void DrawOnPaintEvent(Graphics graphics)

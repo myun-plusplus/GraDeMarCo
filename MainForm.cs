@@ -367,13 +367,13 @@ namespace GrainDetector
             if (this.colorDialog.ShowDialog() == DialogResult.OK)
             {
                 this.dotDrawColorLabel.BackColor = this.colorDialog.Color;
-                dotDraw.DotColor = this.colorDialog.Color;
+                dotDrawTool.Color = this.colorDialog.Color;
             }
         }
 
         private void dotDrawNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            dotDraw.DotSize = (int)this.dotDrawNumericUpDown.Value;
+            dotDrawTool.Size = (int)this.dotDrawNumericUpDown.Value;
         }
 
         private void dotDrawUndoButton_Click(object sender, EventArgs e)
