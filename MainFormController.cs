@@ -1,12 +1,17 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace GrainDetector
 {
     public partial class MainForm
     {
+        private BindingSource filterOptionBindingSource;
+
         private ImageForm imageForm;
         private OpenFileDialog openFileDialog;
         private SaveFileDialog saveFileDialog;
@@ -104,8 +109,32 @@ namespace GrainDetector
             dotCount = new DotCount(imageData, imageRange);
 
             InitializeComponent();
+
+            this.filterOptionBindingSource = new BindingSource(this.components);
+
+            this.blurComboBox.DataSource = Enum.GetValues(typeof(BlurOption)).Cast<BlurOption>()
+                .Select(i => Tuple.Create(i, i.GetType().GetField(i.ToString()).GetCustomAttribute<DisplayAttribute>().Name))
+                .ToList();
+            this.blurComboBox.ValueMember = "Item1";
+            this.blurComboBox.DisplayMember = "Item2";
+
+            this.edgeDetectComboBox.DataSource = Enum.GetValues(typeof(EdgeDetectOption)).Cast<EdgeDetectOption>()
+                .Select(i => Tuple.Create(i, i.GetType().GetField(i.ToString()).GetCustomAttribute<DisplayAttribute>().Name))
+                .ToList();
+            this.edgeDetectComboBox.ValueMember = "Item1";
+            this.edgeDetectComboBox.DisplayMember = "Item2";
+
+            this.circleColorLabel.DataBindings.Add(new Binding("BackColor", this.planimetricCircleBindingSource, "Color", true));
+            this.blurComboBox.DataBindings.Add(new Binding("SelectedValue", this.filterOptionBindingSource, "ApplysBlur", true, DataSourceUpdateMode.OnPropertyChanged));
+            this.edgeDetectComboBox.DataBindings.Add(new Binding("SelectedValue", this.filterOptionBindingSource, "DetectsEdge", true, DataSourceUpdateMode.OnPropertyChanged));
+            this.dotDrawColorLabel.DataBindings.Add(new Binding("BackColor", this.dotDrawToolBindingSource, "Color", true));
+
             this.imageRangeBindingSource.DataSource = imageRange;
             this.planimetricCircleBindingSource.DataSource = circle;
+            this.filterOptionBindingSource.DataSource = filterOptions;
+            this.dotDrawToolBindingSource.DataSource = dotDrawTool;
+
+            this.filterOptionBindingSource.CurrentItemChanged += filterOptionBindingSource_CurrentChanged;
 
             imageFormIsLoaded = false;
             actionMode = ActionMode.None;
@@ -168,12 +197,11 @@ namespace GrainDetector
             grainDetect.DotColorOnCircle = Color.Yellow;
             grainDetect.DotSizeOnCircle = (int)this.dotSizeOnCircleNumericUpDown.Value;
 
-            this.blurComboBox.SelectedIndex = 0;
-            this.edgeDetectComboBox.SelectedIndex = 0;
+            filterOptions.ApplysBlur = BlurOption.None;
+            filterOptions.DetectsEdge = EdgeDetectOption.None;
 
-            this.dotDrawColorLabel.BackColor = Color.Red;
             dotDrawTool.Color = Color.Red;
-            dotDrawTool.Size = (int)this.dotDrawNumericUpDown.Value;
+            dotDrawTool.Size = 5;
 
             this.dotCountColorLabel1.BackColor = Color.Red;
             this.dotCountColorLabel2.BackColor = Color.Yellow;
@@ -207,8 +235,6 @@ namespace GrainDetector
 
         private void turnOnOffControls()
         {
-            this.SuspendLayout();
-
             if (imageFormIsLoaded)
             {
                 if (actionMode == ActionMode.None)
@@ -297,8 +323,6 @@ namespace GrainDetector
                 this.zoomOutButton.Enabled = false;
                 this.imageSaveButton.Enabled = false;
             }
-
-            this.ResumeLayout(false);
         }
 
         private void initializeRangeSelect()
@@ -322,7 +346,7 @@ namespace GrainDetector
 
             circle.LowerX = 0;
             circle.LowerY = 0;
-            circle.Diameter = Math.Min(imageData.OriginalImage.Width, imageData.OriginalImage.Width);
+            circle.Diameter = Math.Min(imageData.OriginalImage.Width, imageData.OriginalImage.Height);
         }
 
         private void validateZoomMagnification()

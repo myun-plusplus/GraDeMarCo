@@ -47,6 +47,7 @@
             this.circleYLabel = new System.Windows.Forms.Label();
             this.grainDetectTabPage = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.monochromeInvertCheckBox = new System.Windows.Forms.CheckBox();
             this.edgeDetectComboBox = new System.Windows.Forms.ComboBox();
             this.blurComboBox = new System.Windows.Forms.ComboBox();
             this.binarizationCheckBox = new System.Windows.Forms.CheckBox();
@@ -68,6 +69,7 @@
             this.dotDrawCheckBox = new System.Windows.Forms.CheckBox();
             this.dotDrawRedoButton = new System.Windows.Forms.Button();
             this.dotDrawNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.dotDrawToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dotDrawUndoButton = new System.Windows.Forms.Button();
             this.dotDrawColorLabel = new System.Windows.Forms.Label();
             this.dotCountPageTab = new System.Windows.Forms.TabPage();
@@ -90,7 +92,6 @@
             this.zoomInButton = new System.Windows.Forms.Button();
             this.shownImageSelectCLB = new System.Windows.Forms.CheckedListBox();
             this.imageSaveButton = new System.Windows.Forms.Button();
-            this.monochromeInvertCheckBox = new System.Windows.Forms.CheckBox();
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
             this.imageSelectPanel.SuspendLayout();
@@ -117,6 +118,7 @@
             this.dotDrawTabPage.SuspendLayout();
             this.dotDrawPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dotDrawNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotDrawToolBindingSource)).BeginInit();
             this.dotCountPageTab.SuspendLayout();
             this.dotCountPanel.SuspendLayout();
             this.lowerPanel.SuspendLayout();
@@ -471,6 +473,17 @@
             this.panel1.Size = new System.Drawing.Size(264, 91);
             this.panel1.TabIndex = 17;
             // 
+            // monochromeInvertCheckBox
+            // 
+            this.monochromeInvertCheckBox.Location = new System.Drawing.Point(3, 63);
+            this.monochromeInvertCheckBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 4);
+            this.monochromeInvertCheckBox.Name = "monochromeInvertCheckBox";
+            this.monochromeInvertCheckBox.Size = new System.Drawing.Size(80, 20);
+            this.monochromeInvertCheckBox.TabIndex = 21;
+            this.monochromeInvertCheckBox.Text = "白黒反転";
+            this.monochromeInvertCheckBox.UseVisualStyleBackColor = true;
+            this.monochromeInvertCheckBox.CheckedChanged += new System.EventHandler(this.monochromeInvertCheckBox_CheckedChanged);
+            // 
             // edgeDetectComboBox
             // 
             this.edgeDetectComboBox.FormattingEnabled = true;
@@ -483,7 +496,6 @@
             this.edgeDetectComboBox.Name = "edgeDetectComboBox";
             this.edgeDetectComboBox.Size = new System.Drawing.Size(75, 20);
             this.edgeDetectComboBox.TabIndex = 20;
-            this.edgeDetectComboBox.SelectedIndexChanged += new System.EventHandler(this.edgeDetectComboBox_SelectedIndexChanged);
             // 
             // blurComboBox
             // 
@@ -497,14 +509,13 @@
             this.blurComboBox.Name = "blurComboBox";
             this.blurComboBox.Size = new System.Drawing.Size(75, 20);
             this.blurComboBox.TabIndex = 19;
-            this.blurComboBox.SelectedIndexChanged += new System.EventHandler(this.blurComboBox_SelectedIndexChanged);
             // 
             // binarizationCheckBox
             // 
             this.binarizationCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
             this.binarizationCheckBox.Location = new System.Drawing.Point(3, 32);
             this.binarizationCheckBox.Name = "binarizationCheckBox";
-            this.binarizationCheckBox.Size = new System.Drawing.Size(49, 23);
+            this.binarizationCheckBox.Size = new System.Drawing.Size(75, 23);
             this.binarizationCheckBox.TabIndex = 14;
             this.binarizationCheckBox.Text = "二値化";
             this.binarizationCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -513,16 +524,16 @@
             // 
             // binarizationThresholdLabel
             // 
-            this.binarizationThresholdLabel.Location = new System.Drawing.Point(58, 38);
+            this.binarizationThresholdLabel.Location = new System.Drawing.Point(84, 38);
             this.binarizationThresholdLabel.Margin = new System.Windows.Forms.Padding(3, 9, 3, 8);
             this.binarizationThresholdLabel.Name = "binarizationThresholdLabel";
-            this.binarizationThresholdLabel.Size = new System.Drawing.Size(65, 12);
+            this.binarizationThresholdLabel.Size = new System.Drawing.Size(29, 12);
             this.binarizationThresholdLabel.TabIndex = 12;
-            this.binarizationThresholdLabel.Text = "二値化閾値";
+            this.binarizationThresholdLabel.Text = "閾値";
             // 
             // binarizationThresholdNumericUpDown
             // 
-            this.binarizationThresholdNumericUpDown.Location = new System.Drawing.Point(217, 34);
+            this.binarizationThresholdNumericUpDown.Location = new System.Drawing.Point(207, 34);
             this.binarizationThresholdNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.binarizationThresholdNumericUpDown.Maximum = new decimal(new int[] {
             255,
@@ -549,7 +560,7 @@
             // binarizationThresholdTrackBar
             // 
             this.binarizationThresholdTrackBar.AutoSize = false;
-            this.binarizationThresholdTrackBar.Location = new System.Drawing.Point(129, 32);
+            this.binarizationThresholdTrackBar.Location = new System.Drawing.Point(119, 32);
             this.binarizationThresholdTrackBar.Maximum = 255;
             this.binarizationThresholdTrackBar.Name = "binarizationThresholdTrackBar";
             this.binarizationThresholdTrackBar.Size = new System.Drawing.Size(82, 23);
@@ -750,6 +761,7 @@
             // 
             // dotDrawNumericUpDown
             // 
+            this.dotDrawNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.dotDrawToolBindingSource, "Size", true));
             this.dotDrawNumericUpDown.Location = new System.Drawing.Point(164, 5);
             this.dotDrawNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.dotDrawNumericUpDown.Maximum = new decimal(new int[] {
@@ -771,6 +783,10 @@
             0,
             0});
             this.dotDrawNumericUpDown.ValueChanged += new System.EventHandler(this.dotDrawNumericUpDown_ValueChanged);
+            // 
+            // dotDrawToolBindingSource
+            // 
+            this.dotDrawToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
             // 
             // dotDrawUndoButton
             // 
@@ -1018,17 +1034,6 @@
             this.imageSaveButton.UseVisualStyleBackColor = true;
             this.imageSaveButton.Click += new System.EventHandler(this.imageSaveButton_Click);
             // 
-            // monochromeInvertCheckBox
-            // 
-            this.monochromeInvertCheckBox.Location = new System.Drawing.Point(3, 63);
-            this.monochromeInvertCheckBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 4);
-            this.monochromeInvertCheckBox.Name = "monochromeInvertCheckBox";
-            this.monochromeInvertCheckBox.Size = new System.Drawing.Size(80, 20);
-            this.monochromeInvertCheckBox.TabIndex = 21;
-            this.monochromeInvertCheckBox.Text = "白黒反転";
-            this.monochromeInvertCheckBox.UseVisualStyleBackColor = true;
-            this.monochromeInvertCheckBox.CheckedChanged += new System.EventHandler(this.monochromeInvertCheckBox_CheckedChanged);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1067,6 +1072,7 @@
             this.dotDrawTabPage.ResumeLayout(false);
             this.dotDrawPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dotDrawNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotDrawToolBindingSource)).EndInit();
             this.dotCountPageTab.ResumeLayout(false);
             this.dotCountPanel.ResumeLayout(false);
             this.dotCountPanel.PerformLayout();
@@ -1151,6 +1157,7 @@
         private System.Windows.Forms.BindingSource imageRangeBindingSource;
         private System.Windows.Forms.BindingSource planimetricCircleBindingSource;
         private System.Windows.Forms.CheckBox monochromeInvertCheckBox;
+        private System.Windows.Forms.BindingSource dotDrawToolBindingSource;
     }
 }
 

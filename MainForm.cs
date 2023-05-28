@@ -197,42 +197,8 @@ namespace GrainDetector
             this.imageForm.Refresh();
         }
 
-        private void blurComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void filterOptionBindingSource_CurrentChanged(object sender, EventArgs e)
         {
-            switch (blurComboBox.SelectedIndex)
-            {
-                case 0:
-                    filterOptions.ApplysBlur = BlurOption.None;
-                    break;
-                case 1:
-                    filterOptions.ApplysBlur = BlurOption.Gaussian;
-                    break;
-                case 2:
-                    filterOptions.ApplysBlur = BlurOption.Gaussian3Times;
-                    break;
-            }
-            imageFilter.Filter();
-
-            if (imageFormIsLoaded)
-            {
-                this.imageForm.Refresh();
-            }
-        }
-
-        private void edgeDetectComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            switch (edgeDetectComboBox.SelectedIndex)
-            {
-                case 0:
-                    filterOptions.EdgeDetects = EdgeDetectOption.None;
-                    break;
-                case 1:
-                    filterOptions.EdgeDetects = EdgeDetectOption.Sobel;
-                    break;
-                case 2:
-                    filterOptions.EdgeDetects = EdgeDetectOption.Laplacian;
-                    break;
-            }
             imageFilter.Filter();
 
             if (imageFormIsLoaded)
@@ -375,7 +341,6 @@ namespace GrainDetector
         {
             if (this.colorDialog.ShowDialog() == DialogResult.OK)
             {
-                this.dotDrawColorLabel.BackColor = this.colorDialog.Color;
                 dotDrawTool.Color = this.colorDialog.Color;
             }
         }

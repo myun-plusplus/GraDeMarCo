@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Threading.Tasks;
 
@@ -6,27 +7,61 @@ namespace GrainDetector
 {
     public enum BlurOption
     {
-        None,
+        [Display(Name = "ぼかしなし")]
+        None = 0,
+        [Display(Name = "ガウシアン")]
         Gaussian,
-        Gaussian3Times
+        [Display(Name = "ガウシアン×3")]
+        Gaussian3Times,
+        [Display(Name = "ガウシアン×6")]
+        Gaussian6Times
     }
 
     public enum EdgeDetectOption
     {
+        [Display(Name = "エッジ検出なし")]
         None,
+        [Display(Name = "ソーベル")]
         Sobel,
+        [Display(Name = "ラプラシアン")]
         Laplacian
     }
 
-    public class FilterOptions
+    public class FilterOptions : BindingBase
     {
-        public BlurOption ApplysBlur;
-        public EdgeDetectOption EdgeDetects;
+        public BlurOption ApplysBlur
+        {
+            get
+            {
+                return _applysBlur;
+            }
+            set
+            {
+                _applysBlur = value;
+                OnPropertyChanged(GetName.Of(() => ApplysBlur));
+            }
+        }
+
+        public EdgeDetectOption DetectsEdge
+        {
+            get
+            {
+                return _detectsEdge;
+            }
+            set
+            {
+                _detectsEdge = value;
+                OnPropertyChanged(GetName.Of(() => DetectsEdge));
+            }
+        }
+
+        private BlurOption _applysBlur;
+        private EdgeDetectOption _detectsEdge;
 
         public FilterOptions()
         {
             ApplysBlur = BlurOption.None;
-            EdgeDetects = EdgeDetectOption.None;
+            DetectsEdge = EdgeDetectOption.None;
         }
     }
 
@@ -136,9 +171,37 @@ namespace GrainDetector
                         swapArray(ref srcPixels, ref dstPixels);
                     }
                     break;
+                case BlurOption.Gaussian6Times:
+                    {
+                        reflectToFrame(srcPixels);
+                        byte[,] dstPixels = new byte[height + 2, (width + 2) * 3];
+                        applyFilter(srcPixels, dstPixels, Gaussian, GaussianDenominator);
+                        swapArray(ref srcPixels, ref dstPixels);
+                        reflectToFrame(srcPixels);
+                        fillArrayWithZero(dstPixels);
+                        applyFilter(srcPixels, dstPixels, Gaussian, GaussianDenominator);
+                        swapArray(ref srcPixels, ref dstPixels);
+                        reflectToFrame(srcPixels);
+                        fillArrayWithZero(dstPixels);
+                        applyFilter(srcPixels, dstPixels, Gaussian, GaussianDenominator);
+                        swapArray(ref srcPixels, ref dstPixels);
+                        reflectToFrame(srcPixels);
+                        fillArrayWithZero(dstPixels);
+                        applyFilter(srcPixels, dstPixels, Gaussian, GaussianDenominator);
+                        swapArray(ref srcPixels, ref dstPixels);
+                        reflectToFrame(srcPixels);
+                        fillArrayWithZero(dstPixels);
+                        applyFilter(srcPixels, dstPixels, Gaussian, GaussianDenominator);
+                        swapArray(ref srcPixels, ref dstPixels);
+                        reflectToFrame(srcPixels);
+                        fillArrayWithZero(dstPixels);
+                        applyFilter(srcPixels, dstPixels, Gaussian, GaussianDenominator);
+                        swapArray(ref srcPixels, ref dstPixels);
+                    }
+                    break;
             }
 
-            switch (filterOptions.EdgeDetects)
+            switch (filterOptions.DetectsEdge)
             {
                 case EdgeDetectOption.Sobel:
                     {
