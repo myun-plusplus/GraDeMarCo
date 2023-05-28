@@ -196,7 +196,7 @@ namespace GrainDetector
             this.imageForm.Refresh();
         }
 
-        private void filterOptionBindingSource_CurrentChanged(object sender, EventArgs e)
+        private void filterOptionBindingSource_CurrentItemChanged(object sender, EventArgs e)
         {
             imageFilter.Filter();
 
@@ -210,33 +210,8 @@ namespace GrainDetector
 
         #region ImageBinarization
 
-        private void binarizationThresholdTrackBar_Scroll(object sender, EventArgs e)
+        private void binarizeOptionBindingSource_CurrentItemChanged(object sender, EventArgs e)
         {
-            int tmp = binarizationThresholdTrackBar.Value;
-            binarizationThresholdNumericUpDown.Value = tmp;
-            binarizationThresholdTrackBar.Value = tmp;
-        }
-
-        private void binarizationThresholdNumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            decimal tmp = binarizationThresholdNumericUpDown.Value;
-            binarizationThresholdTrackBar.Value = (int)tmp;
-            binarizationThresholdNumericUpDown.Value = tmp;
-
-            imageBinarize.BinarizationThreshold = (int)tmp;
-            this.imageForm.Refresh();
-        }
-
-        private void monochromeInvertCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (monochromeInvertCheckBox.Checked)
-            {
-                binarizeOptions.MonochromeInverts = true;
-            }
-            else
-            {
-                binarizeOptions.MonochromeInverts = false;
-            }
             imageBinarize.Binarize();
 
             this.imageForm.Refresh();

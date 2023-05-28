@@ -4,7 +4,20 @@ namespace GrainDetector
 {
     public class BinarizeOptions : BindingBase
     {
-        public bool MonochromeInverts
+        public int BinarizationThreshold
+        {
+            get
+            {
+                return _binarizationThreshold;
+            }
+            set
+            {
+                _binarizationThreshold = value;
+                OnPropertyChanged(GetName.Of(() => BinarizationThreshold));
+            }
+        }
+
+        public bool InvertsMonochrome
         {
             get
             {
@@ -13,15 +26,17 @@ namespace GrainDetector
             set
             {
                 _monochormeInverts = value;
-                //OnPropertyChanged(GetName.Of(() => MonochromeInverts));
+                OnPropertyChanged(GetName.Of(() => InvertsMonochrome));
             }
         }
 
+        private int _binarizationThreshold;
         private bool _monochormeInverts;
 
         public BinarizeOptions()
         {
-            MonochromeInverts = false;
+            BinarizationThreshold = 0;
+            InvertsMonochrome = false;
         }
     }
 
@@ -32,27 +47,12 @@ namespace GrainDetector
         private ImageRange imageRange;
         private BinarizeOptions options;
 
-        private int _binarizationThreshold;
-        public int BinarizationThreshold
-        {
-            get
-            {
-                return _binarizationThreshold;
-            }
-            set
-            {
-                _binarizationThreshold = value;
-                Binarize();
-            }
-        }
-
         public ImageBinarize(ImageData imageData, ImageDisplay imageDisplay, ImageRange imageRange, BinarizeOptions options)
         {
             this.imageData = imageData;
             this.imageDisplay = imageDisplay;
             this.imageRange = imageRange;
             this.options = options;
-            BinarizationThreshold = 0;
         }
 
         public void DrawOnPaintEvent(Graphics graphics)
@@ -83,7 +83,7 @@ namespace GrainDetector
                 for (int x = lowerX; x <= upperX; ++x)
                 {
                     // compare R
-                    if (BinarizationThreshold <= imageData.FilteredImagePixels.GetValue(x, y, 0))
+                    if (options.BinarizationThreshold <= imageData.FilteredImagePixels.GetValue(x, y, 0))
                     {
                         imageData.BinarizedImagePixels.SetValue(x, y, 0, 0xFF);
                         imageData.BinarizedImagePixels.SetValue(x, y, 1, 0xFF);
@@ -98,7 +98,7 @@ namespace GrainDetector
                 }
             }
 
-            if (options.MonochromeInverts)
+            if (options.InvertsMonochrome)
             {
                 for (int y = lowerY; y <= upperY; ++y)
                 {

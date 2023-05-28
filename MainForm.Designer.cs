@@ -92,6 +92,7 @@
             this.filterOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.imageRangeBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.planimetricCircleBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.binarizeOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dotDrawToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
@@ -123,6 +124,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.filterOptionBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.planimetricCircleBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.binarizeOptionsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotDrawToolBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -469,6 +471,7 @@
             // 
             // monochromeInvertCheckBox
             // 
+            this.monochromeInvertCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("CheckState", this.binarizeOptionsBindingSource, "InvertsMonochrome", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.monochromeInvertCheckBox.Location = new System.Drawing.Point(3, 63);
             this.monochromeInvertCheckBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 4);
             this.monochromeInvertCheckBox.Name = "monochromeInvertCheckBox";
@@ -476,7 +479,6 @@
             this.monochromeInvertCheckBox.TabIndex = 21;
             this.monochromeInvertCheckBox.Text = "白黒反転";
             this.monochromeInvertCheckBox.UseVisualStyleBackColor = true;
-            this.monochromeInvertCheckBox.CheckedChanged += new System.EventHandler(this.monochromeInvertCheckBox_CheckedChanged);
             // 
             // edgeDetectComboBox
             // 
@@ -527,6 +529,7 @@
             // 
             // binarizationThresholdNumericUpDown
             // 
+            this.binarizationThresholdNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.binarizeOptionsBindingSource, "BinarizationThreshold", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.binarizationThresholdNumericUpDown.Location = new System.Drawing.Point(207, 34);
             this.binarizationThresholdNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.binarizationThresholdNumericUpDown.Maximum = new decimal(new int[] {
@@ -537,7 +540,6 @@
             this.binarizationThresholdNumericUpDown.Name = "binarizationThresholdNumericUpDown";
             this.binarizationThresholdNumericUpDown.Size = new System.Drawing.Size(39, 19);
             this.binarizationThresholdNumericUpDown.TabIndex = 11;
-            this.binarizationThresholdNumericUpDown.ValueChanged += new System.EventHandler(this.binarizationThresholdNumericUpDown_ValueChanged);
             // 
             // imageFilterCheckBox
             // 
@@ -554,12 +556,12 @@
             // binarizationThresholdTrackBar
             // 
             this.binarizationThresholdTrackBar.AutoSize = false;
+            this.binarizationThresholdTrackBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.binarizeOptionsBindingSource, "BinarizationThreshold", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.binarizationThresholdTrackBar.Location = new System.Drawing.Point(119, 32);
             this.binarizationThresholdTrackBar.Maximum = 255;
             this.binarizationThresholdTrackBar.Name = "binarizationThresholdTrackBar";
             this.binarizationThresholdTrackBar.Size = new System.Drawing.Size(82, 23);
             this.binarizationThresholdTrackBar.TabIndex = 0;
-            this.binarizationThresholdTrackBar.Scroll += new System.EventHandler(this.binarizationThresholdTrackBar_Scroll);
             // 
             // grainDetectPanel
             // 
@@ -1031,6 +1033,10 @@
             // 
             this.planimetricCircleBindingSource.DataSource = typeof(GrainDetector.PlanimetricCircle);
             // 
+            // binarizeOptionsBindingSource
+            // 
+            this.binarizeOptionsBindingSource.DataSource = typeof(GrainDetector.BinarizeOptions);
+            // 
             // dotDrawToolBindingSource
             // 
             this.dotDrawToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
@@ -1078,6 +1084,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.filterOptionBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.planimetricCircleBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.binarizeOptionsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotDrawToolBindingSource)).EndInit();
             this.ResumeLayout(false);
 
@@ -1161,6 +1168,7 @@
         private System.Windows.Forms.CheckBox monochromeInvertCheckBox;
         private System.Windows.Forms.BindingSource dotDrawToolBindingSource;
         private System.Windows.Forms.BindingSource filterOptionBindingSource;
+        private System.Windows.Forms.BindingSource binarizeOptionsBindingSource;
     }
 }
 

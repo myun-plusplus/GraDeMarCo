@@ -128,9 +128,11 @@ namespace GrainDetector
             this.imageRangeBindingSource.DataSource = imageRange;
             this.planimetricCircleBindingSource.DataSource = circle;
             this.filterOptionBindingSource.DataSource = filterOptions;
+            this.binarizeOptionsBindingSource.DataSource = binarizeOptions;
             this.dotDrawToolBindingSource.DataSource = dotDrawTool;
 
-            this.filterOptionBindingSource.CurrentItemChanged += filterOptionBindingSource_CurrentChanged;
+            this.filterOptionBindingSource.CurrentItemChanged += filterOptionBindingSource_CurrentItemChanged;
+            this.binarizeOptionsBindingSource.CurrentItemChanged += binarizeOptionBindingSource_CurrentItemChanged;
 
             imageFormIsLoaded = false;
             actionMode = ActionMode.None;
@@ -178,10 +180,7 @@ namespace GrainDetector
             this.filePathTextBox.Text = @"D:\Projects\GrainDetector\sample3.bmp";
 #endif
 
-            this.circleColorSelectLabel.BackColor = Color.Blue;
             circle.Color = Color.Blue;
-
-            imageBinarize.BinarizationThreshold = (int)this.binarizationThresholdNumericUpDown.Value;
 
             grainDetect.MinWhitePixel = (int)this.whitePixelMinimumNumericUpDown.Value;
             grainDetect.DetectsGrainInCircle = this.detectInCircleCheckBox.Checked;
