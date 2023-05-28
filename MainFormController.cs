@@ -10,8 +10,6 @@ namespace GrainDetector
 {
     public partial class MainForm
     {
-        private BindingSource filterOptionBindingSource;
-
         private ImageForm imageForm;
         private OpenFileDialog openFileDialog;
         private SaveFileDialog saveFileDialog;
@@ -109,8 +107,6 @@ namespace GrainDetector
             dotCount = new DotCount(imageData, imageRange);
 
             InitializeComponent();
-
-            this.filterOptionBindingSource = new BindingSource(this.components);
 
             this.blurComboBox.DataSource = Enum.GetValues(typeof(BlurOption)).Cast<BlurOption>()
                 .Select(i => Tuple.Create(i, i.GetType().GetField(i.ToString()).GetCustomAttribute<DisplayAttribute>().Name))

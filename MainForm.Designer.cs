@@ -89,6 +89,7 @@
             this.zoomInButton = new System.Windows.Forms.Button();
             this.shownImageSelectCLB = new System.Windows.Forms.CheckedListBox();
             this.imageSaveButton = new System.Windows.Forms.Button();
+            this.filterOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.imageRangeBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.planimetricCircleBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dotDrawToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -119,6 +120,7 @@
             this.dotCountPageTab.SuspendLayout();
             this.dotCountPanel.SuspendLayout();
             this.lowerPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.filterOptionBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.planimetricCircleBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotDrawToolBindingSource)).BeginInit();
@@ -1073,6 +1075,7 @@
             this.dotCountPanel.ResumeLayout(false);
             this.dotCountPanel.PerformLayout();
             this.lowerPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.filterOptionBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.planimetricCircleBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotDrawToolBindingSource)).EndInit();
@@ -1157,6 +1160,7 @@
         private System.Windows.Forms.BindingSource planimetricCircleBindingSource;
         private System.Windows.Forms.CheckBox monochromeInvertCheckBox;
         private System.Windows.Forms.BindingSource dotDrawToolBindingSource;
+        private System.Windows.Forms.BindingSource filterOptionBindingSource;
     }
 }
 
