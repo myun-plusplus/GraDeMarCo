@@ -26,6 +26,9 @@ namespace GrainDetector
                     ShownImage = value.Clone(
                         new Rectangle(0, 0, value.Width, value.Height),
                         PixelFormat.Format24bppRgb);
+                    CircleImage = value.Clone(
+                        new Rectangle(0, 0, value.Width, value.Height),
+                        PixelFormat.Format24bppRgb);
                     FilteredImage = value.Clone(
                         new Rectangle(0, 0, value.Width, value.Height),
                         PixelFormat.Format24bppRgb);

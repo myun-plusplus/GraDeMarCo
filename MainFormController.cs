@@ -22,6 +22,8 @@ namespace GrainDetector
         private PlanimetricCircle circle;
         private FilterOptions filterOptions;
         private BinarizeOptions binarizeOptions;
+        private GrainDetectOptions grainDetectOptions;
+        private DetectedGrainDotDrawTool detectedGrainDotDrawTool;
         private DotDrawTool dotDrawTool;
         private DrawnDotsData drawnDotsData;
 
@@ -94,6 +96,8 @@ namespace GrainDetector
             circle = new PlanimetricCircle();
             filterOptions = new FilterOptions();
             binarizeOptions = new BinarizeOptions();
+            grainDetectOptions = new GrainDetectOptions();
+            detectedGrainDotDrawTool = new DetectedGrainDotDrawTool();
             dotDrawTool = new DotDrawTool();
             drawnDotsData = new DrawnDotsData();
 
@@ -103,7 +107,7 @@ namespace GrainDetector
             imageBinarize = new ImageBinarize(imageData, imageDisplay, imageRange, binarizeOptions);
             // GrainDetectに渡すため、初期化順が逆
             dotDraw = new DotDraw(imageDisplay, dotDrawTool, drawnDotsData);
-            grainDetect = new GrainDetect(imageData, imageDisplay, imageRange, circle, dotDraw);
+            grainDetect = new GrainDetect(imageData, imageRange, circle, grainDetectOptions, detectedGrainDotDrawTool, dotDraw);
             dotCount = new DotCount(imageData, imageRange);
 
             InitializeComponent();
@@ -123,12 +127,16 @@ namespace GrainDetector
             this.circleColorSelectLabel.DataBindings.Add(new Binding("BackColor", this.planimetricCircleBindingSource, "Color", true, DataSourceUpdateMode.OnPropertyChanged));
             this.blurComboBox.DataBindings.Add(new Binding("SelectedValue", this.filterOptionBindingSource, "ApplysBlur", true, DataSourceUpdateMode.OnPropertyChanged));
             this.edgeDetectComboBox.DataBindings.Add(new Binding("SelectedValue", this.filterOptionBindingSource, "DetectsEdge", true, DataSourceUpdateMode.OnPropertyChanged));
+            this.dotColorInCircleLabel.DataBindings.Add(new Binding("BackColor", this.detectedGrainDotDrawToolBindingSource, "DotColorInCircle", true, DataSourceUpdateMode.OnPropertyChanged));
+            this.dotColorOnCircleLabel.DataBindings.Add(new Binding("BackColor", this.detectedGrainDotDrawToolBindingSource, "DotColorOnCircle", true, DataSourceUpdateMode.OnPropertyChanged));
             this.dotDrawColorLabel.DataBindings.Add(new Binding("BackColor", this.dotDrawToolBindingSource, "Color", true, DataSourceUpdateMode.OnPropertyChanged));
 
             this.imageRangeBindingSource.DataSource = imageRange;
             this.planimetricCircleBindingSource.DataSource = circle;
             this.filterOptionBindingSource.DataSource = filterOptions;
             this.binarizeOptionsBindingSource.DataSource = binarizeOptions;
+            this.grainDetectOptionsBindingSource.DataSource = grainDetectOptions;
+            this.detectedGrainDotDrawToolBindingSource.DataSource = detectedGrainDotDrawTool;
             this.dotDrawToolBindingSource.DataSource = dotDrawTool;
 
             this.filterOptionBindingSource.CurrentItemChanged += filterOptionBindingSource_CurrentItemChanged;
@@ -182,22 +190,24 @@ namespace GrainDetector
 
             circle.Color = Color.Blue;
 
-            grainDetect.MinWhitePixel = (int)this.whitePixelMinimumNumericUpDown.Value;
-            grainDetect.DetectsGrainInCircle = this.detectInCircleCheckBox.Checked;
-            grainDetect.DetectsGrainOnCircle = this.detectOnCircleCheckBox.Checked;
-            this.detectInCircleCheckBox.BackColor = Color.Red;
-            grainDetect.DotColorInCircle = Color.Red;
-            grainDetect.DotSizeInCircle = (int)this.dotSizeInCircleNumericUpDown.Value;
-            this.detectOnCircleCheckBox.BackColor = Color.Yellow;
-            grainDetect.DotColorOnCircle = Color.Yellow;
-            grainDetect.DotSizeOnCircle = (int)this.dotSizeOnCircleNumericUpDown.Value;
-
             filterOptions.ApplysBlur = BlurOption.None;
             filterOptions.DetectsEdge = EdgeDetectOption.None;
+
+            binarizeOptions.BinarizationThreshold = 127;
+
+            grainDetectOptions.DetectsGrainInCircle = true;
+            grainDetectOptions.DetectsGrainOnCircle = false;
+            grainDetectOptions.MinWhitePixelCount = 1000;
+            detectedGrainDotDrawTool.DotColorInCircle = Color.Red;
+            detectedGrainDotDrawTool.DotColorOnCircle = Color.Yellow;
+            detectedGrainDotDrawTool.DotSizeInCircle = 5;
+            detectedGrainDotDrawTool.DotSizeOnCircle = 5;
 
             dotDrawTool.Color = Color.Red;
             dotDrawTool.Size = 5;
 
+            this.dotCountCheckBox1.Checked = true;
+            this.dotCountCheckBox2.Checked = true;
             this.dotCountColorLabel1.BackColor = Color.Red;
             this.dotCountColorLabel2.BackColor = Color.Yellow;
         }

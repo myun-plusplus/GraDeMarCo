@@ -4,24 +4,74 @@ using System.Drawing;
 
 namespace GrainDetector
 {
-    public class GrainDetect
+    public class GrainDetectOptions : BindingBase
     {
-        private ImageData imageData;
-        private ImageDisplay imageDisplay;
-        private ImageRange imageRange;
-        private PlanimetricCircle circle;
-        private DotDraw dotDraw;
+        public bool DetectsGrainInCircle
+        {
+            get
+            {
+                return _detectsGrainInCircle;
+            }
+            set
+            {
+                _detectsGrainInCircle = value;
+                OnPropertyChanged(GetName.Of(() => DetectsGrainInCircle));
+            }
+        }
 
-        public int MinWhitePixel;
+        public bool DetectsGrainOnCircle
+        {
+            get
+            {
+                return _detectsGrainOnCircle;
+            }
+            set
+            {
+                _detectsGrainOnCircle = value;
+                OnPropertyChanged(GetName.Of(() => DetectsGrainOnCircle));
+            }
+        }
 
-        private Color circleColor;
-        private List<Point> dotLocationsInCircle, dotLocationsOnCircle;
+        public int MinWhitePixelCount
+        {
+            get
+            {
+                return _minWhitePixelCount;
+            }
+            set
+            {
+                _minWhitePixelCount = value;
+                OnPropertyChanged(GetName.Of(() => MinWhitePixelCount));
+            }
+        }
 
-        #region DotOptions
+        public Color CircleColor
+        {
+            get
+            {
+                return _circleColor;
+            }
+            set
+            {
+                _circleColor = value;
+                OnPropertyChanged(GetName.Of(() => CircleColor));
+            }
+        }
 
-        public bool DetectsGrainInCircle, DetectsGrainOnCircle;
+        private bool _detectsGrainInCircle;
+        private bool _detectsGrainOnCircle;
+        private int _minWhitePixelCount;
+        private Color _circleColor;
 
-        private Color _dotColorInCircle, _dotColorOnCircle;
+        public GrainDetectOptions()
+        {
+            MinWhitePixelCount = 1000;
+            CircleColor = Color.Transparent;
+        }
+    }
+
+    public class DetectedGrainDotDrawTool : BindingBase
+    {
         public Color DotColorInCircle
         {
             get
@@ -31,7 +81,8 @@ namespace GrainDetector
             set
             {
                 _dotColorInCircle = value;
-                brushInCircle.Color = value;
+                BrushInCircle.Color = value;
+                OnPropertyChanged(GetName.Of(() => DotColorInCircle));
             }
         }
         public Color DotColorOnCircle
@@ -43,78 +94,86 @@ namespace GrainDetector
             set
             {
                 _dotColorOnCircle = value;
-                brushOnCircle.Color = value;
+                BrushOnCircle.Color = value;
+                OnPropertyChanged(GetName.Of(() => DotColorOnCircle));
             }
         }
 
-        public int DotSizeInCircle, DotSizeOnCircle;
+        public int DotSizeInCircle
+        {
+            get
+            {
+                return _dotSizeInCircle;
+            }
+            set
+            {
+                _dotSizeInCircle = value;
+                OnPropertyChanged(GetName.Of(() => DotSizeInCircle));
+            }
+        }
 
-        private SolidBrush brushInCircle;
-        private SolidBrush brushOnCircle;
+        public int DotSizeOnCircle
+        {
+            get
+            {
+                return _dotSizeOnCircle;
+            }
+            set
+            {
+                _dotSizeOnCircle = value;
+                OnPropertyChanged(GetName.Of(() => DotSizeOnCircle));
+            }
+        }
 
-        #endregion
+        public SolidBrush BrushInCircle
+        {
+            get;
+            private set;
+        }
 
-        public GrainDetect(ImageData imageData, ImageDisplay imageDisplay, ImageRange imageRange, PlanimetricCircle circle, DotDraw dotDraw)
+        public SolidBrush BrushOnCircle
+        {
+            get;
+            private set;
+        }
+
+        private Color _dotColorInCircle;
+        private Color _dotColorOnCircle;
+        private int _dotSizeInCircle;
+        private int _dotSizeOnCircle;
+
+        public DetectedGrainDotDrawTool()
+        {
+            BrushInCircle = new SolidBrush(Color.Transparent);
+            BrushOnCircle = new SolidBrush(Color.Transparent);
+            DotColorInCircle = Color.Transparent;
+            DotColorOnCircle = Color.Transparent;
+        }
+    }
+
+    public class GrainDetect
+    {
+        private ImageData imageData;
+        private ImageRange imageRange;
+        private PlanimetricCircle circle;
+        private GrainDetectOptions options;
+        private DetectedGrainDotDrawTool drawTool;
+        private DotDraw dotDraw;
+
+        public GrainDetect(
+            ImageData imageData,
+            ImageRange imageRange,
+            PlanimetricCircle circle,
+            GrainDetectOptions options,
+            DetectedGrainDotDrawTool drawTool,
+            DotDraw dotDraw)
         {
             this.imageData = imageData;
-            this.imageDisplay = imageDisplay;
             this.imageRange = imageRange;
             this.circle = circle;
+            this.options = options;
+            this.drawTool = drawTool;
             this.dotDraw = dotDraw;
-            circleColor = Color.Transparent;
-            dotLocationsInCircle = new List<Point>();
-            dotLocationsOnCircle = new List<Point>();
-            brushInCircle = new SolidBrush(Color.Transparent);
-            brushOnCircle = new SolidBrush(Color.Transparent);
-        }
-
-        public void DrawOnPaintEvent(Graphics graphics)
-        {
-            foreach (Point location in dotLocationsInCircle)
-            {
-                Point shown = imageDisplay.GetShownLocation(location);
-                graphics.FillRectangle(
-                    brushInCircle,
-                    (float)(shown.X - DotSizeInCircle * imageDisplay.ZoomMagnification / 2.0),
-                    (float)(shown.Y - DotSizeInCircle * imageDisplay.ZoomMagnification / 2.0),
-                    (float)(DotSizeInCircle * imageDisplay.ZoomMagnification),
-                    (float)(DotSizeInCircle * imageDisplay.ZoomMagnification));
-            }
-            foreach (Point location in dotLocationsOnCircle)
-            {
-                Point shown = imageDisplay.GetShownLocation(location);
-                graphics.FillRectangle(
-                    brushOnCircle,
-                    (float)(shown.X - DotSizeOnCircle * imageDisplay.ZoomMagnification / 2.0),
-                    (float)(shown.Y - DotSizeOnCircle * imageDisplay.ZoomMagnification / 2.0),
-                    (float)(DotSizeOnCircle * imageDisplay.ZoomMagnification),
-                    (float)(DotSizeOnCircle * imageDisplay.ZoomMagnification));
-            }
-        }
-
-        public void DrawOnImage(Bitmap image)
-        {
-            using (var graphics = Graphics.FromImage(image))
-            {
-                foreach (Point location in dotLocationsInCircle)
-                {
-                    graphics.FillRectangle(
-                        brushInCircle,
-                        (float)(location.X - DotSizeInCircle / 2.0),
-                        (float)(location.Y - DotSizeInCircle / 2.0),
-                        DotSizeInCircle,
-                        DotSizeInCircle);
-                }
-                foreach (Point location in dotLocationsOnCircle)
-                {
-                    graphics.FillRectangle(
-                        brushOnCircle,
-                        (float)(location.X - DotSizeOnCircle / 2.0),
-                        (float)(location.Y - DotSizeOnCircle / 2.0),
-                        DotSizeOnCircle,
-                        DotSizeOnCircle);
-                }
-            }
         }
 
         private static readonly int[] dx = new int[] { 1, 0, -1, 0 };
@@ -122,9 +181,6 @@ namespace GrainDetector
 
         public void Detect()
         {
-            dotLocationsInCircle.Clear();
-            dotLocationsOnCircle.Clear();
-
             searchCircleColor();
 
             int width = imageData.OriginalImagePixels.Width;
@@ -139,7 +195,7 @@ namespace GrainDetector
                 {
                     for (int x = lowerX; x <= upperX; ++x)
                     {
-                        circleMap[y, x] = imageData.CircleImagePixels.Equals(x, y, circleColor);
+                        circleMap[y, x] = imageData.CircleImagePixels.Equals(x, y, options.CircleColor);
                     }
                 }
 
@@ -177,6 +233,8 @@ namespace GrainDetector
                 }
             }
 
+            List<Point> dotLocationsInCircle = new List<Point>();
+            List<Point> dotLocationsOnCircle = new List<Point>();
             {
                 bool[,] visited = new bool[height, width];
                 var stack = new Stack<Tuple<int, int>>();
@@ -223,21 +281,21 @@ namespace GrainDetector
                             }
                         }
 
-                        if (pixelCount >= MinWhitePixel)
+                        if (pixelCount >= options.MinWhitePixelCount)
                         {
                             sumX /= pixelCount;
                             sumY /= pixelCount;
 
                             if (!onCircle)
                             {
-                                if (DetectsGrainInCircle)
+                                if (options.DetectsGrainInCircle)
                                 {
                                     dotLocationsInCircle.Add(new Point((int)sumX, (int)sumY));
                                 }
                             }
                             else
                             {
-                                if (DetectsGrainOnCircle)
+                                if (options.DetectsGrainOnCircle)
                                 {
                                     dotLocationsOnCircle.Add(new Point((int)sumX, (int)sumY));
                                 }
@@ -249,16 +307,18 @@ namespace GrainDetector
 
             foreach (Point location in dotLocationsInCircle)
             {
-                dotDraw.DrawDot(location, brushInCircle, DotSizeInCircle);
+                dotDraw.DrawDot(location, drawTool.BrushInCircle, drawTool.DotSizeInCircle);
             }
             foreach (Point location in dotLocationsOnCircle)
             {
-                dotDraw.DrawDot(location, brushOnCircle, DotSizeOnCircle);
+                dotDraw.DrawDot(location, drawTool.BrushOnCircle, drawTool.DotSizeOnCircle);
             }
         }
 
         private void searchCircleColor()
         {
+            options.CircleColor = Color.Transparent;
+
             int lowerX = imageRange.LowerX, upperX = imageRange.UpperX;
             int lowerY = imageRange.LowerY, upperY = imageRange.UpperY;
             for (int y = lowerY; y <= upperY; ++y)
@@ -268,7 +328,7 @@ namespace GrainDetector
                     if (imageData.CircleImagePixels.GetValue(x, y, 0) != imageData.CircleImagePixels.GetValue(x, y, 1) ||
                         imageData.CircleImagePixels.GetValue(x, y, 0) != imageData.CircleImagePixels.GetValue(x, y, 2))
                     {
-                        circleColor = Color.FromArgb(
+                        options.CircleColor = Color.FromArgb(
                             imageData.CircleImagePixels.GetValue(x, y, 0),
                             imageData.CircleImagePixels.GetValue(x, y, 1),
                             imageData.CircleImagePixels.GetValue(x, y, 2));
@@ -276,7 +336,7 @@ namespace GrainDetector
                     }
                 }
 
-                if (circleColor != Color.Transparent)
+                if (options.CircleColor != Color.Transparent)
                 {
                     break;
                 }
