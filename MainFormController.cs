@@ -124,10 +124,10 @@ namespace GrainDetector
             this.edgeDetectComboBox.ValueMember = "Item1";
             this.edgeDetectComboBox.DisplayMember = "Item2";
 
-            this.circleColorLabel.DataBindings.Add(new Binding("BackColor", this.planimetricCircleBindingSource, "Color", true));
+            this.circleColorSelectLabel.DataBindings.Add(new Binding("BackColor", this.planimetricCircleBindingSource, "Color", true, DataSourceUpdateMode.OnPropertyChanged));
             this.blurComboBox.DataBindings.Add(new Binding("SelectedValue", this.filterOptionBindingSource, "ApplysBlur", true, DataSourceUpdateMode.OnPropertyChanged));
             this.edgeDetectComboBox.DataBindings.Add(new Binding("SelectedValue", this.filterOptionBindingSource, "DetectsEdge", true, DataSourceUpdateMode.OnPropertyChanged));
-            this.dotDrawColorLabel.DataBindings.Add(new Binding("BackColor", this.dotDrawToolBindingSource, "Color", true));
+            this.dotDrawColorLabel.DataBindings.Add(new Binding("BackColor", this.dotDrawToolBindingSource, "Color", true, DataSourceUpdateMode.OnPropertyChanged));
 
             this.imageRangeBindingSource.DataSource = imageRange;
             this.planimetricCircleBindingSource.DataSource = circle;

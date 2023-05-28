@@ -17,7 +17,7 @@ namespace GrainDetector
             {
                 _color = value;
                 Brush.Color = value;
-                //OnPropertyChanged(GetName.Of(() => Color));
+                OnPropertyChanged(GetName.Of(() => Color));
             }
         }
 
@@ -30,7 +30,7 @@ namespace GrainDetector
             set
             {
                 _size = value;
-                //OnPropertyChanged(GetName.Of(() => Size));
+                OnPropertyChanged(GetName.Of(() => Size));
             }
         }
 

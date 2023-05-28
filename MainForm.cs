@@ -174,7 +174,6 @@ namespace GrainDetector
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
                 this.circleColorSelectLabel.BackColor = colorDialog.Color;
-                circle.Color = colorDialog.Color;
             }
         }
 
@@ -341,13 +340,8 @@ namespace GrainDetector
         {
             if (this.colorDialog.ShowDialog() == DialogResult.OK)
             {
-                dotDrawTool.Color = this.colorDialog.Color;
+                this.dotDrawColorLabel.BackColor = this.colorDialog.Color;
             }
-        }
-
-        private void dotDrawNumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            dotDrawTool.Size = (int)this.dotDrawNumericUpDown.Value;
         }
 
         private void dotDrawUndoButton_Click(object sender, EventArgs e)
