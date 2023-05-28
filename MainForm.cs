@@ -214,7 +214,10 @@ namespace GrainDetector
         {
             imageBinarize.Binarize();
 
-            this.imageForm.Refresh();
+            if (_isImageFormOpened)
+            {
+                this.imageForm.Refresh();
+            }
         }
 
         private void binarizationCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -235,47 +238,20 @@ namespace GrainDetector
 
         #region GrainDetecting
 
-        private void detectInCircleCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void dotColorInCircleLabel_Click(object sender, EventArgs e)
         {
-            grainDetect.DetectsGrainInCircle = detectInCircleCheckBox.Checked;
-
-            if (detectInCircleCheckBox.Checked)
+            if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                if (colorDialog.ShowDialog() == DialogResult.OK)
-                {
-                    this.detectInCircleCheckBox.BackColor = colorDialog.Color;
-                    grainDetect.DotColorInCircle = colorDialog.Color;
-                }
+                this.dotColorInCircleLabel.BackColor = colorDialog.Color;
             }
         }
 
-        private void detectOnCircleCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void dotColorOnCircleLabel_Click(object sender, EventArgs e)
         {
-            grainDetect.DetectsGrainOnCircle = detectOnCircleCheckBox.Checked;
-
-            if (detectOnCircleCheckBox.Checked)
+            if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                if (colorDialog.ShowDialog() == DialogResult.OK)
-                {
-                    this.detectOnCircleCheckBox.BackColor = colorDialog.Color;
-                    grainDetect.DotColorOnCircle = colorDialog.Color;
-                }
+                this.dotColorOnCircleLabel.BackColor = colorDialog.Color;
             }
-        }
-
-        private void detectInCircleNumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            grainDetect.DotSizeInCircle = (int)this.dotSizeInCircleNumericUpDown.Value;
-        }
-
-        private void detectOnCircleNumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            grainDetect.DotSizeOnCircle = (int)this.dotSizeOnCircleNumericUpDown.Value;
-        }
-
-        private void whitePixelMinimumNumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            grainDetect.MinWhitePixel = (int)this.whitePixelMinimumNumericUpDown.Value;
         }
 
         private void dotDetectButton_Click(object sender, EventArgs e)
@@ -286,11 +262,7 @@ namespace GrainDetector
             circleSelect.DrawOnBitmap(circleImage);
             imageData.CircleImage = circleImage;
 
-            Bitmap binarizedImage = imageData.OriginalImage.Clone(
-                new Rectangle(0, 0, imageData.OriginalImage.Width, imageData.OriginalImage.Height),
-                PixelFormat.Format24bppRgb);
-            imageBinarize.DrawOnBitmap(binarizedImage);
-            imageData.BinarizedImage = binarizedImage;
+            imageBinarize.Binarize();
 
             grainDetect.Detect();
         }
