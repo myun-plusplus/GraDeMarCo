@@ -206,10 +206,12 @@ namespace GrainDetector
             dotDrawTool.Color = Color.Red;
             dotDrawTool.Size = 5;
 
-            this.dotCountCheckBox1.Checked = true;
-            this.dotCountCheckBox2.Checked = true;
-            this.dotCountColorLabel1.BackColor = Color.Red;
-            this.dotCountColorLabel2.BackColor = Color.Yellow;
+            this.dotCountListView.Items.Add(new ListViewItem(new string[] { "", "0" }));
+            this.dotCountListView.Items.Add(new ListViewItem(new string[] { "", "0" }));
+            this.dotCountListView.Items[0].UseItemStyleForSubItems = false;
+            this.dotCountListView.Items[1].UseItemStyleForSubItems = false;
+            this.dotCountListView.Items[0].SubItems[0].BackColor = Color.Red;
+            this.dotCountListView.Items[1].SubItems[0].BackColor = Color.Yellow;
         }
 
         private void openImageForm()

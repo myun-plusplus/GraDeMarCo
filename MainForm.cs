@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace GrainDetector
@@ -313,61 +313,72 @@ namespace GrainDetector
 
         #region DotCounting
 
-        private void dotCountColorLabel1_Click(object sender, EventArgs e)
-        {
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                this.dotCountColorLabel1.BackColor = colorDialog.Color;
-            }
-        }
-
-        private void dotCountColorLabel2_Click(object sender, EventArgs e)
-        {
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                this.dotCountColorLabel2.BackColor = colorDialog.Color;
-            }
-        }
-
-        private void dotCountColorLabel3_Click(object sender, EventArgs e)
-        {
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                this.dotCountColorLabel3.BackColor = colorDialog.Color;
-            }
-        }
-
-        private void dotCountColorLabel4_Click(object sender, EventArgs e)
-        {
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                this.dotCountColorLabel4.BackColor = colorDialog.Color;
-            }
-        }
-
         private void dotCountStartButton_Click(object sender, EventArgs e)
         {
-            dotCount.TargetColors = new List<Color>
-            {
-                this.dotCountColorLabel1.BackColor,
-                this.dotCountColorLabel2.BackColor,
-                this.dotCountColorLabel3.BackColor,
-                this.dotCountColorLabel4.BackColor
-            };
-            dotCount.IsCounted = new List<bool>
-            {
-                this.dotCountCheckBox1.Checked,
-                this.dotCountCheckBox2.Checked,
-                this.dotCountCheckBox3.Checked,
-                this.dotCountCheckBox4.Checked
-            };
+            var counts = dotCount.CountDots(
+                this.dotCountListView.Items.Cast<ListViewItem>()
+                .Select(lvi => lvi.SubItems[0].BackColor)
+                .ToList());
 
-            var results = dotCount.CountDots();
+            for (int i = 0; i < this.dotCountListView.Items.Count; ++i)
+            {
+                this.dotCountListView.Items[i].SubItems[1].Text = counts[i].ToString();
+            }
+        }
 
-            this.dotCountTextBox1.Text = results[0].ToString();
-            this.dotCountTextBox2.Text = results[1].ToString();
-            this.dotCountTextBox3.Text = results[2].ToString();
-            this.dotCountTextBox4.Text = results[3].ToString();
+        private void dotCountListView_Click(object sender, EventArgs e)
+        {
+            Point location = this.dotCountListView.PointToClient(Control.MousePosition);
+            var hitTestInfo = this.dotCountListView.HitTest(location);
+            int row = hitTestInfo.Item.Index;
+            int col = hitTestInfo.Item.SubItems.IndexOf(hitTestInfo.SubItem);
+
+            if (col == 0 && this.colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                this.dotCountListView.Items[row].SubItems[0].BackColor = this.colorDialog.Color;
+            }
+        }
+
+        private void dotCountListView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.C)
+            {
+                var lvis = this.dotCountListView.SelectedItems;
+                string text = string.Join(
+                    "\n",
+                    lvis.Cast<ListViewItem>()
+                    .Select(lvi => lvi.SubItems[1].Text)
+                    .ToArray());
+                Clipboard.SetText(text);
+            }
+        }
+
+        private void addDotCountButton_Click(object sender, EventArgs e)
+        {
+            var lvi = new ListViewItem();
+
+            // BackColorの効果を指定したSubItemに限定するため
+            lvi.UseItemStyleForSubItems = false;
+
+            var lvsi = new ListViewItem.ListViewSubItem(lvi, "0");
+            lvi.SubItems.Add(lvsi);
+
+            this.dotCountListView.Items.Add(lvi);
+        }
+
+        private void deleteDotCountButton_Click(object sender, EventArgs e)
+        {
+            var lvis = this.dotCountListView.SelectedItems;
+            foreach (var lvi in lvis)
+            {
+                this.dotCountListView.Items.Remove((ListViewItem)lvi);
+            }
+        }
+
+        private void dotCountListView_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        {
+            e.Cancel = true;
+            e.NewWidth = this.dotCountListView.Columns[e.ColumnIndex].Width;
         }
 
         #endregion
