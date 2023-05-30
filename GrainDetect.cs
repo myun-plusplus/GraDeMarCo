@@ -70,94 +70,14 @@ namespace GrainDetector
         }
     }
 
-    public class DetectedGrainDotDrawTool : BindingBase
-    {
-        public Color DotColorInCircle
-        {
-            get
-            {
-                return _dotColorInCircle;
-            }
-            set
-            {
-                _dotColorInCircle = value;
-                BrushInCircle.Color = value;
-                OnPropertyChanged(GetName.Of(() => DotColorInCircle));
-            }
-        }
-        public Color DotColorOnCircle
-        {
-            get
-            {
-                return _dotColorOnCircle;
-            }
-            set
-            {
-                _dotColorOnCircle = value;
-                BrushOnCircle.Color = value;
-                OnPropertyChanged(GetName.Of(() => DotColorOnCircle));
-            }
-        }
-
-        public int DotSizeInCircle
-        {
-            get
-            {
-                return _dotSizeInCircle;
-            }
-            set
-            {
-                _dotSizeInCircle = value;
-                OnPropertyChanged(GetName.Of(() => DotSizeInCircle));
-            }
-        }
-
-        public int DotSizeOnCircle
-        {
-            get
-            {
-                return _dotSizeOnCircle;
-            }
-            set
-            {
-                _dotSizeOnCircle = value;
-                OnPropertyChanged(GetName.Of(() => DotSizeOnCircle));
-            }
-        }
-
-        public SolidBrush BrushInCircle
-        {
-            get;
-            private set;
-        }
-
-        public SolidBrush BrushOnCircle
-        {
-            get;
-            private set;
-        }
-
-        private Color _dotColorInCircle;
-        private Color _dotColorOnCircle;
-        private int _dotSizeInCircle;
-        private int _dotSizeOnCircle;
-
-        public DetectedGrainDotDrawTool()
-        {
-            BrushInCircle = new SolidBrush(Color.Transparent);
-            BrushOnCircle = new SolidBrush(Color.Transparent);
-            DotColorInCircle = Color.Transparent;
-            DotColorOnCircle = Color.Transparent;
-        }
-    }
-
     public class GrainDetect
     {
         private ImageData imageData;
         private ImageRange imageRange;
         private PlanimetricCircle circle;
         private GrainDetectOptions options;
-        private DetectedGrainDotDrawTool drawTool;
+        private DotDrawTool dotInCircleTool;
+        private DotDrawTool dotOnCircleTool;
         private DotDraw dotDraw;
 
         public GrainDetect(
@@ -165,14 +85,16 @@ namespace GrainDetector
             ImageRange imageRange,
             PlanimetricCircle circle,
             GrainDetectOptions options,
-            DetectedGrainDotDrawTool drawTool,
+            DotDrawTool dotInCircleTool,
+            DotDrawTool dotOnCircleTool,
             DotDraw dotDraw)
         {
             this.imageData = imageData;
             this.imageRange = imageRange;
             this.circle = circle;
             this.options = options;
-            this.drawTool = drawTool;
+            this.dotInCircleTool = dotInCircleTool;
+            this.dotOnCircleTool = dotOnCircleTool;
             this.dotDraw = dotDraw;
         }
 
@@ -307,11 +229,11 @@ namespace GrainDetector
 
             foreach (Point location in dotLocationsInCircle)
             {
-                dotDraw.DrawDot(location, drawTool.BrushInCircle, drawTool.DotSizeInCircle);
+                dotDraw.DrawDot(location, dotInCircleTool.Brush, dotInCircleTool.Size);
             }
             foreach (Point location in dotLocationsOnCircle)
             {
-                dotDraw.DrawDot(location, drawTool.BrushOnCircle, drawTool.DotSizeOnCircle);
+                dotDraw.DrawDot(location, dotOnCircleTool.Brush, dotOnCircleTool.Size);
             }
         }
 

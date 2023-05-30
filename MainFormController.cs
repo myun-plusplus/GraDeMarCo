@@ -23,7 +23,8 @@ namespace GrainDetector
         private FilterOptions filterOptions;
         private BinarizeOptions binarizeOptions;
         private GrainDetectOptions grainDetectOptions;
-        private DetectedGrainDotDrawTool detectedGrainDotDrawTool;
+        private DotDrawTool dotInCircleTool;
+        private DotDrawTool dotOnCircleTool;
         private DotDrawTool dotDrawTool;
         private DrawnDotsData drawnDotsData;
 
@@ -97,7 +98,8 @@ namespace GrainDetector
             filterOptions = new FilterOptions();
             binarizeOptions = new BinarizeOptions();
             grainDetectOptions = new GrainDetectOptions();
-            detectedGrainDotDrawTool = new DetectedGrainDotDrawTool();
+            dotInCircleTool = new DotDrawTool();
+            dotOnCircleTool = new DotDrawTool();
             dotDrawTool = new DotDrawTool();
             drawnDotsData = new DrawnDotsData();
 
@@ -107,7 +109,7 @@ namespace GrainDetector
             imageBinarize = new ImageBinarize(imageData, imageDisplay, imageRange, binarizeOptions);
             // GrainDetectに渡すため、初期化順が逆
             dotDraw = new DotDraw(imageDisplay, dotDrawTool, drawnDotsData);
-            grainDetect = new GrainDetect(imageData, imageRange, circle, grainDetectOptions, detectedGrainDotDrawTool, dotDraw);
+            grainDetect = new GrainDetect(imageData, imageRange, circle, grainDetectOptions, dotInCircleTool, dotOnCircleTool, dotDraw);
             dotCount = new DotCount(imageData, imageRange);
 
             InitializeComponent();
@@ -127,8 +129,8 @@ namespace GrainDetector
             this.circleColorSelectLabel.DataBindings.Add(new Binding("BackColor", this.planimetricCircleBindingSource, "Color", true, DataSourceUpdateMode.OnPropertyChanged));
             this.blurComboBox.DataBindings.Add(new Binding("SelectedValue", this.filterOptionBindingSource, "ApplysBlur", true, DataSourceUpdateMode.OnPropertyChanged));
             this.edgeDetectComboBox.DataBindings.Add(new Binding("SelectedValue", this.filterOptionBindingSource, "DetectsEdge", true, DataSourceUpdateMode.OnPropertyChanged));
-            this.dotColorInCircleLabel.DataBindings.Add(new Binding("BackColor", this.detectedGrainDotDrawToolBindingSource, "DotColorInCircle", true, DataSourceUpdateMode.OnPropertyChanged));
-            this.dotColorOnCircleLabel.DataBindings.Add(new Binding("BackColor", this.detectedGrainDotDrawToolBindingSource, "DotColorOnCircle", true, DataSourceUpdateMode.OnPropertyChanged));
+            this.dotColorInCircleLabel.DataBindings.Add(new Binding("BackColor", this.dotInCircleToolBindingSource, "Color", true, DataSourceUpdateMode.OnPropertyChanged));
+            this.dotColorOnCircleLabel.DataBindings.Add(new Binding("BackColor", this.dotOnCircleToolBindingSource, "Color", true, DataSourceUpdateMode.OnPropertyChanged));
             this.dotDrawColorLabel.DataBindings.Add(new Binding("BackColor", this.dotDrawToolBindingSource, "Color", true, DataSourceUpdateMode.OnPropertyChanged));
 
             this.imageRangeBindingSource.DataSource = imageRange;
@@ -136,7 +138,8 @@ namespace GrainDetector
             this.filterOptionBindingSource.DataSource = filterOptions;
             this.binarizeOptionsBindingSource.DataSource = binarizeOptions;
             this.grainDetectOptionsBindingSource.DataSource = grainDetectOptions;
-            this.detectedGrainDotDrawToolBindingSource.DataSource = detectedGrainDotDrawTool;
+            this.dotInCircleToolBindingSource.DataSource = dotInCircleTool;
+            this.dotOnCircleToolBindingSource.DataSource = dotOnCircleTool;
             this.dotDrawToolBindingSource.DataSource = dotDrawTool;
 
             this.filterOptionBindingSource.CurrentItemChanged += filterOptionBindingSource_CurrentItemChanged;
@@ -198,10 +201,10 @@ namespace GrainDetector
             grainDetectOptions.DetectsGrainInCircle = true;
             grainDetectOptions.DetectsGrainOnCircle = false;
             grainDetectOptions.MinWhitePixelCount = 1000;
-            detectedGrainDotDrawTool.DotColorInCircle = Color.Red;
-            detectedGrainDotDrawTool.DotColorOnCircle = Color.Yellow;
-            detectedGrainDotDrawTool.DotSizeInCircle = 5;
-            detectedGrainDotDrawTool.DotSizeOnCircle = 5;
+            dotInCircleTool.Color = Color.Red;
+            dotInCircleTool.Size = 5;
+            dotOnCircleTool.Color = Color.Yellow;
+            dotOnCircleTool.Size = 5;
 
             dotDrawTool.Color = Color.Red;
             dotDrawTool.Size = 5;
