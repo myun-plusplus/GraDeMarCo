@@ -16,7 +16,6 @@ namespace GrainDetector
             set
             {
                 _color = value;
-                Brush.Color = value;
                 OnPropertyChanged(GetName.Of(() => Color));
             }
         }
@@ -34,43 +33,22 @@ namespace GrainDetector
             }
         }
 
-        public SolidBrush Brush
-        {
-            get;
-            private set;
-        }
-
         private Color _color;
         private int _size;
-
-        public DotDrawTool()
-        {
-            Brush = new SolidBrush(Color.Transparent);
-        }
-
-        ~DotDrawTool()
-        {
-            Brush.Dispose();
-        }
     }
 
     public class Dot
     {
         public Point Location;
-        public SolidBrush Brush;
+        public Color Color;
         public int Size;
-
-        ~Dot()
-        {
-            Brush.Dispose();
-        }
 
         public Dot Clone()
         {
             return new Dot
             {
                 Location = this.Location,
-                Brush = (SolidBrush)this.Brush.Clone(),
+                Color = this.Color,
                 Size = this.Size
             };
         }
@@ -108,33 +86,40 @@ namespace GrainDetector
 
         public void DrawOnPaintEvent(Graphics graphics)
         {
-            foreach (Dot dot in dotsData.Dots)
+            using (var brush = new SolidBrush(Color.Transparent))
             {
-                Point shown = imageDisplay.GetShownLocation(dot.Location);
-                graphics.FillRectangle(
-                    dot.Brush,
-                    (float)(shown.X - dot.Size * imageDisplay.ZoomMagnification / 2.0),
-                    (float)(shown.Y - dot.Size * imageDisplay.ZoomMagnification / 2.0),
-                    (float)(dot.Size * imageDisplay.ZoomMagnification),
-                    (float)(dot.Size * imageDisplay.ZoomMagnification));
-            }
+                foreach (Dot dot in dotsData.Dots)
+                {
+                    Point shown = imageDisplay.GetShownLocation(dot.Location);
+                    brush.Color = dot.Color;
+                    graphics.FillRectangle(
+                        brush,
+                        (float)(shown.X - dot.Size * imageDisplay.ZoomMagnification / 2.0),
+                        (float)(shown.Y - dot.Size * imageDisplay.ZoomMagnification / 2.0),
+                        (float)(dot.Size * imageDisplay.ZoomMagnification),
+                        (float)(dot.Size * imageDisplay.ZoomMagnification));
+                }
 
-            graphics.FillRectangle(
-                tool.Brush,
-                (float)(mouseLocation.X - tool.Size * imageDisplay.ZoomMagnification / 2.0),
-                (float)(mouseLocation.Y - tool.Size * imageDisplay.ZoomMagnification / 2.0),
-                (float)(tool.Size * imageDisplay.ZoomMagnification),
-                (float)(tool.Size * imageDisplay.ZoomMagnification));
+                brush.Color = tool.Color;
+                graphics.FillRectangle(
+                    brush,
+                    (float)(mouseLocation.X - tool.Size * imageDisplay.ZoomMagnification / 2.0),
+                    (float)(mouseLocation.Y - tool.Size * imageDisplay.ZoomMagnification / 2.0),
+                    (float)(tool.Size * imageDisplay.ZoomMagnification),
+                    (float)(tool.Size * imageDisplay.ZoomMagnification));
+            }
         }
 
         public void DrawOnBitmap(Bitmap bitmap)
         {
             using (var graphics = Graphics.FromImage(bitmap))
+            using (var brush = new SolidBrush(Color.Transparent))
             {
                 foreach (Dot dot in dotsData.Dots)
                 {
+                    brush.Color = dot.Color;
                     graphics.FillRectangle(
-                        dot.Brush,
+                        brush,
                         (float)(dot.Location.X - dot.Size / 2.0),
                         (float)(dot.Location.Y - dot.Size / 2.0),
                         dot.Size,
@@ -145,7 +130,7 @@ namespace GrainDetector
 
         public void Click(Point location)
         {
-            DrawDot(imageDisplay.GetAdjustedLocation(location), tool.Brush, this.tool.Size);
+            DrawDot(imageDisplay.GetAdjustedLocation(location), tool.Color, this.tool.Size);
         }
 
         public void RightClick(Point location)
@@ -158,12 +143,12 @@ namespace GrainDetector
             mouseLocation = location;
         }
 
-        public void DrawDot(Point location, SolidBrush brush, int dotSize)
+        public void DrawDot(Point location, Color color, int dotSize)
         {
             Dot dot = new Dot
             {
                 Location = location,
-                Brush = (SolidBrush)brush.Clone(),
+                Color = color,
                 Size = dotSize
             };
 
