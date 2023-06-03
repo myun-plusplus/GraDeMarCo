@@ -48,6 +48,23 @@ namespace GrainDetector
             this.pictureBox.Size = imageData.ShownImage.Size;;
         }
 
+        private void imageForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (ActionMode == ActionMode.DotDraw)
+            {
+                if (e.Control && e.KeyCode == Keys.Z)
+                {
+                    dotDraw.UndoDrawing();
+                    this.Refresh();
+                }
+                else if (e.Control && e.KeyCode == Keys.Y)
+                {
+                    dotDraw.RedoDrawing();
+                    this.Refresh();
+                }
+            }
+        }
+
         private void imageForm_MouseWheel(object sender, MouseEventArgs e)
         {
             if ((Control.ModifierKeys & Keys.Control) == Keys.Control)

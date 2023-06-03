@@ -24,7 +24,6 @@
             this.imageOpenButton = new System.Windows.Forms.Button();
             this.rangeSelectPanel = new System.Windows.Forms.Panel();
             this.upperYNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.imageRangeBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.lowerYNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.rangeYHyphenLabel = new System.Windows.Forms.Label();
             this.upperXNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -37,7 +36,6 @@
             this.circleSelectPanel = new System.Windows.Forms.Panel();
             this.circleColorSelectLabel = new System.Windows.Forms.Label();
             this.circleDiameterNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.planimetricCircleBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.circleColorLabel = new System.Windows.Forms.Label();
             this.circleXNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.circleYNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -48,7 +46,6 @@
             this.grainDetectTabPage = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.monochromeInvertCheckBox = new System.Windows.Forms.CheckBox();
-            this.binarizeOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.edgeDetectComboBox = new System.Windows.Forms.ComboBox();
             this.blurComboBox = new System.Windows.Forms.ComboBox();
             this.binarizationCheckBox = new System.Windows.Forms.CheckBox();
@@ -60,13 +57,10 @@
             this.dotColorOnCircleLabel = new System.Windows.Forms.Label();
             this.dotColorInCircleLabel = new System.Windows.Forms.Label();
             this.whitePixelMinimumNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.grainDetectOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.whitePixelMinimumLabel = new System.Windows.Forms.Label();
             this.dotSizeOnCircleNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.dotOnCircleToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.grainDetectButton = new System.Windows.Forms.Button();
             this.dotSizeInCircleNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.dotInCircleToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.detectsOnCircleCheckBox = new System.Windows.Forms.CheckBox();
             this.detectsInCircleCheckBox = new System.Windows.Forms.CheckBox();
             this.dotDrawTabPage = new System.Windows.Forms.TabPage();
@@ -75,7 +69,6 @@
             this.dotDrawCheckBox = new System.Windows.Forms.CheckBox();
             this.dotDrawRedoButton = new System.Windows.Forms.Button();
             this.dotDrawNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.dotDrawToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dotDrawUndoButton = new System.Windows.Forms.Button();
             this.dotDrawColorLabel = new System.Windows.Forms.Label();
             this.dotCountPageTab = new System.Windows.Forms.TabPage();
@@ -94,41 +87,48 @@
             this.filterOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.imageRangeBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.planimetricCircleBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.binarizeOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.grainDetectOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dotOnCircleToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dotInCircleToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dotDrawToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
             this.imageSelectPanel.SuspendLayout();
             this.rangeSelectPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.upperYNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lowerYNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.upperXNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lowerXNumericUpDown)).BeginInit();
             this.circleSelectPageTab.SuspendLayout();
             this.circleSelectPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.circleDiameterNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.planimetricCircleBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleXNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleYNumericUpDown)).BeginInit();
             this.grainDetectTabPage.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.binarizeOptionsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdTrackBar)).BeginInit();
             this.grainDetectPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.whitePixelMinimumNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.grainDetectOptionsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeOnCircleNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dotOnCircleToolBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeInCircleNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dotInCircleToolBindingSource)).BeginInit();
             this.dotDrawTabPage.SuspendLayout();
             this.dotDrawPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dotDrawNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dotDrawToolBindingSource)).BeginInit();
             this.dotCountPageTab.SuspendLayout();
             this.dotCountPanel.SuspendLayout();
             this.lowerPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.filterOptionBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.planimetricCircleBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.binarizeOptionsBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grainDetectOptionsBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotOnCircleToolBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotInCircleToolBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotDrawToolBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -231,10 +231,6 @@
             this.upperYNumericUpDown.TabIndex = 0;
             this.upperYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.upperYNumericUpDown.ValueChanged += new System.EventHandler(this.upperYNumericUpDown_ValueChanged);
-            // 
-            // imageRangeBindingSource
-            // 
-            this.imageRangeBindingSource.DataSource = typeof(GrainDetector.ImageRange);
             // 
             // lowerYNumericUpDown
             // 
@@ -366,10 +362,6 @@
             this.circleDiameterNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.circleDiameterNumericUpDown.ValueChanged += new System.EventHandler(this.circleNumericUpDowns_ValueChanged);
             // 
-            // planimetricCircleBindingSource
-            // 
-            this.planimetricCircleBindingSource.DataSource = typeof(GrainDetector.PlanimetricCircle);
-            // 
             // circleColorLabel
             // 
             this.circleColorLabel.AutoSize = true;
@@ -490,10 +482,6 @@
             this.monochromeInvertCheckBox.TabIndex = 21;
             this.monochromeInvertCheckBox.Text = "白黒反転";
             this.monochromeInvertCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // binarizeOptionsBindingSource
-            // 
-            this.binarizeOptionsBindingSource.DataSource = typeof(GrainDetector.BinarizeOptions);
             // 
             // edgeDetectComboBox
             // 
@@ -641,10 +629,6 @@
             0,
             0});
             // 
-            // grainDetectOptionsBindingSource
-            // 
-            this.grainDetectOptionsBindingSource.DataSource = typeof(GrainDetector.GrainDetectOptions);
-            // 
             // whitePixelMinimumLabel
             // 
             this.whitePixelMinimumLabel.Location = new System.Drawing.Point(3, 67);
@@ -677,10 +661,6 @@
             0,
             0,
             0});
-            // 
-            // dotOnCircleToolBindingSource
-            // 
-            this.dotOnCircleToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
             // 
             // grainDetectButton
             // 
@@ -715,10 +695,6 @@
             0,
             0,
             0});
-            // 
-            // dotInCircleToolBindingSource
-            // 
-            this.dotInCircleToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
             // 
             // detectsOnCircleCheckBox
             // 
@@ -825,10 +801,6 @@
             0,
             0,
             0});
-            // 
-            // dotDrawToolBindingSource
-            // 
-            this.dotDrawToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
             // 
             // dotDrawUndoButton
             // 
@@ -1011,6 +983,34 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // imageRangeBindingSource
+            // 
+            this.imageRangeBindingSource.DataSource = typeof(GrainDetector.ImageRange);
+            // 
+            // planimetricCircleBindingSource
+            // 
+            this.planimetricCircleBindingSource.DataSource = typeof(GrainDetector.PlanimetricCircle);
+            // 
+            // binarizeOptionsBindingSource
+            // 
+            this.binarizeOptionsBindingSource.DataSource = typeof(GrainDetector.BinarizeOptions);
+            // 
+            // grainDetectOptionsBindingSource
+            // 
+            this.grainDetectOptionsBindingSource.DataSource = typeof(GrainDetector.GrainDetectOptions);
+            // 
+            // dotOnCircleToolBindingSource
+            // 
+            this.dotOnCircleToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
+            // 
+            // dotInCircleToolBindingSource
+            // 
+            this.dotInCircleToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
+            // 
+            // dotDrawToolBindingSource
+            // 
+            this.dotDrawToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1021,6 +1021,7 @@
             this.Controls.Add(this.lowerPanel);
             this.Controls.Add(this.tabControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.KeyPreview = true;
             this.Name = "MainForm";
             this.Text = "GrainDetector";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
@@ -1030,7 +1031,6 @@
             this.imageSelectPanel.PerformLayout();
             this.rangeSelectPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.upperYNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lowerYNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.upperXNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lowerXNumericUpDown)).EndInit();
@@ -1038,29 +1038,30 @@
             this.circleSelectPanel.ResumeLayout(false);
             this.circleSelectPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.circleDiameterNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.planimetricCircleBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleXNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleYNumericUpDown)).EndInit();
             this.grainDetectTabPage.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.binarizeOptionsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdTrackBar)).EndInit();
             this.grainDetectPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.whitePixelMinimumNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.grainDetectOptionsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeOnCircleNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dotOnCircleToolBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeInCircleNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dotInCircleToolBindingSource)).EndInit();
             this.dotDrawTabPage.ResumeLayout(false);
             this.dotDrawPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dotDrawNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dotDrawToolBindingSource)).EndInit();
             this.dotCountPageTab.ResumeLayout(false);
             this.dotCountPanel.ResumeLayout(false);
             this.lowerPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.filterOptionBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.planimetricCircleBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.binarizeOptionsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grainDetectOptionsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotOnCircleToolBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotInCircleToolBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotDrawToolBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }

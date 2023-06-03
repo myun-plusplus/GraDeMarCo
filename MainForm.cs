@@ -463,7 +463,19 @@ namespace GrainDetector
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-
+            if (actionMode == ActionMode.DotDraw)
+            {
+                if (e.Control && e.KeyCode == Keys.Z)
+                {
+                    dotDraw.UndoDrawing();
+                    this.imageForm.Refresh();
+                }
+                else if (e.Control && e.KeyCode == Keys.Y)
+                {
+                    dotDraw.RedoDrawing();
+                    this.imageForm.Refresh();
+                }
+            }
         }
 
         private void imageForm_FormClosing(object sender, CancelEventArgs e)
@@ -477,17 +489,6 @@ namespace GrainDetector
             }
 
             imageFormIsLoaded = false;
-        }
-
-        private void imageForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (actionMode == ActionMode.DotDraw)
-            {
-                if (e.Control && e.KeyCode == Keys.Z)
-                {
-
-                }
-            }
         }
 
         private void MainForm_ZoomMagnificationChanged(object sender, EventArgs e)
