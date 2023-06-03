@@ -1,12 +1,32 @@
 ﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace GrainDetector
 {
     public class ImageDisplay
     {
+        public PropertyValueChangedEventHandler ZoomMagnificationChanged;
+
         private ImageData imageData;
 
-        public double ZoomMagnification;
+        public double ZoomMagnification
+        {
+            get
+            {
+                return _zoomMagnification;
+            }
+            set
+            {
+                var oldValue = _zoomMagnification;
+                _zoomMagnification = value;
+                if (ZoomMagnificationChanged != null)
+                {
+                    ZoomMagnificationChanged.Invoke(this, new PropertyValueChangedEventArgs(null, oldValue));
+                }
+            }
+        }
+
+        private double _zoomMagnification;
 
         public ImageDisplay(ImageData imageData)
         {
@@ -27,6 +47,16 @@ namespace GrainDetector
                 0,
                 (int)(imageData.ShownImage.Width * ZoomMagnification),
                 (int)(imageData.ShownImage.Height * ZoomMagnification));
+        }
+
+        public bool CanZoomIn()
+        {
+            return ZoomMagnification < 8.0;
+        }
+
+        public bool CanZoomOut()
+        {
+            return ZoomMagnification > 0.125;
         }
 
         public Size GetPictureBoxSize()

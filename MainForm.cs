@@ -389,16 +389,12 @@ namespace GrainDetector
 
         private void zoomInButton_Click(object sender, EventArgs e)
         {
-            imageForm.MultipleZoomMagnification(2.0);
-
-            validateZoomMagnification();
+            imageDisplay.ZoomMagnification *= 2;
         }
 
         private void zoomOutButton_Click(object sender, EventArgs e)
         {
-            imageForm.MultipleZoomMagnification(0.5);
-
-            validateZoomMagnification();
+            imageDisplay.ZoomMagnification *= 0.5;
         }
 
         private void imageSaveButton_Click(object sender, EventArgs e)
@@ -465,6 +461,11 @@ namespace GrainDetector
 
         #endregion
 
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
         private void imageForm_FormClosing(object sender, CancelEventArgs e)
         {
             actionMode = ActionMode.None;
@@ -478,23 +479,21 @@ namespace GrainDetector
             imageFormIsLoaded = false;
         }
 
-        private void imageForm_MouseWheel(object sender, MouseEventArgs e)
+        private void imageForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+            if (actionMode == ActionMode.DotDraw)
             {
-                if (e.Delta > 0 && this.zoomInButton.Enabled)
+                if (e.Control && e.KeyCode == Keys.Z)
                 {
-                    imageForm.MultipleZoomMagnification(2.0);
 
-                    validateZoomMagnification();
-                }
-                else if (e.Delta < 0 && this.zoomOutButton.Enabled)
-                {
-                    imageForm.MultipleZoomMagnification(0.5);
-
-                    validateZoomMagnification();
                 }
             }
+        }
+
+        private void MainForm_ZoomMagnificationChanged(object sender, EventArgs e)
+        {
+            this.zoomInButton.Enabled = imageDisplay.CanZoomIn();
+            this.zoomOutButton.Enabled = imageDisplay.CanZoomOut();
         }
 
         private void button1_Click(object sender, EventArgs e)

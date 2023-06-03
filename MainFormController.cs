@@ -94,6 +94,8 @@ namespace GrainDetector
 
             imageDisplay = new ImageDisplay(imageData);
             imageDisplay.Initialize();
+            imageDisplay.ZoomMagnificationChanged += MainForm_ZoomMagnificationChanged;
+
             imageRange = new ImageRange();
             circle = new PlanimetricCircle();
             filterOptions = new FilterOptions();
@@ -254,8 +256,8 @@ namespace GrainDetector
             this.imageForm.Location = new Point(this.Location.X + 320, this.Location.Y);
             this.imageForm.ActionMode = ActionMode.None;
             this.imageForm.FormClosing += imageForm_FormClosing;
-            this.imageForm.MouseWheel += imageForm_MouseWheel;
-            this.imageForm.ChangeZoomMagnification(1.0);
+
+            imageDisplay.ZoomMagnification = 1.0;
 
             this.imageForm.Show();
         }
@@ -384,26 +386,6 @@ namespace GrainDetector
             circle.LowerX = 0;
             circle.LowerY = 0;
             circle.Diameter = Math.Min(imageData.OriginalImage.Width, imageData.OriginalImage.Height);
-        }
-
-        private void validateZoomMagnification()
-        {
-            if (imageDisplay.ZoomMagnification >= 8)
-            {
-                this.zoomInButton.Enabled = false;
-            }
-            else
-            {
-                this.zoomInButton.Enabled = true;
-            }
-            if (imageDisplay.ZoomMagnification <= 0.125)
-            {
-                this.zoomOutButton.Enabled = false;
-            }
-            else
-            {
-                this.zoomOutButton.Enabled = true;
-            }
         }
 
         [Flags]
