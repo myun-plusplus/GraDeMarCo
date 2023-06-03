@@ -33,15 +33,15 @@ namespace GrainDetector
             workspace.DotDrawTool = this.dotDrawTool;
             workspace.DrawnDotsData = this.drawnDotsData;
 
-            this.openFileDialog.FileName = "";
-            if (this.openFileDialog.ShowDialog() != DialogResult.OK)
+            this.openImageFileDialog.FileName = "";
+            if (this.openImageFileDialog.ShowDialog() != DialogResult.OK)
             {
                 return;
             }
 
             try
             {
-                workspace.Load(this.openFileDialog.FileName);
+                workspace.Load(this.openImageFileDialog.FileName);
             }
             catch (Exception exception)
             {
@@ -68,13 +68,38 @@ namespace GrainDetector
 
         private void overwriteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var workspace = new Workspace();
+            workspace.ImageRange = imageRange;
+            workspace.Circle = circle;
+            workspace.FilterOptions = filterOptions;
+            workspace.BinarizeOptions = binarizeOptions;
+            workspace.GrainDetectOptions = grainDetectOptions;
+            workspace.DotInCircleTool = dotInCircleTool;
+            workspace.DotOnCircleTool = dotOnCircleTool;
+            workspace.DotDrawTool = dotDrawTool;
+            workspace.DrawnDotsData = drawnDotsData;
 
+            workspace.OriginalImagePath = this.filePathTextBox.Text;
+
+            workspace.CountedColors = this.dotCountListView.Items.Cast<ListViewItem>()
+                    .Select(lvi => lvi.SubItems[0].BackColor)
+                    .ToList();
+
+            try
+            {
+                workspace.Save(this.saveImageFileDialog.FileName);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+                return;
+            }
         }
 
         private void saveasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.saveFileDialog.FileName = Path.GetFileNameWithoutExtension(this.filePathTextBox.Text) + ".dat";
-            if (this.saveFileDialog.ShowDialog() != DialogResult.OK)
+            this.saveImageFileDialog.FileName = Path.GetFileNameWithoutExtension(this.filePathTextBox.Text) + ".dat";
+            if (this.saveImageFileDialog.ShowDialog() != DialogResult.OK)
             {
                 return;
             }
@@ -98,7 +123,7 @@ namespace GrainDetector
 
             try
             {
-                workspace.Save(this.saveFileDialog.FileName);
+                workspace.Save(this.saveImageFileDialog.FileName);
             }
             catch (Exception exception)
             {
@@ -109,7 +134,7 @@ namespace GrainDetector
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //this.Close();
+            this.Close();
         }
 
         #endregion
@@ -130,9 +155,9 @@ namespace GrainDetector
 
         private void fileSelectButton_Click(object sender, EventArgs e)
         {
-            if (this.openFileDialog.ShowDialog() == DialogResult.OK)
+            if (this.openImageFileDialog.ShowDialog() == DialogResult.OK)
             {
-                this.filePathTextBox.Text = this.openFileDialog.FileName;
+                this.filePathTextBox.Text = this.openImageFileDialog.FileName;
             }
         }
 
@@ -520,23 +545,23 @@ namespace GrainDetector
                 return;
             }
 
-            this.saveFileDialog.FileName = fileName;
-            this.saveFileDialog.InitialDirectory = directory;
+            this.saveImageFileDialog.FileName = fileName;
+            this.saveImageFileDialog.InitialDirectory = directory;
 
-            if (this.saveFileDialog.ShowDialog() == DialogResult.OK)
+            if (this.saveImageFileDialog.ShowDialog() == DialogResult.OK)
             {
-                string extension = Path.GetExtension(this.saveFileDialog.FileName);
+                string extension = Path.GetExtension(this.saveImageFileDialog.FileName);
                 if (extension == ".bmp")
                 {
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Bmp);
+                    imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Bmp);
                 }
                 else if (extension == ".exif")
                 {
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Exif);
+                    imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Exif);
                 }
                 else if (extension == ".gif")
                 {
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Gif);
+                    imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Gif);
                 }
                 else if (extension == ".jpg")
                 {
@@ -554,15 +579,15 @@ namespace GrainDetector
                         }
                     }
 
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, jpgEncoder, eps);
+                    imageData.ShownImage.Save(this.saveImageFileDialog.FileName, jpgEncoder, eps);
                 }
                 else if (extension == ".png")
                 {
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Png);
+                    imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Png);
                 }
                 else if (extension == ".tiff")
                 {
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Tiff);
+                    imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Tiff);
                 }
             }
         }

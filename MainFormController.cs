@@ -12,8 +12,10 @@ namespace GrainDetector
     public partial class MainForm
     {
         private ImageForm imageForm;
-        private OpenFileDialog openFileDialog;
-        private SaveFileDialog saveFileDialog;
+        private OpenFileDialog openImageFileDialog;
+        private OpenFileDialog openWorkspaceDialog;
+        private SaveFileDialog saveImageFileDialog;
+        private SaveFileDialog saveWorkspaceDialog;
         private ColorDialog colorDialog;
 
         private ImageData imageData;
@@ -71,17 +73,29 @@ namespace GrainDetector
 
         public MainForm()
         {
-            this.openFileDialog = new OpenFileDialog();
-            this.openFileDialog.Filter = "画像ファイル(*.bmp;*.exif;*.gif;*.jpg;*.png;*.tiff)|*.bmp;*.exif;*.gif;*.jpg;*.png;*.tiff|すべてのファイル(*.*)|*.*";
-            this.openFileDialog.FilterIndex = 1;
-            this.openFileDialog.Title = "開くファイルを選択してください";
-            this.openFileDialog.RestoreDirectory = true;
+            this.openImageFileDialog = new OpenFileDialog();
+            this.openImageFileDialog.Filter = "画像ファイル(*.bmp;*.exif;*.gif;*.jpg;*.png;*.tiff)|*.bmp;*.exif;*.gif;*.jpg;*.png;*.tiff|すべてのファイル(*.*)|*.*";
+            this.openImageFileDialog.FilterIndex = 1;
+            this.openImageFileDialog.Title = "開くファイルを選択してください";
+            this.openImageFileDialog.RestoreDirectory = true;
 
-            this.saveFileDialog = new SaveFileDialog();
-            this.saveFileDialog.Filter = "BMPファイル(*.bmp)|*.bmp|EXIFファイル(*.exif)|*.exif|GIFファイル(*.gif)|*.gif|JPEGファイル(*.jpg)|*.jpg|PNGファイル(*.png)|*.png|TIFFファイル(*.tiff)|*.tiff|すべてのファイル(*.*)|*.*";
-            this.saveFileDialog.FilterIndex = 0;
-            this.saveFileDialog.Title = "保存先を選択してください";
-            this.saveFileDialog.RestoreDirectory = true;
+            this.openWorkspaceDialog = new OpenFileDialog();
+            this.openWorkspaceDialog.Filter = "DATファイル(*.dat)|*.dat|すべてのファイル(*.*)|*.*";
+            this.openWorkspaceDialog.FilterIndex = 0;
+            this.openWorkspaceDialog.Title = "開くファイルを選択してください";
+            this.openWorkspaceDialog.RestoreDirectory = true;
+
+            this.saveImageFileDialog = new SaveFileDialog();
+            this.saveImageFileDialog.Filter = "BMPファイル(*.bmp)|*.bmp|EXIFファイル(*.exif)|*.exif|GIFファイル(*.gif)|*.gif|JPEGファイル(*.jpg)|*.jpg|PNGファイル(*.png)|*.png|TIFFファイル(*.tiff)|*.tiff|すべてのファイル(*.*)|*.*";
+            this.saveImageFileDialog.FilterIndex = 0;
+            this.saveImageFileDialog.Title = "保存先を選択してください";
+            this.saveImageFileDialog.RestoreDirectory = true;
+
+            this.saveWorkspaceDialog = new SaveFileDialog();
+            this.saveWorkspaceDialog.Filter = "DATファイル(*.dat) | *.dat | すべてのファイル(*.*) | *.* ";
+            this.saveWorkspaceDialog.FilterIndex = 0;
+            this.saveWorkspaceDialog.Title = "保存先を選択してください";
+            this.saveWorkspaceDialog.RestoreDirectory = true;
 
             this.colorDialog = new ColorDialog();
             this.colorDialog.CustomColors = new int[] {
@@ -163,16 +177,16 @@ namespace GrainDetector
                 this.imageForm.Dispose();
             }
             this.imageForm = null;
-            if (this.openFileDialog != null)
+            if (this.openImageFileDialog != null)
             {
-                this.openFileDialog.Dispose();
+                this.openImageFileDialog.Dispose();
             }
-            this.openFileDialog = null;
-            if (this.saveFileDialog != null)
+            this.openImageFileDialog = null;
+            if (this.saveImageFileDialog != null)
             {
-                this.saveFileDialog.Dispose();
+                this.saveImageFileDialog.Dispose();
             }
-            this.saveFileDialog = null;
+            this.saveImageFileDialog = null;
             if (this.colorDialog != null)
             {
                 this.colorDialog.Dispose();
