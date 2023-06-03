@@ -3,6 +3,7 @@ using System.Drawing;
 
 namespace GrainDetector
 {
+    [Serializable]
     public class ImageRange : BindingBase
     {
         public int LowerX

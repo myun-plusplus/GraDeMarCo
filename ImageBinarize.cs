@@ -1,7 +1,9 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace GrainDetector
 {
+    [Serializable]
     public class BinarizeOptions : BindingBase
     {
         public int BinarizationThreshold

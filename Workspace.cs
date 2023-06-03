@@ -44,6 +44,8 @@ namespace GrainDetector
         public void Load(string filePath)
         {
             var fileInfo = new FileInfo(filePath);
+            var formatter = new BinaryFormatter();
+            Workspace workspace;
 
             byte[] data = new byte[fileInfo.Length];
             using (var stream = fileInfo.OpenRead())
@@ -51,8 +53,6 @@ namespace GrainDetector
                 stream.Read(data, 0, data.Length);
             }
 
-            var formatter = new BinaryFormatter();
-            Workspace workspace;
             using (var ms = new MemoryStream())
             {
                 ms.Write(data, 0, data.Length);
@@ -79,7 +79,12 @@ namespace GrainDetector
             foreach (var sourceProperty in type.GetProperties())
             {
                 var targetProperty = type.GetProperty(sourceProperty.Name);
-                targetProperty.SetValue(destination, sourceProperty.GetValue(source, null), null);
+                targetProperty.SetValue(destination, sourceProperty.GetValue(source));
+            }
+            foreach (var sourceField in type.GetFields())
+            {
+                var targetField = type.GetField(sourceField.Name);
+                targetField.SetValue(destination, sourceField.GetValue(source));
             }
         }
     }

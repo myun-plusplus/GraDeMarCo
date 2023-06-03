@@ -4,6 +4,7 @@ using System.Drawing;
 
 namespace GrainDetector
 {
+    [Serializable]
     public class GrainDetectOptions : BindingBase
     {
         public bool DetectsGrainInCircle

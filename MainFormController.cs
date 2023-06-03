@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
@@ -217,6 +218,34 @@ namespace GrainDetector
             this.dotCountListView.Items[1].SubItems[0].BackColor = Color.Yellow;
         }
 
+        private void openImageFile(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                MessageBox.Show("選択したファイルが存在しません。", "エラー");
+                return;
+            }
+
+            Bitmap tmp = null;
+            try
+            {
+                tmp = new Bitmap(filePath);
+                imageData.OriginalImage = tmp.Clone(new Rectangle(0, 0, tmp.Width, tmp.Height), PixelFormat.Format24bppRgb);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "エラー");
+                return;
+            }
+            finally
+            {
+                if (tmp != null)
+                {
+                    tmp.Dispose();
+                }
+            }
+        }
+
         private void openImageForm()
         {
             imageFormIsLoaded = true;
@@ -228,9 +257,6 @@ namespace GrainDetector
             this.imageForm.ChangeZoomMagnification(1.0);
 
             this.imageForm.Show();
-
-            initializeRangeSelect();
-            initializeCircleSelect();
         }
 
         private void closeImageForm()

@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace GrainDetector
 {
+    [Serializable]
     public class DotDrawTool : BindingBase
     {
         public Color Color
@@ -37,6 +38,7 @@ namespace GrainDetector
         private int _size;
     }
 
+    [Serializable]
     public class Dot
     {
         public Point Location;
@@ -54,6 +56,7 @@ namespace GrainDetector
         }
     }
 
+    [Serializable]
     public class DrawnDotsData
     {
         public List<Dot> Dots;

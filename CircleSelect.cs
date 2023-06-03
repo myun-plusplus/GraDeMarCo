@@ -3,6 +3,7 @@ using System.Drawing;
 
 namespace GrainDetector
 {
+    [Serializable]
     public class PlanimetricCircle : BindingBase
     {
         public int LowerX
@@ -47,31 +48,11 @@ namespace GrainDetector
 
         public Color Color
         {
-            get
-            {
-                return _color;
-            }
-            set
-            {
-                _color = value;
-                Pen.Color = value;
-            }
-        }
-
-        public Pen Pen
-        {
             get;
-            private set;
+            set;
         }
 
         private int _lowerX, _lowerY;
-        private Color _color;
-
-        public PlanimetricCircle()
-        {
-            Pen = new Pen(Color.Transparent);
-            Color = Color.Transparent;
-        }
     }
 
     public class CircleSelect : BindingBase
@@ -149,12 +130,16 @@ namespace GrainDetector
             {
                 var t = orderPoints(StartLocation, EndLocation);
                 int diameter = Math.Min(t.Item2.X - t.Item1.X, t.Item2.Y - t.Item1.Y);
-                graphics.DrawEllipse(
-                    circle.Pen,
-                    t.Item1.X,
-                    t.Item1.Y,
-                    diameter,
-                    diameter);
+
+                using (Pen pen = new Pen(circle.Color))
+                {
+                    graphics.DrawEllipse(
+                        pen,
+                        t.Item1.X,
+                        t.Item1.Y,
+                        diameter,
+                        diameter);
+                }
             }
         }
 
@@ -162,13 +147,17 @@ namespace GrainDetector
         {
             using (var graphics = Graphics.FromImage(bitmap))
             {
-                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
-                graphics.DrawEllipse(
-                    circle.Pen,
-                    circle.LowerX,
-                    circle.LowerY,
-                    circle.Diameter,
-                    circle.Diameter);
+                //graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
+
+                using (Pen pen = new Pen(circle.Color))
+                {
+                    graphics.DrawEllipse(
+                        pen,
+                        circle.LowerX,
+                        circle.LowerY,
+                        circle.Diameter,
+                        circle.Diameter);
+                }
             }
         }
 
