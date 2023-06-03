@@ -14,7 +14,10 @@ namespace GrainDetector
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            closeImageForm();
 
+            this.filePathTextBox.Text = "";
+            setInitialParameters();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)

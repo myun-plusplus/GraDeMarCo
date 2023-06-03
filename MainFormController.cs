@@ -192,12 +192,21 @@ namespace GrainDetector
             this.filePathTextBox.Text = @"D:\Projects\GrainDetector\sample3.bmp";
 #endif
 
+            imageRange.LowerX = 0;
+            imageRange.UpperX = 0;
+            imageRange.LowerY = 0;
+            imageRange.UpperY = 0;
+
+            circle.LowerX = 0;
+            circle.LowerY = 0;
+            circle.Diameter = 0;
             circle.Color = Color.Blue;
 
             filterOptions.ApplysBlur = BlurOption.None;
             filterOptions.DetectsEdge = EdgeDetectOption.None;
 
             binarizeOptions.BinarizationThreshold = 127;
+            binarizeOptions.InvertsMonochrome = false;
 
             grainDetectOptions.DetectsGrainInCircle = true;
             grainDetectOptions.DetectsGrainOnCircle = false;
@@ -210,6 +219,7 @@ namespace GrainDetector
             dotDrawTool.Color = Color.Red;
             dotDrawTool.Size = 5;
 
+            this.dotCountListView.Items.Clear();
             this.dotCountListView.Items.Add(new ListViewItem(new string[] { "", "0" }));
             this.dotCountListView.Items.Add(new ListViewItem(new string[] { "", "0" }));
             this.dotCountListView.Items[0].UseItemStyleForSubItems = false;
