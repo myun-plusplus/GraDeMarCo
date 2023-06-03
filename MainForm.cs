@@ -10,6 +10,107 @@ namespace GrainDetector
 {
     public partial class MainForm : Form
     {
+        #region Menustrip
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Workspace workspace = new Workspace();
+            workspace.ImageRange = this.imageRange;
+            workspace.Circle = this.circle;
+            workspace.FilterOptions = this.filterOptions;
+            workspace.BinarizeOptions = this.binarizeOptions;
+            workspace.GrainDetectOptions = this.grainDetectOptions;
+            workspace.DotInCircleTool = this.dotInCircleTool;
+            workspace.DotOnCircleTool = this.dotOnCircleTool;
+            workspace.DotDrawTool = this.dotDrawTool;
+            workspace.DrawnDotsData = this.drawnDotsData;
+
+            this.openFileDialog.FileName = "";
+            if (this.openFileDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            try
+            {
+                workspace.Load(this.openFileDialog.FileName);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "エラー");
+                return;
+            }
+
+            this.filePathTextBox.Text = workspace.OriginalImagePath;
+
+            this.dotCountListView.Items.Clear();
+            this.dotCountListView.Items.AddRange(
+                Enumerable.Range(0, workspace.CountedColors.Count)
+                .Select(_ => new ListViewItem(new string[] { "", "0" }))
+                .ToArray());
+            this.dotCountListView.Items.Cast<ListViewItem>()
+                .Zip(workspace.CountedColors, (lvi, color) => lvi.SubItems[0].BackColor = color)
+                .ToList();
+
+            closeImageForm();
+
+            openImageFile(this.filePathTextBox.Text);
+            openImageForm();
+        }
+
+        private void overwriteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.saveFileDialog.FileName = Path.GetFileNameWithoutExtension(this.filePathTextBox.Text) + ".dat";
+            if (this.saveFileDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            var workspace = new Workspace();
+            workspace.ImageRange = imageRange;
+            workspace.Circle = circle;
+            workspace.FilterOptions = filterOptions;
+            workspace.BinarizeOptions = binarizeOptions;
+            workspace.GrainDetectOptions = grainDetectOptions;
+            workspace.DotInCircleTool = dotInCircleTool;
+            workspace.DotOnCircleTool = dotOnCircleTool;
+            workspace.DotDrawTool = dotDrawTool;
+            workspace.DrawnDotsData = drawnDotsData;
+
+            workspace.OriginalImagePath = this.filePathTextBox.Text;
+
+            workspace.CountedColors = this.dotCountListView.Items.Cast<ListViewItem>()
+                    .Select(lvi => lvi.SubItems[0].BackColor)
+                    .ToList();
+
+            try
+            {
+                workspace.Save(this.saveFileDialog.FileName);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+                return;
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //this.Close();
+        }
+
+        #endregion
+
         private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
             if (!imageFormIsLoaded)
@@ -495,88 +596,6 @@ namespace GrainDetector
                     validateZoomMagnification();
                 }
             }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.saveFileDialog.FileName = Path.GetFileNameWithoutExtension(this.filePathTextBox.Text) + ".dat";
-            if (this.saveFileDialog.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
-
-            var workspace = new Workspace();
-            workspace.ImageRange = imageRange;
-            workspace.Circle = circle;
-            workspace.FilterOptions = filterOptions;
-            workspace.BinarizeOptions = binarizeOptions;
-            workspace.GrainDetectOptions = grainDetectOptions;
-            workspace.DotInCircleTool = dotInCircleTool;
-            workspace.DotOnCircleTool = dotOnCircleTool;
-            workspace.DotDrawTool = dotDrawTool;
-            workspace.DrawnDotsData = drawnDotsData;
-
-            workspace.OriginalImagePath = this.filePathTextBox.Text;
-
-            workspace.CountedColors = this.dotCountListView.Items.Cast<ListViewItem>()
-                    .Select(lvi => lvi.SubItems[0].BackColor)
-                    .ToList();
-
-            try
-            {
-                workspace.Save(this.saveFileDialog.FileName);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message);
-                return;
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            Workspace workspace = new Workspace();
-            workspace.ImageRange = this.imageRange;
-            workspace.Circle = this.circle;
-            workspace.FilterOptions = this.filterOptions;
-            workspace.BinarizeOptions = this.binarizeOptions;
-            workspace.GrainDetectOptions = this.grainDetectOptions;
-            workspace.DotInCircleTool = this.dotInCircleTool;
-            workspace.DotOnCircleTool = this.dotOnCircleTool;
-            workspace.DotDrawTool = this.dotDrawTool;
-            workspace.DrawnDotsData = this.drawnDotsData;
-
-            this.openFileDialog.FileName = "";
-            if (this.openFileDialog.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
-
-            try
-            {
-                workspace.Load(this.openFileDialog.FileName);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "エラー");
-                return;
-            }
-
-            this.filePathTextBox.Text = workspace.OriginalImagePath;
-
-            this.dotCountListView.Items.Clear();
-            this.dotCountListView.Items.AddRange(
-                Enumerable.Range(0, workspace.CountedColors.Count)
-                .Select(_ => new ListViewItem(new string[] { "", "0" }))
-                .ToArray());
-            this.dotCountListView.Items.Cast<ListViewItem>()
-                .Zip(workspace.CountedColors, (lvi, color) => lvi.SubItems[0].BackColor = color)
-                .ToList();
-
-            closeImageForm();
-
-            openImageFile(this.filePathTextBox.Text);
-            openImageForm();
         }
     }
 }

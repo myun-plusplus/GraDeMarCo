@@ -85,6 +85,13 @@
             this.shownImageSelectCLB = new System.Windows.Forms.CheckedListBox();
             this.imageSaveButton = new System.Windows.Forms.Button();
             this.filterOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.overwriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageRangeBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.planimetricCircleBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.binarizeOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -92,8 +99,6 @@
             this.dotOnCircleToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dotInCircleToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dotDrawToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
             this.imageSelectPanel.SuspendLayout();
@@ -122,6 +127,7 @@
             this.dotCountPanel.SuspendLayout();
             this.lowerPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.filterOptionBindingSource)).BeginInit();
+            this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.planimetricCircleBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.binarizeOptionsBindingSource)).BeginInit();
@@ -138,8 +144,7 @@
             this.tabControl.Controls.Add(this.grainDetectTabPage);
             this.tabControl.Controls.Add(this.dotDrawTabPage);
             this.tabControl.Controls.Add(this.dotCountPageTab);
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tabControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControl.Location = new System.Drawing.Point(0, 28);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(284, 226);
@@ -912,7 +917,7 @@
             this.lowerPanel.Controls.Add(this.zoomInButton);
             this.lowerPanel.Controls.Add(this.shownImageSelectCLB);
             this.lowerPanel.Controls.Add(this.imageSaveButton);
-            this.lowerPanel.Location = new System.Drawing.Point(10, 232);
+            this.lowerPanel.Location = new System.Drawing.Point(10, 260);
             this.lowerPanel.Name = "lowerPanel";
             this.lowerPanel.Size = new System.Drawing.Size(218, 91);
             this.lowerPanel.TabIndex = 1;
@@ -963,6 +968,63 @@
             this.imageSaveButton.UseVisualStyleBackColor = true;
             this.imageSaveButton.Click += new System.EventHandler(this.imageSaveButton_Click);
             // 
+            // menuStrip
+            // 
+            this.menuStrip.Dock = System.Windows.Forms.DockStyle.None;
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.menuStrip.Location = new System.Drawing.Point(0, 1);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(181, 24);
+            this.menuStrip.TabIndex = 1;
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
+            this.openToolStripMenuItem,
+            this.overwriteToolStripMenuItem,
+            this.saveasToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(53, 20);
+            this.toolStripMenuItem1.Text = "ファイル";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Text = "開く...";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // saveasToolStripMenuItem
+            // 
+            this.saveasToolStripMenuItem.Name = "saveasToolStripMenuItem";
+            this.saveasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveasToolStripMenuItem.Text = "名前を付けて保存...";
+            this.saveasToolStripMenuItem.Click += new System.EventHandler(this.saveasToolStripMenuItem_Click);
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Text = "新規";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            // 
+            // overwriteToolStripMenuItem
+            // 
+            this.overwriteToolStripMenuItem.Name = "overwriteToolStripMenuItem";
+            this.overwriteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.overwriteToolStripMenuItem.Text = "上書き保存";
+            this.overwriteToolStripMenuItem.Click += new System.EventHandler(this.overwriteToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Text = "終了";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
             // imageRangeBindingSource
             // 
             this.imageRangeBindingSource.DataSource = typeof(GrainDetector.ImageRange);
@@ -991,36 +1053,16 @@
             // 
             this.dotDrawToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(229, 237);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(229, 265);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 327);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(284, 355);
+            this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.lowerPanel);
             this.Controls.Add(this.tabControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
             this.Text = "GrainDetector";
             this.tabControl.ResumeLayout(false);
@@ -1053,6 +1095,8 @@
             this.dotCountPanel.ResumeLayout(false);
             this.lowerPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.filterOptionBindingSource)).EndInit();
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.planimetricCircleBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.binarizeOptionsBindingSource)).EndInit();
@@ -1061,6 +1105,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dotInCircleToolBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotDrawToolBindingSource)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1141,8 +1186,13 @@
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.BindingSource dotInCircleToolBindingSource;
         private System.Windows.Forms.BindingSource dotOnCircleToolBindingSource;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem overwriteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }
 
