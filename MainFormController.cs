@@ -143,6 +143,11 @@ namespace GrainDetector
 
             InitializeComponent();
 
+            this.newToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.N;
+            this.openToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
+            this.overwriteToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
+            this.saveasToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.S;
+
             this.blurComboBox.DataSource = Enum.GetValues(typeof(BlurOption)).Cast<BlurOption>()
                 .Select(i => Tuple.Create(i, i.GetType().GetField(i.ToString()).GetCustomAttribute<DisplayAttribute>().Name))
                 .ToList();
