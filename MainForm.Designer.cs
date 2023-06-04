@@ -20,6 +20,7 @@
             this.imageSelectTabPage = new System.Windows.Forms.TabPage();
             this.imageSelectPanel = new System.Windows.Forms.Panel();
             this.filePathTextBox = new System.Windows.Forms.TextBox();
+            this.imageOpenOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.fileSelectButton = new System.Windows.Forms.Button();
             this.imageOpenButton = new System.Windows.Forms.Button();
             this.rangeSelectPanel = new System.Windows.Forms.Panel();
@@ -99,10 +100,10 @@
             this.overwriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.imageOpenOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
             this.imageSelectPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageOpenOptionsBindingSource)).BeginInit();
             this.rangeSelectPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.upperYNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).BeginInit();
@@ -136,7 +137,6 @@
             this.lowerPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.filterOptionBindingSource)).BeginInit();
             this.menuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.imageOpenOptionsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -187,6 +187,10 @@
             this.filePathTextBox.Name = "filePathTextBox";
             this.filePathTextBox.Size = new System.Drawing.Size(119, 19);
             this.filePathTextBox.TabIndex = 0;
+            // 
+            // imageOpenOptionsBindingSource
+            // 
+            this.imageOpenOptionsBindingSource.DataSource = typeof(GrainDetector.ImageOpenOptions);
             // 
             // fileSelectButton
             // 
@@ -1024,41 +1028,37 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.newToolStripMenuItem.Text = "新規";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.openToolStripMenuItem.Text = "開く...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // overwriteToolStripMenuItem
             // 
             this.overwriteToolStripMenuItem.Name = "overwriteToolStripMenuItem";
-            this.overwriteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.overwriteToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.overwriteToolStripMenuItem.Text = "上書き保存";
             this.overwriteToolStripMenuItem.Click += new System.EventHandler(this.overwriteToolStripMenuItem_Click);
             // 
             // saveasToolStripMenuItem
             // 
             this.saveasToolStripMenuItem.Name = "saveasToolStripMenuItem";
-            this.saveasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveasToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.saveasToolStripMenuItem.Text = "名前を付けて保存...";
             this.saveasToolStripMenuItem.Click += new System.EventHandler(this.saveasToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.exitToolStripMenuItem.Text = "終了";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
-            // imageOpenBindingSource
-            // 
-            this.imageOpenOptionsBindingSource.DataSource = typeof(GrainDetector.ImageOpenOptions);
             // 
             // MainForm
             // 
@@ -1072,10 +1072,12 @@
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
             this.Text = "GrainDetector";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.tabControl.ResumeLayout(false);
             this.imageSelectTabPage.ResumeLayout(false);
             this.imageSelectPanel.ResumeLayout(false);
             this.imageSelectPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageOpenOptionsBindingSource)).EndInit();
             this.rangeSelectPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.upperYNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).EndInit();
@@ -1111,7 +1113,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.filterOptionBindingSource)).EndInit();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.imageOpenOptionsBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

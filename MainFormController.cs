@@ -40,6 +40,8 @@ namespace GrainDetector
         private DotDraw dotDraw;
         private DotCount dotCount;
 
+        private bool isWorkspaceChanged;
+
         private bool _isImageFormOpened;
         private bool imageFormIsLoaded
         {
@@ -120,6 +122,16 @@ namespace GrainDetector
             dotDrawTool = new DotDrawTool();
             drawnDotsData = new DrawnDotsData();
 
+            imageOpenOptions.PropertyChanged += FunctionData_PropertyChanged;
+            imageRange.PropertyChanged += FunctionData_PropertyChanged;
+            circle.PropertyChanged += FunctionData_PropertyChanged;
+            filterOptions.PropertyChanged += FunctionData_PropertyChanged;
+            binarizeOptions.PropertyChanged += FunctionData_PropertyChanged;
+            grainDetectOptions.PropertyChanged += FunctionData_PropertyChanged;
+            dotInCircleTool.PropertyChanged += FunctionData_PropertyChanged;
+            dotOnCircleTool.PropertyChanged += FunctionData_PropertyChanged;
+            dotDrawTool.PropertyChanged += FunctionData_PropertyChanged;
+
             rangeSelect = new RangeSelect(imageDisplay, imageRange);
             circleSelect = new CircleSelect(imageDisplay, circle);
             imageFilter = new ImageFilter(imageData, imageDisplay, imageRange, filterOptions);
@@ -166,7 +178,7 @@ namespace GrainDetector
             imageFormIsLoaded = false;
             actionMode = ActionMode.None;
 
-            setInitialParameters();
+            startNewWorkspace();
         }
 
         /// <summary>
@@ -203,7 +215,7 @@ namespace GrainDetector
             base.Dispose(disposing);
         }
 
-        private void setInitialParameters()
+        private void startNewWorkspace()
         {
 #if DEBUG
             imageOpenOptions.ImageFilePath = @"D:\Projects\GrainDetector\sample3.bmp";
@@ -245,6 +257,79 @@ namespace GrainDetector
             this.dotCountListView.Items[1].UseItemStyleForSubItems = false;
             this.dotCountListView.Items[0].SubItems[0].BackColor = Color.Red;
             this.dotCountListView.Items[1].SubItems[0].BackColor = Color.Yellow;
+
+            isWorkspaceChanged = false;
+        }
+
+        private void openWorkspace()
+        {
+            Workspace workspace = new Workspace();
+            workspace.ImageOpenOptions = imageOpenOptions;
+            workspace.ImageRange = imageRange;
+            workspace.Circle = circle;
+            workspace.FilterOptions = filterOptions;
+            workspace.BinarizeOptions = binarizeOptions;
+            workspace.GrainDetectOptions = grainDetectOptions;
+            workspace.DotInCircleTool = dotInCircleTool;
+            workspace.DotOnCircleTool = dotOnCircleTool;
+            workspace.DotDrawTool = dotDrawTool;
+            workspace.DrawnDotsData = drawnDotsData;
+
+            this.openImageFileDialog.FileName = "";
+            if (this.openImageFileDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            imageOpenOptions.ImageFilePath = this.openImageFileDialog.FileName;
+
+            try
+            {
+                workspace.Load(imageOpenOptions.ImageFilePath);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "エラー");
+                return;
+            }
+
+            this.dotCountListView.Items.Clear();
+            this.dotCountListView.Items.AddRange(
+                Enumerable.Range(0, workspace.CountedColors.Count)
+                .Select(_ => new ListViewItem(new string[] { "", "0" }))
+                .ToArray());
+            this.dotCountListView.Items.Cast<ListViewItem>()
+                .Zip(workspace.CountedColors, (lvi, color) => lvi.SubItems[0].BackColor = color)
+                .ToList();
+        }
+
+        private void saveWorkspace()
+        {
+            var workspace = new Workspace();
+            workspace.ImageOpenOptions = imageOpenOptions;
+            workspace.ImageRange = imageRange;
+            workspace.Circle = circle;
+            workspace.FilterOptions = filterOptions;
+            workspace.BinarizeOptions = binarizeOptions;
+            workspace.GrainDetectOptions = grainDetectOptions;
+            workspace.DotInCircleTool = dotInCircleTool;
+            workspace.DotOnCircleTool = dotOnCircleTool;
+            workspace.DotDrawTool = dotDrawTool;
+            workspace.DrawnDotsData = drawnDotsData;
+
+            workspace.CountedColors = this.dotCountListView.Items.Cast<ListViewItem>()
+                    .Select(lvi => lvi.SubItems[0].BackColor)
+                    .ToList();
+
+            try
+            {
+                workspace.Save(this.saveImageFileDialog.FileName);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+                return;
+            }
         }
 
         private void openImageFile(string filePath)

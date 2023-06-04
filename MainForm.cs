@@ -10,124 +10,85 @@ namespace GrainDetector
 {
     public partial class MainForm : Form
     {
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (isWorkspaceChanged)
+            {
+                var result = MessageBox.Show("変更内容を保存しますか。", Application.ProductName, MessageBoxButtons.YesNoCancel);
+                if (result == DialogResult.Yes)
+                {
+                    saveasToolStripMenuItem_Click(this, new EventArgs());
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
+
         #region Menustrip
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (isWorkspaceChanged)
+            {
+                var result = MessageBox.Show("変更内容を保存しますか。", Application.ProductName, MessageBoxButtons.YesNoCancel);
+                if (result == DialogResult.Yes)
+                {
+                    saveasToolStripMenuItem_Click(this, new EventArgs());
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    return;
+                }
+            }
+
             closeImageForm();
 
-            setInitialParameters();
+            startNewWorkspace();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Workspace workspace = new Workspace();
-            workspace.ImageOpenOptions = imageOpenOptions;
-            workspace.ImageRange = imageRange;
-            workspace.Circle = circle;
-            workspace.FilterOptions = filterOptions;
-            workspace.BinarizeOptions = binarizeOptions;
-            workspace.GrainDetectOptions = grainDetectOptions;
-            workspace.DotInCircleTool = dotInCircleTool;
-            workspace.DotOnCircleTool = dotOnCircleTool;
-            workspace.DotDrawTool = dotDrawTool;
-            workspace.DrawnDotsData = drawnDotsData;
-
-            this.openImageFileDialog.FileName = "";
-            if (this.openImageFileDialog.ShowDialog() != DialogResult.OK)
+            if (isWorkspaceChanged)
             {
-                return;
+                var result = MessageBox.Show("変更内容を保存しますか。", Application.ProductName, MessageBoxButtons.YesNoCancel);
+                if (result == DialogResult.Yes)
+                {
+                    saveasToolStripMenuItem_Click(this, new EventArgs());
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    return;
+                }
             }
-
-            imageOpenOptions.ImageFilePath = this.openImageFileDialog.FileName;
-
-            try
-            {
-                workspace.Load(imageOpenOptions.ImageFilePath);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "エラー");
-                return;
-            }
-
-            this.dotCountListView.Items.Clear();
-            this.dotCountListView.Items.AddRange(
-                Enumerable.Range(0, workspace.CountedColors.Count)
-                .Select(_ => new ListViewItem(new string[] { "", "0" }))
-                .ToArray());
-            this.dotCountListView.Items.Cast<ListViewItem>()
-                .Zip(workspace.CountedColors, (lvi, color) => lvi.SubItems[0].BackColor = color)
-                .ToList();
 
             closeImageForm();
 
+            openWorkspace();
             openImageFile(imageOpenOptions.ImageFilePath);
             openImageForm();
         }
 
         private void overwriteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var workspace = new Workspace();
-            workspace.ImageOpenOptions = imageOpenOptions;
-            workspace.ImageRange = imageRange;
-            workspace.Circle = circle;
-            workspace.FilterOptions = filterOptions;
-            workspace.BinarizeOptions = binarizeOptions;
-            workspace.GrainDetectOptions = grainDetectOptions;
-            workspace.DotInCircleTool = dotInCircleTool;
-            workspace.DotOnCircleTool = dotOnCircleTool;
-            workspace.DotDrawTool = dotDrawTool;
-            workspace.DrawnDotsData = drawnDotsData;
-
-            workspace.CountedColors = this.dotCountListView.Items.Cast<ListViewItem>()
-                    .Select(lvi => lvi.SubItems[0].BackColor)
-                    .ToList();
-
-            try
+            if (!isWorkspaceChanged)
             {
-                workspace.Save(this.saveImageFileDialog.FileName);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message);
                 return;
             }
+
+            saveWorkspace();
         }
 
         private void saveasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.saveImageFileDialog.FileName = Path.GetFileNameWithoutExtension(imageOpenOptions.ImageFilePath) + ".dat";
-            if (this.saveImageFileDialog.ShowDialog() != DialogResult.OK)
+            this.saveWorkspaceDialog.FileName = Path.GetFileNameWithoutExtension(imageOpenOptions.ImageFilePath) + ".dat";
+            if (this.saveWorkspaceDialog.ShowDialog() != DialogResult.OK)
             {
                 return;
             }
 
-            var workspace = new Workspace();
-            workspace.ImageOpenOptions = imageOpenOptions;
-            workspace.ImageRange = imageRange;
-            workspace.Circle = circle;
-            workspace.FilterOptions = filterOptions;
-            workspace.BinarizeOptions = binarizeOptions;
-            workspace.GrainDetectOptions = grainDetectOptions;
-            workspace.DotInCircleTool = dotInCircleTool;
-            workspace.DotOnCircleTool = dotOnCircleTool;
-            workspace.DotDrawTool = dotDrawTool;
-            workspace.DrawnDotsData = drawnDotsData;
-
-            workspace.CountedColors = this.dotCountListView.Items.Cast<ListViewItem>()
-                    .Select(lvi => lvi.SubItems[0].BackColor)
-                    .ToList();
-
-            try
-            {
-                workspace.Save(this.saveImageFileDialog.FileName);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message);
-                return;
-            }
+            saveWorkspace();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -622,6 +583,11 @@ namespace GrainDetector
                     validateZoomMagnification();
                 }
             }
+        }
+
+        private void FunctionData_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            isWorkspaceChanged = true;
         }
     }
 }
