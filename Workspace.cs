@@ -9,8 +9,7 @@ namespace GrainDetector
     [Serializable]
     public class Workspace
     {
-        public string OriginalImagePath;
-
+        public ImageOpenOptions ImageOpenOptions;
         public ImageRange ImageRange;
         public PlanimetricCircle Circle;
         public FilterOptions FilterOptions;
@@ -60,7 +59,7 @@ namespace GrainDetector
                 workspace = (Workspace)formatter.Deserialize(ms);
             }
 
-            this.OriginalImagePath = workspace.OriginalImagePath;
+            Copy(workspace.ImageOpenOptions, this.ImageOpenOptions);
             Copy(workspace.ImageRange, this.ImageRange);
             Copy(workspace.Circle, this.Circle);
             Copy(workspace.FilterOptions, this.FilterOptions);

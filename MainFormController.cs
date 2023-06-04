@@ -21,6 +21,7 @@ namespace GrainDetector
         private ImageData imageData;
 
         private ImageDisplay imageDisplay;
+        private ImageOpenOptions imageOpenOptions;
         private ImageRange imageRange;
         private PlanimetricCircle circle;
         private FilterOptions filterOptions;
@@ -108,6 +109,7 @@ namespace GrainDetector
 
             imageDisplay = new ImageDisplay(imageData);
             imageDisplay.Initialize();
+            imageOpenOptions = new ImageOpenOptions();
             imageRange = new ImageRange();
             circle = new PlanimetricCircle();
             filterOptions = new FilterOptions();
@@ -148,6 +150,7 @@ namespace GrainDetector
             this.dotColorOnCircleLabel.DataBindings.Add(new Binding("BackColor", this.dotOnCircleToolBindingSource, "Color", true, DataSourceUpdateMode.OnPropertyChanged));
             this.dotDrawColorLabel.DataBindings.Add(new Binding("BackColor", this.dotDrawToolBindingSource, "Color", true, DataSourceUpdateMode.OnPropertyChanged));
 
+            this.imageOpenOptionsBindingSource.DataSource = imageOpenOptions;
             this.imageRangeBindingSource.DataSource = imageRange;
             this.planimetricCircleBindingSource.DataSource = circle;
             this.filterOptionBindingSource.DataSource = filterOptions;
@@ -203,7 +206,9 @@ namespace GrainDetector
         private void setInitialParameters()
         {
 #if DEBUG
-            this.filePathTextBox.Text = @"D:\Projects\GrainDetector\sample3.bmp";
+            imageOpenOptions.ImageFilePath = @"D:\Projects\GrainDetector\sample3.bmp";
+#else
+            imageOpenOptions.ImageFilePath = "";
 #endif
 
             imageRange.LowerX = 0;

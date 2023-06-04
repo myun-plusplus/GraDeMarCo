@@ -81,6 +81,7 @@
     <Compile Include="ImageForm.Designer.cs">
       <DependentUpon>ImageForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImageOpenOptions.cs" />
     <Compile Include="MainFormController.cs">
       <SubType>Form</SubType>
     </Compile>

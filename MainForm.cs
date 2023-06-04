@@ -16,22 +16,22 @@ namespace GrainDetector
         {
             closeImageForm();
 
-            this.filePathTextBox.Text = "";
             setInitialParameters();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Workspace workspace = new Workspace();
-            workspace.ImageRange = this.imageRange;
-            workspace.Circle = this.circle;
-            workspace.FilterOptions = this.filterOptions;
-            workspace.BinarizeOptions = this.binarizeOptions;
-            workspace.GrainDetectOptions = this.grainDetectOptions;
-            workspace.DotInCircleTool = this.dotInCircleTool;
-            workspace.DotOnCircleTool = this.dotOnCircleTool;
-            workspace.DotDrawTool = this.dotDrawTool;
-            workspace.DrawnDotsData = this.drawnDotsData;
+            workspace.ImageOpenOptions = imageOpenOptions;
+            workspace.ImageRange = imageRange;
+            workspace.Circle = circle;
+            workspace.FilterOptions = filterOptions;
+            workspace.BinarizeOptions = binarizeOptions;
+            workspace.GrainDetectOptions = grainDetectOptions;
+            workspace.DotInCircleTool = dotInCircleTool;
+            workspace.DotOnCircleTool = dotOnCircleTool;
+            workspace.DotDrawTool = dotDrawTool;
+            workspace.DrawnDotsData = drawnDotsData;
 
             this.openImageFileDialog.FileName = "";
             if (this.openImageFileDialog.ShowDialog() != DialogResult.OK)
@@ -39,17 +39,17 @@ namespace GrainDetector
                 return;
             }
 
+            imageOpenOptions.ImageFilePath = this.openImageFileDialog.FileName;
+
             try
             {
-                workspace.Load(this.openImageFileDialog.FileName);
+                workspace.Load(imageOpenOptions.ImageFilePath);
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "エラー");
                 return;
             }
-
-            this.filePathTextBox.Text = workspace.OriginalImagePath;
 
             this.dotCountListView.Items.Clear();
             this.dotCountListView.Items.AddRange(
@@ -62,13 +62,14 @@ namespace GrainDetector
 
             closeImageForm();
 
-            openImageFile(this.filePathTextBox.Text);
+            openImageFile(imageOpenOptions.ImageFilePath);
             openImageForm();
         }
 
         private void overwriteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var workspace = new Workspace();
+            workspace.ImageOpenOptions = imageOpenOptions;
             workspace.ImageRange = imageRange;
             workspace.Circle = circle;
             workspace.FilterOptions = filterOptions;
@@ -78,8 +79,6 @@ namespace GrainDetector
             workspace.DotOnCircleTool = dotOnCircleTool;
             workspace.DotDrawTool = dotDrawTool;
             workspace.DrawnDotsData = drawnDotsData;
-
-            workspace.OriginalImagePath = this.filePathTextBox.Text;
 
             workspace.CountedColors = this.dotCountListView.Items.Cast<ListViewItem>()
                     .Select(lvi => lvi.SubItems[0].BackColor)
@@ -98,13 +97,14 @@ namespace GrainDetector
 
         private void saveasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.saveImageFileDialog.FileName = Path.GetFileNameWithoutExtension(this.filePathTextBox.Text) + ".dat";
+            this.saveImageFileDialog.FileName = Path.GetFileNameWithoutExtension(imageOpenOptions.ImageFilePath) + ".dat";
             if (this.saveImageFileDialog.ShowDialog() != DialogResult.OK)
             {
                 return;
             }
 
             var workspace = new Workspace();
+            workspace.ImageOpenOptions = imageOpenOptions;
             workspace.ImageRange = imageRange;
             workspace.Circle = circle;
             workspace.FilterOptions = filterOptions;
@@ -114,8 +114,6 @@ namespace GrainDetector
             workspace.DotOnCircleTool = dotOnCircleTool;
             workspace.DotDrawTool = dotDrawTool;
             workspace.DrawnDotsData = drawnDotsData;
-
-            workspace.OriginalImagePath = this.filePathTextBox.Text;
 
             workspace.CountedColors = this.dotCountListView.Items.Cast<ListViewItem>()
                     .Select(lvi => lvi.SubItems[0].BackColor)
@@ -157,7 +155,7 @@ namespace GrainDetector
         {
             if (this.openImageFileDialog.ShowDialog() == DialogResult.OK)
             {
-                this.filePathTextBox.Text = this.openImageFileDialog.FileName;
+                imageOpenOptions.ImageFilePath = this.openImageFileDialog.FileName;
             }
         }
 
@@ -165,7 +163,7 @@ namespace GrainDetector
         {
             closeImageForm();
 
-            openImageFile(this.filePathTextBox.Text);
+            openImageFile(imageOpenOptions.ImageFilePath);
             openImageForm();
 
             initializeRangeSelect();
