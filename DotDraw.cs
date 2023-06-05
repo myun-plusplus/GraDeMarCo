@@ -133,7 +133,7 @@ namespace GrainDetector
 
         public void Click(Point location)
         {
-            DrawDot(imageDisplay.GetAdjustedLocation(location), tool.Color, this.tool.Size);
+            AddDot(imageDisplay.GetAdjustedLocation(location), tool.Color, this.tool.Size);
         }
 
         public void RightClick(Point location)
@@ -146,7 +146,7 @@ namespace GrainDetector
             mouseLocation = location;
         }
 
-        public void DrawDot(Point location, Color color, int dotSize)
+        public void AddDot(Point location, Color color, int dotSize)
         {
             Dot dot = new Dot
             {

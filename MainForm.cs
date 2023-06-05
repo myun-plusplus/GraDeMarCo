@@ -12,17 +12,14 @@ namespace GrainDetector
     {
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (isWorkspaceChanged)
+            var result = MessageBox.Show("変更内容を保存しますか。", Application.ProductName, MessageBoxButtons.YesNoCancel);
+            if (result == DialogResult.Yes)
             {
-                var result = MessageBox.Show("変更内容を保存しますか。", Application.ProductName, MessageBoxButtons.YesNoCancel);
-                if (result == DialogResult.Yes)
-                {
-                    saveasToolStripMenuItem_Click(this, new EventArgs());
-                }
-                else if (result == DialogResult.Cancel)
-                {
-                    e.Cancel = true;
-                }
+                saveAsToolStripMenuItem_Click(this, new EventArgs());
+            }
+            else if (result == DialogResult.Cancel)
+            {
+                e.Cancel = true;
             }
         }
 
@@ -30,17 +27,14 @@ namespace GrainDetector
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (isWorkspaceChanged)
+            var result = MessageBox.Show("変更内容を保存しますか。", Application.ProductName, MessageBoxButtons.YesNoCancel);
+            if (result == DialogResult.Yes)
             {
-                var result = MessageBox.Show("変更内容を保存しますか。", Application.ProductName, MessageBoxButtons.YesNoCancel);
-                if (result == DialogResult.Yes)
-                {
-                    saveasToolStripMenuItem_Click(this, new EventArgs());
-                }
-                else if (result == DialogResult.Cancel)
-                {
-                    return;
-                }
+                saveAsToolStripMenuItem_Click(this, new EventArgs());
+            }
+            else if (result == DialogResult.Cancel)
+            {
+                return;
             }
 
             closeImageForm();
@@ -50,17 +44,14 @@ namespace GrainDetector
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (isWorkspaceChanged)
+            var result = MessageBox.Show("変更内容を保存しますか。", Application.ProductName, MessageBoxButtons.YesNoCancel);
+            if (result == DialogResult.Yes)
             {
-                var result = MessageBox.Show("変更内容を保存しますか。", Application.ProductName, MessageBoxButtons.YesNoCancel);
-                if (result == DialogResult.Yes)
-                {
-                    saveasToolStripMenuItem_Click(this, new EventArgs());
-                }
-                else if (result == DialogResult.Cancel)
-                {
-                    return;
-                }
+                saveAsToolStripMenuItem_Click(this, new EventArgs());
+            }
+            else if (result == DialogResult.Cancel)
+            {
+                return;
             }
 
             closeImageForm();
@@ -72,7 +63,7 @@ namespace GrainDetector
 
         private void overwriteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!isWorkspaceChanged)
+            if (!isWorkspaceSaved)
             {
                 return;
             }
@@ -80,7 +71,7 @@ namespace GrainDetector
             saveWorkspace();
         }
 
-        private void saveasToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.saveWorkspaceDialog.FileName = Path.GetFileNameWithoutExtension(imageOpenOptions.ImageFilePath) + ".dat";
             if (this.saveWorkspaceDialog.ShowDialog() != DialogResult.OK)
@@ -89,11 +80,18 @@ namespace GrainDetector
             }
 
             saveWorkspace();
+
+            isWorkspaceSaved = true;
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void imageSaveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveImageFile(imageOpenOptions.ImageFilePath);
         }
 
         #endregion
@@ -491,64 +489,7 @@ namespace GrainDetector
 
         private void imageSaveButton_Click(object sender, EventArgs e)
         {
-            string directory, fileName;
-            string filePath = this.filePathTextBox.Text;
-            try
-            {
-                directory = Path.GetDirectoryName(filePath);
-                fileName = Path.GetFileName(filePath);
-            }
-            catch (ArgumentException)
-            {
-                MessageBox.Show("無効なファイルパスです。", "エラー");
-                return;
-            }
-
-            this.saveImageFileDialog.FileName = fileName;
-            this.saveImageFileDialog.InitialDirectory = directory;
-
-            if (this.saveImageFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string extension = Path.GetExtension(this.saveImageFileDialog.FileName);
-                if (extension == ".bmp")
-                {
-                    imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Bmp);
-                }
-                else if (extension == ".exif")
-                {
-                    imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Exif);
-                }
-                else if (extension == ".gif")
-                {
-                    imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Gif);
-                }
-                else if (extension == ".jpg")
-                {
-                    var eps = new EncoderParameters(1);
-                    var ep = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 95L);
-                    eps.Param[0] = ep;
-
-                    ImageCodecInfo jpgEncoder = null;
-                    foreach (var ici in ImageCodecInfo.GetImageEncoders())
-                    {
-                        if (ici.FormatID == ImageFormat.Jpeg.Guid)
-                        {
-                            jpgEncoder = ici;
-                            break;
-                        }
-                    }
-
-                    imageData.ShownImage.Save(this.saveImageFileDialog.FileName, jpgEncoder, eps);
-                }
-                else if (extension == ".png")
-                {
-                    imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Png);
-                }
-                else if (extension == ".tiff")
-                {
-                    imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Tiff);
-                }
-            }
+            saveImageFile(imageOpenOptions.ImageFilePath);
         }
 
         #endregion
@@ -583,11 +524,6 @@ namespace GrainDetector
                     validateZoomMagnification();
                 }
             }
-        }
-
-        private void FunctionData_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            isWorkspaceChanged = true;
         }
     }
 }

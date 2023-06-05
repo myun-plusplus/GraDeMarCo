@@ -40,8 +40,6 @@ namespace GrainDetector
         private DotDraw dotDraw;
         private DotCount dotCount;
 
-        private bool isWorkspaceChanged;
-
         private bool _isImageFormOpened;
         private bool imageFormIsLoaded
         {
@@ -74,6 +72,8 @@ namespace GrainDetector
             }
         }
 
+        private bool isWorkspaceSaved;
+
         public MainForm()
         {
             this.openImageFileDialog = new OpenFileDialog();
@@ -89,12 +89,14 @@ namespace GrainDetector
             this.openWorkspaceDialog.RestoreDirectory = true;
 
             this.saveImageFileDialog = new SaveFileDialog();
+            this.saveImageFileDialog.AddExtension = true;
             this.saveImageFileDialog.Filter = "BMPファイル(*.bmp)|*.bmp|EXIFファイル(*.exif)|*.exif|GIFファイル(*.gif)|*.gif|JPEGファイル(*.jpg)|*.jpg|PNGファイル(*.png)|*.png|TIFFファイル(*.tiff)|*.tiff|すべてのファイル(*.*)|*.*";
             this.saveImageFileDialog.FilterIndex = 0;
             this.saveImageFileDialog.Title = "保存先を選択してください";
             this.saveImageFileDialog.RestoreDirectory = true;
 
             this.saveWorkspaceDialog = new SaveFileDialog();
+            this.saveWorkspaceDialog.AddExtension = true;
             this.saveWorkspaceDialog.Filter = "DATファイル(*.dat) | *.dat | すべてのファイル(*.*) | *.* ";
             this.saveWorkspaceDialog.FilterIndex = 0;
             this.saveWorkspaceDialog.Title = "保存先を選択してください";
@@ -122,16 +124,6 @@ namespace GrainDetector
             dotDrawTool = new DotDrawTool();
             drawnDotsData = new DrawnDotsData();
 
-            imageOpenOptions.PropertyChanged += FunctionData_PropertyChanged;
-            imageRange.PropertyChanged += FunctionData_PropertyChanged;
-            circle.PropertyChanged += FunctionData_PropertyChanged;
-            filterOptions.PropertyChanged += FunctionData_PropertyChanged;
-            binarizeOptions.PropertyChanged += FunctionData_PropertyChanged;
-            grainDetectOptions.PropertyChanged += FunctionData_PropertyChanged;
-            dotInCircleTool.PropertyChanged += FunctionData_PropertyChanged;
-            dotOnCircleTool.PropertyChanged += FunctionData_PropertyChanged;
-            dotDrawTool.PropertyChanged += FunctionData_PropertyChanged;
-
             rangeSelect = new RangeSelect(imageDisplay, imageRange);
             circleSelect = new CircleSelect(imageDisplay, circle);
             imageFilter = new ImageFilter(imageData, imageDisplay, imageRange, filterOptions);
@@ -146,7 +138,7 @@ namespace GrainDetector
             this.newToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.N;
             this.openToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
             this.overwriteToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
-            this.saveasToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.S;
+            this.saveAsToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.S;
 
             this.blurComboBox.DataSource = Enum.GetValues(typeof(BlurOption)).Cast<BlurOption>()
                 .Select(i => Tuple.Create(i, i.GetType().GetField(i.ToString()).GetCustomAttribute<DisplayAttribute>().Name))
@@ -222,6 +214,8 @@ namespace GrainDetector
 
         private void startNewWorkspace()
         {
+            isWorkspaceSaved = false;
+
 #if DEBUG
             imageOpenOptions.ImageFilePath = @"D:\Projects\GrainDetector\sample3.bmp";
 #else
@@ -262,8 +256,6 @@ namespace GrainDetector
             this.dotCountListView.Items[1].UseItemStyleForSubItems = false;
             this.dotCountListView.Items[0].SubItems[0].BackColor = Color.Red;
             this.dotCountListView.Items[1].SubItems[0].BackColor = Color.Yellow;
-
-            isWorkspaceChanged = false;
         }
 
         private void openWorkspace()
@@ -361,6 +353,67 @@ namespace GrainDetector
                 if (tmp != null)
                 {
                     tmp.Dispose();
+                }
+            }
+        }
+
+        private void saveImageFile(string filePath)
+        {
+            string directory, fileName;
+            try
+            {
+                directory = Path.GetDirectoryName(filePath);
+                fileName = Path.GetFileNameWithoutExtension(filePath);
+            }
+            catch (ArgumentException)
+            {
+                directory = "";
+                fileName = "";
+            }
+
+            this.saveImageFileDialog.FileName = fileName;
+            this.saveImageFileDialog.InitialDirectory = directory;
+
+            if (this.saveImageFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                switch (this.saveImageFileDialog.FilterIndex)
+                {
+                    case 0:
+                        imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Bmp);
+                        break;
+                    case 1:
+                        imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Exif);
+                        break;
+                    case 2:
+                        imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Gif);
+                        break;
+                    case 3:
+                        var eps = new EncoderParameters(1);
+                        var ep = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 95L);
+                        eps.Param[0] = ep;
+
+                        ImageCodecInfo jpgEncoder = null;
+                        foreach (var ici in ImageCodecInfo.GetImageEncoders())
+                        {
+                            if (ici.FormatID == ImageFormat.Jpeg.Guid)
+                            {
+                                jpgEncoder = ici;
+                                break;
+                            }
+                        }
+
+                        imageData.ShownImage.Save(this.saveImageFileDialog.FileName, jpgEncoder, eps);
+
+                        break;
+                    case 4:
+                        imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Png);
+                        break;
+                    case 5:
+                        imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Tiff);
+                        break;
+                    case 6:
+                        imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Bmp);
+                        break;
                 }
             }
         }
