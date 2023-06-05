@@ -89,9 +89,39 @@ namespace GrainDetector
             this.Close();
         }
 
+        private void imageOpenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.openImageFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                imageOpenOptions.ImageFilePath = this.openImageFileDialog.FileName;
+
+                closeImageForm();
+
+                openImageFile(imageOpenOptions.ImageFilePath);
+                openImageForm();
+
+                initializeRangeSelect();
+                initializeCircleSelect();
+            }
+        }
+
         private void imageSaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveImageFile(imageOpenOptions.ImageFilePath);
+        }
+
+        private void zoomInToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            imageForm.MultipleZoomMagnification(2.0);
+
+            validateZoomMagnification();
+        }
+
+        private void zoomOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            imageForm.MultipleZoomMagnification(0.5);
+
+            validateZoomMagnification();
         }
 
         #endregion

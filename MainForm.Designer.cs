@@ -102,6 +102,11 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageSaveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.imageOpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.表示VToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zoomInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zoomOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
             this.imageSelectPanel.SuspendLayout();
@@ -1010,10 +1015,11 @@
             this.menuStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
-            this.imageToolStripMenuItem});
+            this.imageToolStripMenuItem,
+            this.表示VToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 1);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(249, 24);
+            this.menuStrip.Size = new System.Drawing.Size(307, 24);
             this.menuStrip.TabIndex = 1;
             // 
             // toolStripMenuItem1
@@ -1023,6 +1029,7 @@
             this.openToolStripMenuItem,
             this.overwriteToolStripMenuItem,
             this.saveAsToolStripMenuItem,
+            this.toolStripMenuItem2,
             this.exitToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(67, 20);
@@ -1066,6 +1073,7 @@
             // imageToolStripMenuItem
             // 
             this.imageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.imageOpenToolStripMenuItem,
             this.imageSaveAsToolStripMenuItem});
             this.imageToolStripMenuItem.Name = "imageToolStripMenuItem";
             this.imageToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
@@ -1077,6 +1085,41 @@
             this.imageSaveAsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.imageSaveAsToolStripMenuItem.Text = "名前を付けて保存...(&A)";
             this.imageSaveAsToolStripMenuItem.Click += new System.EventHandler(this.imageSaveAsToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(183, 6);
+            // 
+            // imageOpenToolStripMenuItem
+            // 
+            this.imageOpenToolStripMenuItem.Name = "imageOpenToolStripMenuItem";
+            this.imageOpenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.imageOpenToolStripMenuItem.Text = "開く...(&O)";
+            this.imageOpenToolStripMenuItem.Click += new System.EventHandler(this.imageOpenToolStripMenuItem_Click);
+            // 
+            // 表示VToolStripMenuItem
+            // 
+            this.表示VToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.zoomInToolStripMenuItem,
+            this.zoomOutToolStripMenuItem});
+            this.表示VToolStripMenuItem.Name = "表示VToolStripMenuItem";
+            this.表示VToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
+            this.表示VToolStripMenuItem.Text = "表示(&V)";
+            // 
+            // zoomInToolStripMenuItem
+            // 
+            this.zoomInToolStripMenuItem.Name = "zoomInToolStripMenuItem";
+            this.zoomInToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zoomInToolStripMenuItem.Text = "拡大(&I)";
+            this.zoomInToolStripMenuItem.Click += new System.EventHandler(this.zoomInToolStripMenuItem_Click);
+            // 
+            // zoomOutToolStripMenuItem
+            // 
+            this.zoomOutToolStripMenuItem.Name = "zoomOutToolStripMenuItem";
+            this.zoomOutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zoomOutToolStripMenuItem.Text = "縮小(&O)";
+            this.zoomOutToolStripMenuItem.Click += new System.EventHandler(this.zoomOutToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -1223,6 +1266,11 @@
         private System.Windows.Forms.BindingSource imageOpenOptionsBindingSource;
         private System.Windows.Forms.ToolStripMenuItem imageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem imageSaveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem imageOpenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 表示VToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zoomInToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zoomOutToolStripMenuItem;
     }
 }
 
