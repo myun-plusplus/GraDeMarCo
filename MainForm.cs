@@ -10,6 +10,133 @@ namespace GrainDetector
 {
     public partial class MainForm : Form
     {
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            var result = MessageBox.Show("作業内容を保存しますか。", Application.ProductName, MessageBoxButtons.YesNoCancel);
+            if (result == DialogResult.Yes)
+            {
+                saveAsWorkspaceToolStripMenuItem_Click(this, new EventArgs());
+            }
+            else if (result == DialogResult.Cancel)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (actionMode == ActionMode.DotDraw)
+            {
+                if (e.Control && e.KeyCode == Keys.Z)
+                {
+                    dotDraw.UndoDrawing();
+                    this.imageForm.Refresh();
+                }
+                else if (e.Control && e.KeyCode == Keys.Y)
+                {
+                    dotDraw.RedoDrawing();
+                    this.imageForm.Refresh();
+                }
+            }
+        }
+
+        #region Menustrip
+
+        private void newWorkspaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("作業内容を保存しますか。", Application.ProductName, MessageBoxButtons.YesNoCancel);
+            if (result == DialogResult.Yes)
+            {
+                saveAsWorkspaceToolStripMenuItem_Click(this, new EventArgs());
+            }
+            else if (result == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            closeImageForm();
+
+            startNewWorkspace();
+        }
+
+        private void openWorkspaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("作業内容を保存しますか。", Application.ProductName, MessageBoxButtons.YesNoCancel);
+            if (result == DialogResult.Yes)
+            {
+                saveAsWorkspaceToolStripMenuItem_Click(this, new EventArgs());
+            }
+            else if (result == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            closeImageForm();
+
+            openWorkspace();
+            openImageFile(imageOpenOptions.ImageFilePath);
+            openImageForm();
+        }
+
+        private void overwriteWorkspaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!isWorkspaceSaved)
+            {
+                return;
+            }
+
+            saveWorkspace();
+        }
+
+        private void saveAsWorkspaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.saveWorkspaceDialog.FileName = Path.GetFileNameWithoutExtension(imageOpenOptions.ImageFilePath) + ".dat";
+            if (this.saveWorkspaceDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            saveWorkspace();
+        }
+
+        private void exitWorkspaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void imageOpenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.openImageFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                imageOpenOptions.ImageFilePath = this.openImageFileDialog.FileName;
+
+                closeImageForm();
+
+                openImageFile(imageOpenOptions.ImageFilePath);
+                openImageForm();
+
+                initializeRangeSelect();
+                initializeCircleSelect();
+            }
+        }
+
+        private void imageSaveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveImageFile(imageOpenOptions.ImageFilePath);
+        }
+
+        private void zoomInToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            imageDisplay.ZoomMagnification *= 2;
+        }
+
+        private void zoomOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            imageDisplay.ZoomMagnification *= 0.5;
+        }
+
+        #endregion
+
         private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
             if (!imageFormIsLoaded)
@@ -26,9 +153,9 @@ namespace GrainDetector
 
         private void fileSelectButton_Click(object sender, EventArgs e)
         {
-            if (this.openFileDialog.ShowDialog() == DialogResult.OK)
+            if (this.openImageFileDialog.ShowDialog() == DialogResult.OK)
             {
-                this.filePathTextBox.Text = this.openFileDialog.FileName;
+                imageOpenOptions.ImageFilePath = this.openImageFileDialog.FileName;
             }
         }
 
@@ -36,7 +163,7 @@ namespace GrainDetector
         {
             closeImageForm();
 
-            openImageFile(this.filePathTextBox.Text);
+            openImageFile(imageOpenOptions.ImageFilePath);
             openImageForm();
 
             initializeRangeSelect();
@@ -399,84 +526,10 @@ namespace GrainDetector
 
         private void imageSaveButton_Click(object sender, EventArgs e)
         {
-            string directory, fileName;
-            string filePath = this.filePathTextBox.Text;
-            try
-            {
-                directory = Path.GetDirectoryName(filePath);
-                fileName = Path.GetFileName(filePath);
-            }
-            catch (ArgumentException)
-            {
-                MessageBox.Show("無効なファイルパスです。", "エラー");
-                return;
-            }
-
-            this.saveFileDialog.FileName = fileName;
-            this.saveFileDialog.InitialDirectory = directory;
-
-            if (this.saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string extension = Path.GetExtension(this.saveFileDialog.FileName);
-                if (extension == ".bmp")
-                {
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Bmp);
-                }
-                else if (extension == ".exif")
-                {
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Exif);
-                }
-                else if (extension == ".gif")
-                {
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Gif);
-                }
-                else if (extension == ".jpg")
-                {
-                    var eps = new EncoderParameters(1);
-                    var ep = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 95L);
-                    eps.Param[0] = ep;
-
-                    ImageCodecInfo jpgEncoder = null;
-                    foreach (var ici in ImageCodecInfo.GetImageEncoders())
-                    {
-                        if (ici.FormatID == ImageFormat.Jpeg.Guid)
-                        {
-                            jpgEncoder = ici;
-                            break;
-                        }
-                    }
-
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, jpgEncoder, eps);
-                }
-                else if (extension == ".png")
-                {
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Png);
-                }
-                else if (extension == ".tiff")
-                {
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Tiff);
-                }
-            }
+            saveImageFile(imageOpenOptions.ImageFilePath);
         }
 
         #endregion
-
-        private void MainForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (actionMode == ActionMode.DotDraw)
-            {
-                if (e.Control && e.KeyCode == Keys.Z)
-                {
-                    dotDraw.UndoDrawing();
-                    this.imageForm.Refresh();
-                }
-                else if (e.Control && e.KeyCode == Keys.Y)
-                {
-                    dotDraw.RedoDrawing();
-                    this.imageForm.Refresh();
-                }
-            }
-        }
 
         private void imageForm_FormClosing(object sender, CancelEventArgs e)
         {
@@ -495,88 +548,6 @@ namespace GrainDetector
         {
             this.zoomInButton.Enabled = imageDisplay.CanZoomIn();
             this.zoomOutButton.Enabled = imageDisplay.CanZoomOut();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.saveFileDialog.FileName = Path.GetFileNameWithoutExtension(this.filePathTextBox.Text) + ".dat";
-            if (this.saveFileDialog.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
-
-            var workspace = new Workspace();
-            workspace.ImageRange = imageRange;
-            workspace.Circle = circle;
-            workspace.FilterOptions = filterOptions;
-            workspace.BinarizeOptions = binarizeOptions;
-            workspace.GrainDetectOptions = grainDetectOptions;
-            workspace.DotInCircleTool = dotInCircleTool;
-            workspace.DotOnCircleTool = dotOnCircleTool;
-            workspace.DotDrawTool = dotDrawTool;
-            workspace.DrawnDotsData = drawnDotsData;
-
-            workspace.OriginalImagePath = this.filePathTextBox.Text;
-
-            workspace.CountedColors = this.dotCountListView.Items.Cast<ListViewItem>()
-                    .Select(lvi => lvi.SubItems[0].BackColor)
-                    .ToList();
-
-            try
-            {
-                workspace.Save(this.saveFileDialog.FileName);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message);
-                return;
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            Workspace workspace = new Workspace();
-            workspace.ImageRange = this.imageRange;
-            workspace.Circle = this.circle;
-            workspace.FilterOptions = this.filterOptions;
-            workspace.BinarizeOptions = this.binarizeOptions;
-            workspace.GrainDetectOptions = this.grainDetectOptions;
-            workspace.DotInCircleTool = this.dotInCircleTool;
-            workspace.DotOnCircleTool = this.dotOnCircleTool;
-            workspace.DotDrawTool = this.dotDrawTool;
-            workspace.DrawnDotsData = this.drawnDotsData;
-
-            this.openFileDialog.FileName = "";
-            if (this.openFileDialog.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
-
-            try
-            {
-                workspace.Load(this.openFileDialog.FileName);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "エラー");
-                return;
-            }
-
-            this.filePathTextBox.Text = workspace.OriginalImagePath;
-
-            this.dotCountListView.Items.Clear();
-            this.dotCountListView.Items.AddRange(
-                Enumerable.Range(0, workspace.CountedColors.Count)
-                .Select(_ => new ListViewItem(new string[] { "", "0" }))
-                .ToArray());
-            this.dotCountListView.Items.Cast<ListViewItem>()
-                .Zip(workspace.CountedColors, (lvi, color) => lvi.SubItems[0].BackColor = color)
-                .ToList();
-
-            closeImageForm();
-
-            openImageFile(this.filePathTextBox.Text);
-            openImageForm();
         }
     }
 }

@@ -230,11 +230,11 @@ namespace GrainDetector
 
             foreach (Point location in dotLocationsInCircle)
             {
-                dotDraw.DrawDot(location, dotInCircleTool.Color, dotInCircleTool.Size);
+                dotDraw.AddDot(location, dotInCircleTool.Color, dotInCircleTool.Size);
             }
             foreach (Point location in dotLocationsOnCircle)
             {
-                dotDraw.DrawDot(location, dotOnCircleTool.Color, dotOnCircleTool.Size);
+                dotDraw.AddDot(location, dotOnCircleTool.Color, dotOnCircleTool.Size);
             }
         }
 

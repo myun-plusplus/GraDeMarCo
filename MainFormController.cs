@@ -12,13 +12,16 @@ namespace GrainDetector
     public partial class MainForm
     {
         private ImageForm imageForm;
-        private OpenFileDialog openFileDialog;
-        private SaveFileDialog saveFileDialog;
+        private OpenFileDialog openImageFileDialog;
+        private OpenFileDialog openWorkspaceDialog;
+        private SaveFileDialog saveImageFileDialog;
+        private SaveFileDialog saveWorkspaceDialog;
         private ColorDialog colorDialog;
 
         private ImageData imageData;
 
         private ImageDisplay imageDisplay;
+        private ImageOpenOptions imageOpenOptions;
         private ImageRange imageRange;
         private PlanimetricCircle circle;
         private FilterOptions filterOptions;
@@ -69,19 +72,35 @@ namespace GrainDetector
             }
         }
 
+        private bool isWorkspaceSaved;
+
         public MainForm()
         {
-            this.openFileDialog = new OpenFileDialog();
-            this.openFileDialog.Filter = "画像ファイル(*.bmp;*.exif;*.gif;*.jpg;*.png;*.tiff)|*.bmp;*.exif;*.gif;*.jpg;*.png;*.tiff|すべてのファイル(*.*)|*.*";
-            this.openFileDialog.FilterIndex = 1;
-            this.openFileDialog.Title = "開くファイルを選択してください";
-            this.openFileDialog.RestoreDirectory = true;
+            this.openImageFileDialog = new OpenFileDialog();
+            this.openImageFileDialog.Filter = "画像ファイル(*.bmp;*.exif;*.gif;*.jpg;*.png;*.tiff)|*.bmp;*.exif;*.gif;*.jpg;*.png;*.tiff|すべてのファイル(*.*)|*.*";
+            this.openImageFileDialog.FilterIndex = 1;
+            this.openImageFileDialog.Title = "開くファイルを選択してください";
+            this.openImageFileDialog.RestoreDirectory = true;
 
-            this.saveFileDialog = new SaveFileDialog();
-            this.saveFileDialog.Filter = "BMPファイル(*.bmp)|*.bmp|EXIFファイル(*.exif)|*.exif|GIFファイル(*.gif)|*.gif|JPEGファイル(*.jpg)|*.jpg|PNGファイル(*.png)|*.png|TIFFファイル(*.tiff)|*.tiff|すべてのファイル(*.*)|*.*";
-            this.saveFileDialog.FilterIndex = 0;
-            this.saveFileDialog.Title = "保存先を選択してください";
-            this.saveFileDialog.RestoreDirectory = true;
+            this.openWorkspaceDialog = new OpenFileDialog();
+            this.openWorkspaceDialog.Filter = "DATファイル(*.dat)|*.dat|すべてのファイル(*.*)|*.*";
+            this.openWorkspaceDialog.FilterIndex = 0;
+            this.openWorkspaceDialog.Title = "開くファイルを選択してください";
+            this.openWorkspaceDialog.RestoreDirectory = true;
+
+            this.saveImageFileDialog = new SaveFileDialog();
+            this.saveImageFileDialog.AddExtension = true;
+            this.saveImageFileDialog.Filter = "BMPファイル(*.bmp)|*.bmp|EXIFファイル(*.exif)|*.exif|GIFファイル(*.gif)|*.gif|JPEGファイル(*.jpg)|*.jpg|PNGファイル(*.png)|*.png|TIFFファイル(*.tiff)|*.tiff|すべてのファイル(*.*)|*.*";
+            this.saveImageFileDialog.FilterIndex = 0;
+            this.saveImageFileDialog.Title = "保存先を選択してください";
+            this.saveImageFileDialog.RestoreDirectory = true;
+
+            this.saveWorkspaceDialog = new SaveFileDialog();
+            this.saveWorkspaceDialog.AddExtension = true;
+            this.saveWorkspaceDialog.Filter = "DATファイル(*.dat) | *.dat | すべてのファイル(*.*) | *.* ";
+            this.saveWorkspaceDialog.FilterIndex = 0;
+            this.saveWorkspaceDialog.Title = "保存先を選択してください";
+            this.saveWorkspaceDialog.RestoreDirectory = true;
 
             this.colorDialog = new ColorDialog();
             this.colorDialog.CustomColors = new int[] {
@@ -96,6 +115,7 @@ namespace GrainDetector
             imageDisplay.Initialize();
             imageDisplay.ZoomMagnificationChanged += MainForm_ZoomMagnificationChanged;
 
+            imageOpenOptions = new ImageOpenOptions();
             imageRange = new ImageRange();
             circle = new PlanimetricCircle();
             filterOptions = new FilterOptions();
@@ -117,6 +137,11 @@ namespace GrainDetector
 
             InitializeComponent();
 
+            this.newWorkspaceToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.N;
+            this.openWorkspaceToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
+            this.overwriteWorkspaceToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
+            this.saveAsWorkspaceToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.S;
+
             this.blurComboBox.DataSource = Enum.GetValues(typeof(BlurOption)).Cast<BlurOption>()
                 .Select(i => Tuple.Create(i, i.GetType().GetField(i.ToString()).GetCustomAttribute<DisplayAttribute>().Name))
                 .ToList();
@@ -136,6 +161,7 @@ namespace GrainDetector
             this.dotColorOnCircleLabel.DataBindings.Add(new Binding("BackColor", this.dotOnCircleToolBindingSource, "Color", true, DataSourceUpdateMode.OnPropertyChanged));
             this.dotDrawColorLabel.DataBindings.Add(new Binding("BackColor", this.dotDrawToolBindingSource, "Color", true, DataSourceUpdateMode.OnPropertyChanged));
 
+            this.imageOpenOptionsBindingSource.DataSource = imageOpenOptions;
             this.imageRangeBindingSource.DataSource = imageRange;
             this.planimetricCircleBindingSource.DataSource = circle;
             this.filterOptionBindingSource.DataSource = filterOptions;
@@ -151,7 +177,7 @@ namespace GrainDetector
             imageFormIsLoaded = false;
             actionMode = ActionMode.None;
 
-            setInitialParameters();
+            startNewWorkspace();
         }
 
         /// <summary>
@@ -165,16 +191,16 @@ namespace GrainDetector
                 this.imageForm.Dispose();
             }
             this.imageForm = null;
-            if (this.openFileDialog != null)
+            if (this.openImageFileDialog != null)
             {
-                this.openFileDialog.Dispose();
+                this.openImageFileDialog.Dispose();
             }
-            this.openFileDialog = null;
-            if (this.saveFileDialog != null)
+            this.openImageFileDialog = null;
+            if (this.saveImageFileDialog != null)
             {
-                this.saveFileDialog.Dispose();
+                this.saveImageFileDialog.Dispose();
             }
-            this.saveFileDialog = null;
+            this.saveImageFileDialog = null;
             if (this.colorDialog != null)
             {
                 this.colorDialog.Dispose();
@@ -188,18 +214,31 @@ namespace GrainDetector
             base.Dispose(disposing);
         }
 
-        private void setInitialParameters()
+        private void startNewWorkspace()
         {
+            isWorkspaceSaved = false;
+
 #if DEBUG
-            this.filePathTextBox.Text = @"D:\Projects\GrainDetector\sample3.bmp";
+            imageOpenOptions.ImageFilePath = @"D:\Projects\GrainDetector\sample3.bmp";
+#else
+            imageOpenOptions.ImageFilePath = "";
 #endif
 
+            imageRange.LowerX = 0;
+            imageRange.UpperX = 0;
+            imageRange.LowerY = 0;
+            imageRange.UpperY = 0;
+
+            circle.LowerX = 0;
+            circle.LowerY = 0;
+            circle.Diameter = 0;
             circle.Color = Color.Blue;
 
             filterOptions.ApplysBlur = BlurOption.None;
             filterOptions.DetectsEdge = EdgeDetectOption.None;
 
             binarizeOptions.BinarizationThreshold = 127;
+            binarizeOptions.InvertsMonochrome = false;
 
             grainDetectOptions.DetectsGrainInCircle = true;
             grainDetectOptions.DetectsGrainOnCircle = false;
@@ -212,12 +251,90 @@ namespace GrainDetector
             dotDrawTool.Color = Color.Red;
             dotDrawTool.Size = 5;
 
+            this.dotCountListView.Items.Clear();
             this.dotCountListView.Items.Add(new ListViewItem(new string[] { "", "0" }));
             this.dotCountListView.Items.Add(new ListViewItem(new string[] { "", "0" }));
             this.dotCountListView.Items[0].UseItemStyleForSubItems = false;
             this.dotCountListView.Items[1].UseItemStyleForSubItems = false;
             this.dotCountListView.Items[0].SubItems[0].BackColor = Color.Red;
             this.dotCountListView.Items[1].SubItems[0].BackColor = Color.Yellow;
+        }
+
+        private void openWorkspace()
+        {
+            Workspace workspace = new Workspace();
+            workspace.ImageOpenOptions = imageOpenOptions;
+            workspace.ImageRange = imageRange;
+            workspace.Circle = circle;
+            workspace.FilterOptions = filterOptions;
+            workspace.BinarizeOptions = binarizeOptions;
+            workspace.GrainDetectOptions = grainDetectOptions;
+            workspace.DotInCircleTool = dotInCircleTool;
+            workspace.DotOnCircleTool = dotOnCircleTool;
+            workspace.DotDrawTool = dotDrawTool;
+            workspace.DrawnDotsData = drawnDotsData;
+
+            this.openWorkspaceDialog.FileName = "";
+            if (this.openWorkspaceDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            imageOpenOptions.ImageFilePath = this.openImageFileDialog.FileName;
+
+            try
+            {
+                workspace.Load(imageOpenOptions.ImageFilePath);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "エラー");
+                return;
+            }
+
+            this.dotCountListView.Items.Clear();
+            this.dotCountListView.Items.AddRange(
+                Enumerable.Range(0, workspace.CountedColors.Count)
+                .Select(_ => {
+                    var lvi = new ListViewItem(new string[] { "", "0" });
+                    lvi.UseItemStyleForSubItems = false;
+                    return lvi;
+                })
+                .ToArray());
+            this.dotCountListView.Items.Cast<ListViewItem>()
+                .Zip(workspace.CountedColors, (lvi, color) => lvi.SubItems[0].BackColor = color)
+                .ToList();
+        }
+
+        private void saveWorkspace()
+        {
+            var workspace = new Workspace();
+            workspace.ImageOpenOptions = imageOpenOptions;
+            workspace.ImageRange = imageRange;
+            workspace.Circle = circle;
+            workspace.FilterOptions = filterOptions;
+            workspace.BinarizeOptions = binarizeOptions;
+            workspace.GrainDetectOptions = grainDetectOptions;
+            workspace.DotInCircleTool = dotInCircleTool;
+            workspace.DotOnCircleTool = dotOnCircleTool;
+            workspace.DotDrawTool = dotDrawTool;
+            workspace.DrawnDotsData = drawnDotsData;
+
+            workspace.CountedColors = this.dotCountListView.Items.Cast<ListViewItem>()
+                    .Select(lvi => lvi.SubItems[0].BackColor)
+                    .ToList();
+
+            try
+            {
+                workspace.Save(this.saveImageFileDialog.FileName);
+                isWorkspaceSaved = true;
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+                isWorkspaceSaved = false;
+                return;
+            }
         }
 
         private void openImageFile(string filePath)
@@ -244,6 +361,67 @@ namespace GrainDetector
                 if (tmp != null)
                 {
                     tmp.Dispose();
+                }
+            }
+        }
+
+        private void saveImageFile(string filePath)
+        {
+            string directory, fileName;
+            try
+            {
+                directory = Path.GetDirectoryName(filePath);
+                fileName = Path.GetFileNameWithoutExtension(filePath);
+            }
+            catch (ArgumentException)
+            {
+                directory = "";
+                fileName = "";
+            }
+
+            this.saveImageFileDialog.FileName = fileName;
+            this.saveImageFileDialog.InitialDirectory = directory;
+
+            if (this.saveImageFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                switch (this.saveImageFileDialog.FilterIndex)
+                {
+                    case 0:
+                        imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Bmp);
+                        break;
+                    case 1:
+                        imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Exif);
+                        break;
+                    case 2:
+                        imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Gif);
+                        break;
+                    case 3:
+                        var eps = new EncoderParameters(1);
+                        var ep = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 95L);
+                        eps.Param[0] = ep;
+
+                        ImageCodecInfo jpgEncoder = null;
+                        foreach (var ici in ImageCodecInfo.GetImageEncoders())
+                        {
+                            if (ici.FormatID == ImageFormat.Jpeg.Guid)
+                            {
+                                jpgEncoder = ici;
+                                break;
+                            }
+                        }
+
+                        imageData.ShownImage.Save(this.saveImageFileDialog.FileName, jpgEncoder, eps);
+
+                        break;
+                    case 4:
+                        imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Png);
+                        break;
+                    case 5:
+                        imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Tiff);
+                        break;
+                    case 6:
+                        imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Bmp);
+                        break;
                 }
             }
         }

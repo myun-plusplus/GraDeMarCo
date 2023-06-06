@@ -24,6 +24,7 @@
             this.imageOpenButton = new System.Windows.Forms.Button();
             this.rangeSelectPanel = new System.Windows.Forms.Panel();
             this.upperYNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.imageRangeBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.lowerYNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.rangeYHyphenLabel = new System.Windows.Forms.Label();
             this.upperXNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -36,6 +37,7 @@
             this.circleSelectPanel = new System.Windows.Forms.Panel();
             this.circleColorSelectLabel = new System.Windows.Forms.Label();
             this.circleDiameterNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.planimetricCircleBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.circleColorLabel = new System.Windows.Forms.Label();
             this.circleXNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.circleYNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -46,6 +48,7 @@
             this.grainDetectTabPage = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.monochromeInvertCheckBox = new System.Windows.Forms.CheckBox();
+            this.binarizeOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.edgeDetectComboBox = new System.Windows.Forms.ComboBox();
             this.blurComboBox = new System.Windows.Forms.ComboBox();
             this.binarizationCheckBox = new System.Windows.Forms.CheckBox();
@@ -57,10 +60,13 @@
             this.dotColorOnCircleLabel = new System.Windows.Forms.Label();
             this.dotColorInCircleLabel = new System.Windows.Forms.Label();
             this.whitePixelMinimumNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.grainDetectOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.whitePixelMinimumLabel = new System.Windows.Forms.Label();
             this.dotSizeOnCircleNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.dotOnCircleToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.grainDetectButton = new System.Windows.Forms.Button();
             this.dotSizeInCircleNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.dotInCircleToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.detectsOnCircleCheckBox = new System.Windows.Forms.CheckBox();
             this.detectsInCircleCheckBox = new System.Windows.Forms.CheckBox();
             this.dotDrawTabPage = new System.Windows.Forms.TabPage();
@@ -69,6 +75,7 @@
             this.dotDrawCheckBox = new System.Windows.Forms.CheckBox();
             this.dotDrawRedoButton = new System.Windows.Forms.Button();
             this.dotDrawNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.dotDrawToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dotDrawUndoButton = new System.Windows.Forms.Button();
             this.dotDrawColorLabel = new System.Windows.Forms.Label();
             this.dotCountPageTab = new System.Windows.Forms.TabPage();
@@ -85,50 +92,58 @@
             this.shownImageSelectCLB = new System.Windows.Forms.CheckedListBox();
             this.imageSaveButton = new System.Windows.Forms.Button();
             this.filterOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.imageRangeBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.planimetricCircleBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.binarizeOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.grainDetectOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dotOnCircleToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dotInCircleToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dotDrawToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.workspaceFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newWorkspaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openWorkspaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.overwriteWorkspaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsWorkspaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitWorkspaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.imageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openImageToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsWorkspaceToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zoomInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zoomOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.imageOpenOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
             this.imageSelectPanel.SuspendLayout();
             this.rangeSelectPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.upperYNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lowerYNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.upperXNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lowerXNumericUpDown)).BeginInit();
             this.circleSelectPageTab.SuspendLayout();
             this.circleSelectPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.circleDiameterNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.planimetricCircleBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleXNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleYNumericUpDown)).BeginInit();
             this.grainDetectTabPage.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.binarizeOptionsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdTrackBar)).BeginInit();
             this.grainDetectPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.whitePixelMinimumNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grainDetectOptionsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeOnCircleNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotOnCircleToolBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeInCircleNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotInCircleToolBindingSource)).BeginInit();
             this.dotDrawTabPage.SuspendLayout();
             this.dotDrawPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dotDrawNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotDrawToolBindingSource)).BeginInit();
             this.dotCountPageTab.SuspendLayout();
             this.dotCountPanel.SuspendLayout();
             this.lowerPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.filterOptionBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.planimetricCircleBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.binarizeOptionsBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.grainDetectOptionsBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dotOnCircleToolBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dotInCircleToolBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dotDrawToolBindingSource)).BeginInit();
+            this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageOpenOptionsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -138,8 +153,7 @@
             this.tabControl.Controls.Add(this.grainDetectTabPage);
             this.tabControl.Controls.Add(this.dotDrawTabPage);
             this.tabControl.Controls.Add(this.dotCountPageTab);
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tabControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControl.Location = new System.Drawing.Point(0, 28);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(284, 226);
@@ -174,6 +188,7 @@
             // 
             this.filePathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.filePathTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.imageOpenOptionsBindingSource, "ImageFilePath", true));
             this.filePathTextBox.Location = new System.Drawing.Point(3, 5);
             this.filePathTextBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.filePathTextBox.Name = "filePathTextBox";
@@ -231,6 +246,10 @@
             this.upperYNumericUpDown.TabIndex = 0;
             this.upperYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.upperYNumericUpDown.ValueChanged += new System.EventHandler(this.upperYNumericUpDown_ValueChanged);
+            // 
+            // imageRangeBindingSource
+            // 
+            this.imageRangeBindingSource.DataSource = typeof(GrainDetector.ImageRange);
             // 
             // lowerYNumericUpDown
             // 
@@ -362,6 +381,10 @@
             this.circleDiameterNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.circleDiameterNumericUpDown.ValueChanged += new System.EventHandler(this.circleNumericUpDowns_ValueChanged);
             // 
+            // planimetricCircleBindingSource
+            // 
+            this.planimetricCircleBindingSource.DataSource = typeof(GrainDetector.PlanimetricCircle);
+            // 
             // circleColorLabel
             // 
             this.circleColorLabel.AutoSize = true;
@@ -482,6 +505,10 @@
             this.monochromeInvertCheckBox.TabIndex = 21;
             this.monochromeInvertCheckBox.Text = "白黒反転";
             this.monochromeInvertCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // binarizeOptionsBindingSource
+            // 
+            this.binarizeOptionsBindingSource.DataSource = typeof(GrainDetector.BinarizeOptions);
             // 
             // edgeDetectComboBox
             // 
@@ -629,6 +656,10 @@
             0,
             0});
             // 
+            // grainDetectOptionsBindingSource
+            // 
+            this.grainDetectOptionsBindingSource.DataSource = typeof(GrainDetector.GrainDetectOptions);
+            // 
             // whitePixelMinimumLabel
             // 
             this.whitePixelMinimumLabel.Location = new System.Drawing.Point(3, 67);
@@ -661,6 +692,10 @@
             0,
             0,
             0});
+            // 
+            // dotOnCircleToolBindingSource
+            // 
+            this.dotOnCircleToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
             // 
             // grainDetectButton
             // 
@@ -695,6 +730,10 @@
             0,
             0,
             0});
+            // 
+            // dotInCircleToolBindingSource
+            // 
+            this.dotInCircleToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
             // 
             // detectsOnCircleCheckBox
             // 
@@ -801,6 +840,10 @@
             0,
             0,
             0});
+            // 
+            // dotDrawToolBindingSource
+            // 
+            this.dotDrawToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
             // 
             // dotDrawUndoButton
             // 
@@ -912,7 +955,7 @@
             this.lowerPanel.Controls.Add(this.zoomInButton);
             this.lowerPanel.Controls.Add(this.shownImageSelectCLB);
             this.lowerPanel.Controls.Add(this.imageSaveButton);
-            this.lowerPanel.Location = new System.Drawing.Point(10, 232);
+            this.lowerPanel.Location = new System.Drawing.Point(10, 260);
             this.lowerPanel.Name = "lowerPanel";
             this.lowerPanel.Size = new System.Drawing.Size(218, 91);
             this.lowerPanel.TabIndex = 1;
@@ -963,65 +1006,132 @@
             this.imageSaveButton.UseVisualStyleBackColor = true;
             this.imageSaveButton.Click += new System.EventHandler(this.imageSaveButton_Click);
             // 
-            // button1
+            // menuStrip1
             // 
-            this.button1.Location = new System.Drawing.Point(229, 237);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.workspaceFileToolStripMenuItem,
+            this.imageToolStripMenuItem,
+            this.viewToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(284, 24);
+            this.menuStrip1.TabIndex = 2;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // button2
+            // workspaceFileToolStripMenuItem
             // 
-            this.button2.Location = new System.Drawing.Point(229, 265);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.workspaceFileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newWorkspaceToolStripMenuItem,
+            this.openWorkspaceToolStripMenuItem,
+            this.overwriteWorkspaceToolStripMenuItem,
+            this.saveAsWorkspaceToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.exitWorkspaceToolStripMenuItem});
+            this.workspaceFileToolStripMenuItem.Name = "workspaceFileToolStripMenuItem";
+            this.workspaceFileToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
+            this.workspaceFileToolStripMenuItem.Text = "ファイル(&F)";
             // 
-            // imageRangeBindingSource
+            // newWorkspaceToolStripMenuItem
             // 
-            this.imageRangeBindingSource.DataSource = typeof(GrainDetector.ImageRange);
+            this.newWorkspaceToolStripMenuItem.Name = "newWorkspaceToolStripMenuItem";
+            this.newWorkspaceToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.newWorkspaceToolStripMenuItem.Text = "新規...(&N)";
+            this.newWorkspaceToolStripMenuItem.Click += new System.EventHandler(this.newWorkspaceToolStripMenuItem_Click);
             // 
-            // planimetricCircleBindingSource
+            // openWorkspaceToolStripMenuItem
             // 
-            this.planimetricCircleBindingSource.DataSource = typeof(GrainDetector.PlanimetricCircle);
+            this.openWorkspaceToolStripMenuItem.Name = "openWorkspaceToolStripMenuItem";
+            this.openWorkspaceToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.openWorkspaceToolStripMenuItem.Text = "開く...(&O)";
+            this.openWorkspaceToolStripMenuItem.Click += new System.EventHandler(this.openWorkspaceToolStripMenuItem_Click);
             // 
-            // binarizeOptionsBindingSource
+            // overwriteWorkspaceToolStripMenuItem
             // 
-            this.binarizeOptionsBindingSource.DataSource = typeof(GrainDetector.BinarizeOptions);
+            this.overwriteWorkspaceToolStripMenuItem.Name = "overwriteWorkspaceToolStripMenuItem";
+            this.overwriteWorkspaceToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.overwriteWorkspaceToolStripMenuItem.Text = "上書き保存(&S)";
+            this.overwriteWorkspaceToolStripMenuItem.Click += new System.EventHandler(this.overwriteWorkspaceToolStripMenuItem_Click);
             // 
-            // grainDetectOptionsBindingSource
+            // saveAsWorkspaceToolStripMenuItem
             // 
-            this.grainDetectOptionsBindingSource.DataSource = typeof(GrainDetector.GrainDetectOptions);
+            this.saveAsWorkspaceToolStripMenuItem.Name = "saveAsWorkspaceToolStripMenuItem";
+            this.saveAsWorkspaceToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.saveAsWorkspaceToolStripMenuItem.Text = "名前を付けて保存...(&A)";
+            this.saveAsWorkspaceToolStripMenuItem.Click += new System.EventHandler(this.saveAsWorkspaceToolStripMenuItem_Click);
             // 
-            // dotOnCircleToolBindingSource
+            // toolStripMenuItem1
             // 
-            this.dotOnCircleToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(183, 6);
             // 
-            // dotInCircleToolBindingSource
+            // exitWorkspaceToolStripMenuItem
             // 
-            this.dotInCircleToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
+            this.exitWorkspaceToolStripMenuItem.Name = "exitWorkspaceToolStripMenuItem";
+            this.exitWorkspaceToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.exitWorkspaceToolStripMenuItem.Text = "終了(&X)";
+            this.exitWorkspaceToolStripMenuItem.Click += new System.EventHandler(this.exitWorkspaceToolStripMenuItem_Click);
             // 
-            // dotDrawToolBindingSource
+            // imageToolStripMenuItem
             // 
-            this.dotDrawToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
+            this.imageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openImageToolStripMenuItem1,
+            this.saveAsWorkspaceToolStripMenuItem1});
+            this.imageToolStripMenuItem.Name = "imageToolStripMenuItem";
+            this.imageToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.imageToolStripMenuItem.Text = "画像(&I)";
+            // 
+            // openImageToolStripMenuItem1
+            // 
+            this.openImageToolStripMenuItem1.Name = "openImageToolStripMenuItem1";
+            this.openImageToolStripMenuItem1.Size = new System.Drawing.Size(186, 22);
+            this.openImageToolStripMenuItem1.Text = "開く(&O)";
+            this.openImageToolStripMenuItem1.Click += new System.EventHandler(this.imageOpenToolStripMenuItem_Click);
+            // 
+            // saveAsWorkspaceToolStripMenuItem1
+            // 
+            this.saveAsWorkspaceToolStripMenuItem1.Name = "saveAsWorkspaceToolStripMenuItem1";
+            this.saveAsWorkspaceToolStripMenuItem1.Size = new System.Drawing.Size(186, 22);
+            this.saveAsWorkspaceToolStripMenuItem1.Text = "名前を付けて保存...(&A)";
+            this.saveAsWorkspaceToolStripMenuItem1.Click += new System.EventHandler(this.imageSaveAsToolStripMenuItem_Click);
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.zoomInToolStripMenuItem,
+            this.zoomOutToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
+            this.viewToolStripMenuItem.Text = "表示(&V)";
+            // 
+            // zoomInToolStripMenuItem
+            // 
+            this.zoomInToolStripMenuItem.Name = "zoomInToolStripMenuItem";
+            this.zoomInToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.zoomInToolStripMenuItem.Text = "拡大(&I)";
+            this.zoomInToolStripMenuItem.Click += new System.EventHandler(this.zoomInToolStripMenuItem_Click);
+            // 
+            // zoomOutToolStripMenuItem
+            // 
+            this.zoomOutToolStripMenuItem.Name = "zoomOutToolStripMenuItem";
+            this.zoomOutToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.zoomOutToolStripMenuItem.Text = "縮小(&O)";
+            this.zoomOutToolStripMenuItem.Click += new System.EventHandler(this.zoomOutToolStripMenuItem_Click);
+            // 
+            // imageOpenOptionsBindingSource
+            // 
+            this.imageOpenOptionsBindingSource.DataSource = typeof(GrainDetector.ImageOpenOptions);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 327);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(284, 355);
             this.Controls.Add(this.lowerPanel);
             this.Controls.Add(this.tabControl);
+            this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "GrainDetector";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
@@ -1031,6 +1141,7 @@
             this.imageSelectPanel.PerformLayout();
             this.rangeSelectPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.upperYNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lowerYNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.upperXNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lowerXNumericUpDown)).EndInit();
@@ -1038,31 +1149,34 @@
             this.circleSelectPanel.ResumeLayout(false);
             this.circleSelectPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.circleDiameterNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.planimetricCircleBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleXNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.circleYNumericUpDown)).EndInit();
             this.grainDetectTabPage.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.binarizeOptionsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.binarizationThresholdTrackBar)).EndInit();
             this.grainDetectPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.whitePixelMinimumNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grainDetectOptionsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeOnCircleNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotOnCircleToolBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeInCircleNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotInCircleToolBindingSource)).EndInit();
             this.dotDrawTabPage.ResumeLayout(false);
             this.dotDrawPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dotDrawNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotDrawToolBindingSource)).EndInit();
             this.dotCountPageTab.ResumeLayout(false);
             this.dotCountPanel.ResumeLayout(false);
             this.lowerPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.filterOptionBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageRangeBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.planimetricCircleBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.binarizeOptionsBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.grainDetectOptionsBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dotOnCircleToolBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dotInCircleToolBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dotDrawToolBindingSource)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageOpenOptionsBindingSource)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1143,8 +1257,21 @@
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.BindingSource dotInCircleToolBindingSource;
         private System.Windows.Forms.BindingSource dotOnCircleToolBindingSource;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem workspaceFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newWorkspaceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openWorkspaceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem overwriteWorkspaceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsWorkspaceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem exitWorkspaceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem imageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openImageToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem saveAsWorkspaceToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zoomInToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zoomOutToolStripMenuItem;
+        private System.Windows.Forms.BindingSource imageOpenOptionsBindingSource;
     }
 }
 
