@@ -458,15 +458,7 @@ namespace GrainDetector
 
         private void addDotCountButton_Click(object sender, EventArgs e)
         {
-            var lvi = new ListViewItem();
-
-            // BackColorの効果を指定したSubItemに限定するため
-            lvi.UseItemStyleForSubItems = false;
-
-            var lvsi = new ListViewItem.ListViewSubItem(lvi, "0");
-            lvi.SubItems.Add(lvsi);
-
-            this.dotCountListView.Items.Add(lvi);
+            this.dotCountListView.Items.Add(getListViewItem());
         }
 
         private void deleteDotCountButton_Click(object sender, EventArgs e)

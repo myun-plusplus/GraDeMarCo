@@ -137,6 +137,10 @@ namespace GrainDetector
 
             InitializeComponent();
 
+            var il = new ImageList();
+            il.ImageSize = new Size(1, 24);
+            this.dotCountListView.SmallImageList = il;
+
             this.newWorkspaceToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.N;
             this.openWorkspaceToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
             this.overwriteWorkspaceToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
@@ -252,10 +256,8 @@ namespace GrainDetector
             dotDrawTool.Size = 5;
 
             this.dotCountListView.Items.Clear();
-            this.dotCountListView.Items.Add(new ListViewItem(new string[] { "", "0" }));
-            this.dotCountListView.Items.Add(new ListViewItem(new string[] { "", "0" }));
-            this.dotCountListView.Items[0].UseItemStyleForSubItems = false;
-            this.dotCountListView.Items[1].UseItemStyleForSubItems = false;
+            this.dotCountListView.Items.Add(getListViewItem());
+            this.dotCountListView.Items.Add(getListViewItem());
             this.dotCountListView.Items[0].SubItems[0].BackColor = Color.Red;
             this.dotCountListView.Items[1].SubItems[0].BackColor = Color.Yellow;
         }
@@ -280,7 +282,7 @@ namespace GrainDetector
                 return;
             }
 
-            imageOpenOptions.ImageFilePath = this.openImageFileDialog.FileName;
+            imageOpenOptions.ImageFilePath = this.openWorkspaceDialog.FileName;
 
             try
             {
@@ -295,11 +297,7 @@ namespace GrainDetector
             this.dotCountListView.Items.Clear();
             this.dotCountListView.Items.AddRange(
                 Enumerable.Range(0, workspace.CountedColors.Count)
-                .Select(_ => {
-                    var lvi = new ListViewItem(new string[] { "", "0" });
-                    lvi.UseItemStyleForSubItems = false;
-                    return lvi;
-                })
+                .Select(_ => getListViewItem())
                 .ToArray());
             this.dotCountListView.Items.Cast<ListViewItem>()
                 .Zip(workspace.CountedColors, (lvi, color) => lvi.SubItems[0].BackColor = color)
@@ -326,7 +324,7 @@ namespace GrainDetector
 
             try
             {
-                workspace.Save(this.saveImageFileDialog.FileName);
+                workspace.Save(this.saveWorkspaceDialog.FileName);
                 isWorkspaceSaved = true;
             }
             catch (Exception exception)
@@ -601,6 +599,17 @@ namespace GrainDetector
             }
 
             return image;
+        }
+
+        private static ListViewItem getListViewItem()
+        {
+            var lvi = new ListViewItem();
+            lvi.UseItemStyleForSubItems = false; // BackColorの効果を指定したSubItemに限定するため
+
+            var lvsi = new ListViewItem.ListViewSubItem(lvi, "0");
+            lvi.SubItems.Add(lvsi);
+
+            return lvi;
         }
     }
 }
