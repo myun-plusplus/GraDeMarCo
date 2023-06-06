@@ -19,18 +19,16 @@ namespace GrainDetector
             this.imageRange = imageRange;
         }
 
-        public List<int> CountDots()
+        public List<int> CountDots(List<Color> colors)
         {
-            return TargetColors.Zip(IsCounted, (c, i) => Tuple.Create(c, i)).Select(t => t.Item2 ? countDotsWithDfs(t.Item1) : 0).ToList();
+            return colors.Select(c => countDotsWithDfs(c)).ToList();
         }
 
-        private Color targetColor;
         private bool[,] visited;
         private Stack<Tuple<int, int>> stack;
 
         private int countDotsWithDfs(Color color)
         {
-            targetColor = color;
             visited = new bool[imageData.OriginalImage.Height, imageData.OriginalImage.Width];
             stack = new Stack<Tuple<int, int>>();
 
@@ -42,7 +40,7 @@ namespace GrainDetector
             {
                 for (int x = lowerX; x <= upperX; ++x)
                 {
-                    if (!imageData.ShownImagePixels.Equals(x, y, targetColor))
+                    if (!imageData.ShownImagePixels.Equals(x, y, color))
                     {
                         continue;
                     }
@@ -51,7 +49,7 @@ namespace GrainDetector
                         continue;
                     }
                     ++count;
-                    dfs(x, y);
+                    dfs(color, x, y);
                 }
             }
 
@@ -61,7 +59,7 @@ namespace GrainDetector
         private static readonly int[] dx = new int[] { 1, 0, -1, 0 };
         private static readonly int[] dy = new int[] { 0, 1, 0, -1 };
 
-        private void dfs(int x, int y)
+        private void dfs(Color targetColor, int x, int y)
         {
             visited[y, x] = true;
             stack.Push(new Tuple<int, int>(x, y));

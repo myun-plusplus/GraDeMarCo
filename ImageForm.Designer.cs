@@ -50,9 +50,11 @@
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(720, 540);
             this.Controls.Add(this.pictureBox);
+            this.KeyPreview = true;
             this.Name = "ImageForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "画像";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.imageForm_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

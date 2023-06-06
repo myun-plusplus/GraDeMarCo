@@ -1,15 +1,142 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace GrainDetector
 {
     public partial class MainForm : Form
     {
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            var result = MessageBox.Show("作業内容を保存しますか。", Application.ProductName, MessageBoxButtons.YesNoCancel);
+            if (result == DialogResult.Yes)
+            {
+                saveAsWorkspaceToolStripMenuItem_Click(this, new EventArgs());
+            }
+            else if (result == DialogResult.Cancel)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (actionMode == ActionMode.DotDraw)
+            {
+                if (e.Control && e.KeyCode == Keys.Z)
+                {
+                    dotDraw.UndoDrawing();
+                    this.imageForm.Refresh();
+                }
+                else if (e.Control && e.KeyCode == Keys.Y)
+                {
+                    dotDraw.RedoDrawing();
+                    this.imageForm.Refresh();
+                }
+            }
+        }
+
+        #region Menustrip
+
+        private void newWorkspaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("作業内容を保存しますか。", Application.ProductName, MessageBoxButtons.YesNoCancel);
+            if (result == DialogResult.Yes)
+            {
+                saveAsWorkspaceToolStripMenuItem_Click(this, new EventArgs());
+            }
+            else if (result == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            closeImageForm();
+
+            startNewWorkspace();
+        }
+
+        private void openWorkspaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("作業内容を保存しますか。", Application.ProductName, MessageBoxButtons.YesNoCancel);
+            if (result == DialogResult.Yes)
+            {
+                saveAsWorkspaceToolStripMenuItem_Click(this, new EventArgs());
+            }
+            else if (result == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            closeImageForm();
+
+            openWorkspace();
+            openImageFile(imageOpenOptions.ImageFilePath);
+            openImageForm();
+        }
+
+        private void overwriteWorkspaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!isWorkspaceSaved)
+            {
+                return;
+            }
+
+            saveWorkspace();
+        }
+
+        private void saveAsWorkspaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.saveWorkspaceDialog.FileName = Path.GetFileNameWithoutExtension(imageOpenOptions.ImageFilePath) + ".dat";
+            if (this.saveWorkspaceDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            saveWorkspace();
+        }
+
+        private void exitWorkspaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void imageOpenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.openImageFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                imageOpenOptions.ImageFilePath = this.openImageFileDialog.FileName;
+
+                closeImageForm();
+
+                openImageFile(imageOpenOptions.ImageFilePath);
+                openImageForm();
+
+                initializeRangeSelect();
+                initializeCircleSelect();
+            }
+        }
+
+        private void imageSaveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveImageFile(imageOpenOptions.ImageFilePath);
+        }
+
+        private void zoomInToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            imageDisplay.ZoomMagnification *= 2;
+        }
+
+        private void zoomOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            imageDisplay.ZoomMagnification *= 0.5;
+        }
+
+        #endregion
+
         private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
             if (!imageFormIsLoaded)
@@ -26,45 +153,21 @@ namespace GrainDetector
 
         private void fileSelectButton_Click(object sender, EventArgs e)
         {
-            if (this.openFileDialog.ShowDialog() == DialogResult.OK)
+            if (this.openImageFileDialog.ShowDialog() == DialogResult.OK)
             {
-                this.filePathTextBox.Text = this.openFileDialog.FileName;
+                imageOpenOptions.ImageFilePath = this.openImageFileDialog.FileName;
             }
         }
 
         private void imageOpenButton_Click(object sender, EventArgs e)
         {
             closeImageForm();
-            //imageDisplay.Image = null;
 
-            String filePath = this.filePathTextBox.Text;
-            if (!File.Exists(filePath))
-            {
-                MessageBox.Show("選択したファイルが存在しません。", "エラー");
-                return;
-            }
-
-            Bitmap tmp = null;
-
-            try
-            {
-                tmp = new Bitmap(filePath);
-                imageData.OriginalImage = tmp.Clone(new Rectangle(0, 0, tmp.Width, tmp.Height), PixelFormat.Format24bppRgb);
-            }
-            catch (ArgumentException)
-            {
-                MessageBox.Show("選択したファイルは画像ファイルではありません。", "エラー");
-                return;
-            }
-            finally
-            {
-                if (tmp != null)
-                {
-                    tmp.Dispose();
-                }
-            }
-
+            openImageFile(imageOpenOptions.ImageFilePath);
             openImageForm();
+
+            initializeRangeSelect();
+            initializeCircleSelect();
         }
 
         #endregion
@@ -313,61 +416,64 @@ namespace GrainDetector
 
         #region DotCounting
 
-        private void dotCountColorLabel1_Click(object sender, EventArgs e)
-        {
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                this.dotCountColorLabel1.BackColor = colorDialog.Color;
-            }
-        }
-
-        private void dotCountColorLabel2_Click(object sender, EventArgs e)
-        {
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                this.dotCountColorLabel2.BackColor = colorDialog.Color;
-            }
-        }
-
-        private void dotCountColorLabel3_Click(object sender, EventArgs e)
-        {
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                this.dotCountColorLabel3.BackColor = colorDialog.Color;
-            }
-        }
-
-        private void dotCountColorLabel4_Click(object sender, EventArgs e)
-        {
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                this.dotCountColorLabel4.BackColor = colorDialog.Color;
-            }
-        }
-
         private void dotCountStartButton_Click(object sender, EventArgs e)
         {
-            dotCount.TargetColors = new List<Color>
-            {
-                this.dotCountColorLabel1.BackColor,
-                this.dotCountColorLabel2.BackColor,
-                this.dotCountColorLabel3.BackColor,
-                this.dotCountColorLabel4.BackColor
-            };
-            dotCount.IsCounted = new List<bool>
-            {
-                this.dotCountCheckBox1.Checked,
-                this.dotCountCheckBox2.Checked,
-                this.dotCountCheckBox3.Checked,
-                this.dotCountCheckBox4.Checked
-            };
+            var counts = dotCount.CountDots(
+                this.dotCountListView.Items.Cast<ListViewItem>()
+                .Select(lvi => lvi.SubItems[0].BackColor)
+                .ToList());
 
-            var results = dotCount.CountDots();
+            for (int i = 0; i < this.dotCountListView.Items.Count; ++i)
+            {
+                this.dotCountListView.Items[i].SubItems[1].Text = counts[i].ToString();
+            }
+        }
 
-            this.dotCountTextBox1.Text = results[0].ToString();
-            this.dotCountTextBox2.Text = results[1].ToString();
-            this.dotCountTextBox3.Text = results[2].ToString();
-            this.dotCountTextBox4.Text = results[3].ToString();
+        private void dotCountListView_Click(object sender, EventArgs e)
+        {
+            Point location = this.dotCountListView.PointToClient(Control.MousePosition);
+            var hitTestInfo = this.dotCountListView.HitTest(location);
+            int row = hitTestInfo.Item.Index;
+            int col = hitTestInfo.Item.SubItems.IndexOf(hitTestInfo.SubItem);
+
+            if (col == 0 && this.colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                this.dotCountListView.Items[row].SubItems[0].BackColor = this.colorDialog.Color;
+            }
+        }
+
+        private void dotCountListView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.C)
+            {
+                var lvis = this.dotCountListView.SelectedItems;
+                string text = string.Join(
+                    "\n",
+                    lvis.Cast<ListViewItem>()
+                    .Select(lvi => lvi.SubItems[1].Text)
+                    .ToArray());
+                Clipboard.SetText(text);
+            }
+        }
+
+        private void addDotCountButton_Click(object sender, EventArgs e)
+        {
+            this.dotCountListView.Items.Add(getListViewItem());
+        }
+
+        private void deleteDotCountButton_Click(object sender, EventArgs e)
+        {
+            var lvis = this.dotCountListView.SelectedItems;
+            foreach (var lvi in lvis)
+            {
+                this.dotCountListView.Items.Remove((ListViewItem)lvi);
+            }
+        }
+
+        private void dotCountListView_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        {
+            e.Cancel = true;
+            e.NewWidth = this.dotCountListView.Columns[e.ColumnIndex].Width;
         }
 
         #endregion
@@ -402,78 +508,17 @@ namespace GrainDetector
 
         private void zoomInButton_Click(object sender, EventArgs e)
         {
-            imageForm.MultipleZoomMagnification(2.0);
-
-            validateZoomMagnification();
+            imageDisplay.ZoomMagnification *= 2;
         }
 
         private void zoomOutButton_Click(object sender, EventArgs e)
         {
-            imageForm.MultipleZoomMagnification(0.5);
-
-            validateZoomMagnification();
+            imageDisplay.ZoomMagnification *= 0.5;
         }
 
         private void imageSaveButton_Click(object sender, EventArgs e)
         {
-            string directory, fileName;
-            string filePath = this.filePathTextBox.Text;
-            try
-            {
-                directory = Path.GetDirectoryName(filePath);
-                fileName = Path.GetFileName(filePath);
-            }
-            catch (ArgumentException)
-            {
-                MessageBox.Show("無効なファイルパスです。", "エラー");
-                return;
-            }
-
-            this.saveFileDialog.FileName = fileName;
-            this.saveFileDialog.InitialDirectory = directory;
-
-            if (this.saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string extension = Path.GetExtension(this.saveFileDialog.FileName);
-                if (extension == ".bmp")
-                {
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Bmp);
-                }
-                else if (extension == ".exif")
-                {
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Exif);
-                }
-                else if (extension == ".gif")
-                {
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Gif);
-                }
-                else if (extension == ".jpg")
-                {
-                    var eps = new EncoderParameters(1);
-                    var ep = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 95L);
-                    eps.Param[0] = ep;
-
-                    ImageCodecInfo jpgEncoder = null;
-                    foreach (var ici in ImageCodecInfo.GetImageEncoders())
-                    {
-                        if (ici.FormatID == ImageFormat.Jpeg.Guid)
-                        {
-                            jpgEncoder = ici;
-                            break;
-                        }
-                    }
-
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, jpgEncoder, eps);
-                }
-                else if (extension == ".png")
-                {
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Png);
-                }
-                else if (extension == ".tiff")
-                {
-                    imageData.ShownImage.Save(this.saveFileDialog.FileName, ImageFormat.Tiff);
-                }
-            }
+            saveImageFile(imageOpenOptions.ImageFilePath);
         }
 
         #endregion
@@ -491,23 +536,10 @@ namespace GrainDetector
             imageFormIsLoaded = false;
         }
 
-        private void imageForm_MouseWheel(object sender, MouseEventArgs e)
+        private void MainForm_ZoomMagnificationChanged(object sender, EventArgs e)
         {
-            if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
-            {
-                if (e.Delta > 0 && this.zoomInButton.Enabled)
-                {
-                    imageForm.MultipleZoomMagnification(2.0);
-
-                    validateZoomMagnification();
-                }
-                else if (e.Delta < 0 && this.zoomOutButton.Enabled)
-                {
-                    imageForm.MultipleZoomMagnification(0.5);
-
-                    validateZoomMagnification();
-                }
-            }
+            this.zoomInButton.Enabled = imageDisplay.CanZoomIn();
+            this.zoomOutButton.Enabled = imageDisplay.CanZoomOut();
         }
     }
 }

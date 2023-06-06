@@ -27,6 +27,7 @@ namespace GrainDetector
         Laplacian
     }
 
+    [Serializable]
     public class FilterOptions : BindingBase
     {
         public BlurOption ApplysBlur

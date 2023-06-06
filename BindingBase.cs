@@ -1,7 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace GrainDetector
 {
+    [Serializable]
     public abstract class BindingBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
