@@ -284,6 +284,8 @@ namespace GrainDetector
 
             imageOpenOptions.ImageFilePath = this.openWorkspaceDialog.FileName;
 
+            this.Enabled = false;
+
             try
             {
                 workspace.Load(imageOpenOptions.ImageFilePath);
@@ -291,6 +293,8 @@ namespace GrainDetector
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "エラー");
+
+                this.Enabled = true;
                 return;
             }
 
@@ -302,10 +306,14 @@ namespace GrainDetector
             this.dotCountListView.Items.Cast<ListViewItem>()
                 .Zip(workspace.CountedColors, (lvi, color) => lvi.SubItems[0].BackColor = color)
                 .ToList();
+
+            this.Enabled = true;
         }
 
         private void saveWorkspace()
         {
+            this.Enabled = false;
+
             var workspace = new Workspace();
             workspace.ImageOpenOptions = imageOpenOptions;
             workspace.ImageRange = imageRange;
@@ -331,8 +339,9 @@ namespace GrainDetector
             {
                 MessageBox.Show(exception.Message);
                 isWorkspaceSaved = false;
-                return;
             }
+
+            this.Enabled = true;
         }
 
         private void openImageFile(string filePath)
@@ -343,6 +352,8 @@ namespace GrainDetector
                 return;
             }
 
+            this.Enabled = false;
+
             Bitmap tmp = null;
             try
             {
@@ -352,7 +363,6 @@ namespace GrainDetector
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "エラー");
-                return;
             }
             finally
             {
@@ -361,6 +371,8 @@ namespace GrainDetector
                     tmp.Dispose();
                 }
             }
+
+            this.Enabled = true;
         }
 
         private void saveImageFile(string filePath)
@@ -382,6 +394,8 @@ namespace GrainDetector
 
             if (this.saveImageFileDialog.ShowDialog() == DialogResult.OK)
             {
+                this.Enabled = false;
+
                 switch (this.saveImageFileDialog.FilterIndex)
                 {
                     case 0:
@@ -421,6 +435,8 @@ namespace GrainDetector
                         imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Bmp);
                         break;
                 }
+
+                this.Enabled = true;
             }
         }
 

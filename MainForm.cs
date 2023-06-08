@@ -508,6 +508,8 @@ namespace GrainDetector
         // 連打すると表示されないことがある
         private void shownImageSelectCLB_SelectedIndexChanged(object sender, EventArgs e)
         {
+            this.Enabled = false;
+
             var flags = ImageModifyingFlags.None;
             if (this.shownImageSelectCLB.GetItemChecked(0))
             {
@@ -529,6 +531,8 @@ namespace GrainDetector
             imageData.ShownImage = createModifiedImage(flags);
 
             imageForm.Refresh();
+
+            this.Enabled = true;
         }
 
         private void zoomInButton_Click(object sender, EventArgs e)
