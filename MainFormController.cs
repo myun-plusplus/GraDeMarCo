@@ -546,11 +546,6 @@ namespace GrainDetector
             this.upperXNumericUpDown.Maximum = imageData.OriginalImage.Width - 1;
             this.lowerYNumericUpDown.Maximum = imageData.OriginalImage.Height - 1;
             this.upperYNumericUpDown.Maximum = imageData.OriginalImage.Height - 1;
-
-            imageRange.LowerX = 0;
-            imageRange.UpperX = imageData.OriginalImage.Width - 1;
-            imageRange.LowerY = 0;
-            imageRange.UpperY = imageData.OriginalImage.Height - 1;
         }
 
         private void initializeCircleSelect()

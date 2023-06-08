@@ -230,6 +230,14 @@ namespace GrainDetector
             this.imageForm.Refresh();
         }
 
+        private void wholeSlectButton_Click(object sender, EventArgs e)
+        {
+            imageRange.LowerX = 0;
+            imageRange.UpperX = imageData.OriginalImage.Width - 1;
+            imageRange.LowerY = 0;
+            imageRange.UpperY = imageData.OriginalImage.Height - 1;
+        }
+
         #endregion
 
         #region CircleSelecting
