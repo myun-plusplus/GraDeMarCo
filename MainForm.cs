@@ -74,7 +74,12 @@ namespace GrainDetector
             closeImageForm();
 
             openWorkspace();
+
             openImageFile(imageOpenOptions.ImageFilePath);
+
+            initializeRangeSelect();
+            initializeCircleSelect();
+
             openImageForm();
         }
 
@@ -113,10 +118,11 @@ namespace GrainDetector
                 closeImageForm();
 
                 openImageFile(imageOpenOptions.ImageFilePath);
-                openImageForm();
 
                 initializeRangeSelect();
                 initializeCircleSelect();
+
+                openImageForm();
             }
         }
 
@@ -164,10 +170,11 @@ namespace GrainDetector
             closeImageForm();
 
             openImageFile(imageOpenOptions.ImageFilePath);
-            openImageForm();
 
             initializeRangeSelect();
             initializeCircleSelect();
+
+            openImageForm();
         }
 
         #endregion
@@ -286,6 +293,16 @@ namespace GrainDetector
             {
                 this.circleColorSelectLabel.BackColor = colorDialog.Color;
             }
+        }
+
+        private void largestCircleSelectButton_Click(object sender, EventArgs e)
+        {
+            int centerX = (imageRange.LowerX + imageRange.UpperX) / 2;
+            int centerY = (imageRange.LowerY + imageRange.UpperY) / 2;
+            int radius = Math.Min(imageRange.UpperX - imageRange.LowerX, imageRange.UpperY - imageRange.LowerY) / 2;
+            circle.LowerX = centerX - radius;
+            circle.LowerY = centerY - radius;
+            circle.Diameter = 2 * radius;
         }
 
         #endregion

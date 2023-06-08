@@ -553,10 +553,6 @@ namespace GrainDetector
             this.circleXNumericUpDown.Maximum = imageData.OriginalImage.Width - 1;
             this.circleYNumericUpDown.Maximum = imageData.OriginalImage.Height - 1;
             this.circleDiameterNumericUpDown.Maximum = Math.Min(imageData.OriginalImage.Width, imageData.OriginalImage.Width) - 1;
-
-            circle.LowerX = 0;
-            circle.LowerY = 0;
-            circle.Diameter = Math.Min(imageData.OriginalImage.Width, imageData.OriginalImage.Height);
         }
 
         [Flags]
