@@ -23,6 +23,7 @@
             this.fileSelectButton = new System.Windows.Forms.Button();
             this.imageOpenButton = new System.Windows.Forms.Button();
             this.rangeSelectPanel = new System.Windows.Forms.Panel();
+            this.wholeImageSlectButton = new System.Windows.Forms.Button();
             this.upperYNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.lowerYNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.rangeYHyphenLabel = new System.Windows.Forms.Label();
@@ -34,6 +35,7 @@
             this.rangeYLabel = new System.Windows.Forms.Label();
             this.circleSelectPageTab = new System.Windows.Forms.TabPage();
             this.circleSelectPanel = new System.Windows.Forms.Panel();
+            this.largestCircleSelectButton = new System.Windows.Forms.Button();
             this.circleColorSelectLabel = new System.Windows.Forms.Label();
             this.circleDiameterNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.circleColorLabel = new System.Windows.Forms.Label();
@@ -99,7 +101,6 @@
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zoomInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zoomOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.wholeImageSlectButton = new System.Windows.Forms.Button();
             this.imageOpenOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.imageRangeBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.planimetricCircleBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -108,7 +109,6 @@
             this.dotOnCircleToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dotInCircleToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dotDrawToolBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.largestCircleSelectButton = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.imageSelectTabPage.SuspendLayout();
             this.imageSelectPanel.SuspendLayout();
@@ -239,9 +239,19 @@
             this.rangeSelectPanel.Size = new System.Drawing.Size(210, 91);
             this.rangeSelectPanel.TabIndex = 0;
             // 
+            // wholeImageSlectButton
+            // 
+            this.wholeImageSlectButton.Location = new System.Drawing.Point(142, 32);
+            this.wholeImageSlectButton.Name = "wholeImageSlectButton";
+            this.wholeImageSlectButton.Size = new System.Drawing.Size(61, 23);
+            this.wholeImageSlectButton.TabIndex = 7;
+            this.wholeImageSlectButton.Text = "全域選択";
+            this.wholeImageSlectButton.UseVisualStyleBackColor = true;
+            this.wholeImageSlectButton.Click += new System.EventHandler(this.wholeSlectButton_Click);
+            // 
             // upperYNumericUpDown
             // 
-            this.upperYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "UpperY", true));
+            this.upperYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "UpperY", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.upperYNumericUpDown.Location = new System.Drawing.Point(91, 34);
             this.upperYNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.upperYNumericUpDown.Name = "upperYNumericUpDown";
@@ -252,7 +262,7 @@
             // 
             // lowerYNumericUpDown
             // 
-            this.lowerYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "LowerY", true));
+            this.lowerYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "LowerY", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.lowerYNumericUpDown.Location = new System.Drawing.Point(25, 34);
             this.lowerYNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lowerYNumericUpDown.Name = "lowerYNumericUpDown";
@@ -272,7 +282,7 @@
             // 
             // upperXNumericUpDown
             // 
-            this.upperXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "UpperX", true));
+            this.upperXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "UpperX", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.upperXNumericUpDown.Location = new System.Drawing.Point(91, 5);
             this.upperXNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.upperXNumericUpDown.Name = "upperXNumericUpDown";
@@ -283,7 +293,7 @@
             // 
             // lowerXNumericUpDown
             // 
-            this.lowerXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "LowerX", true));
+            this.lowerXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "LowerX", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.lowerXNumericUpDown.Location = new System.Drawing.Point(25, 5);
             this.lowerXNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lowerXNumericUpDown.Name = "lowerXNumericUpDown";
@@ -360,6 +370,16 @@
             this.circleSelectPanel.Size = new System.Drawing.Size(202, 188);
             this.circleSelectPanel.TabIndex = 0;
             // 
+            // largestCircleSelectButton
+            // 
+            this.largestCircleSelectButton.Location = new System.Drawing.Point(120, 61);
+            this.largestCircleSelectButton.Name = "largestCircleSelectButton";
+            this.largestCircleSelectButton.Size = new System.Drawing.Size(75, 23);
+            this.largestCircleSelectButton.TabIndex = 8;
+            this.largestCircleSelectButton.Text = "最大円";
+            this.largestCircleSelectButton.UseVisualStyleBackColor = true;
+            this.largestCircleSelectButton.Click += new System.EventHandler(this.largestCircleSelectButton_Click);
+            // 
             // circleColorSelectLabel
             // 
             this.circleColorSelectLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -372,7 +392,7 @@
             // 
             // circleDiameterNumericUpDown
             // 
-            this.circleDiameterNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.planimetricCircleBindingSource, "Diameter", true));
+            this.circleDiameterNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.planimetricCircleBindingSource, "Diameter", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.circleDiameterNumericUpDown.Location = new System.Drawing.Point(51, 63);
             this.circleDiameterNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.circleDiameterNumericUpDown.Name = "circleDiameterNumericUpDown";
@@ -393,7 +413,7 @@
             // 
             // circleXNumericUpDown
             // 
-            this.circleXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.planimetricCircleBindingSource, "LowerX", true));
+            this.circleXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.planimetricCircleBindingSource, "LowerX", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.circleXNumericUpDown.Location = new System.Drawing.Point(51, 5);
             this.circleXNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.circleXNumericUpDown.Maximum = new decimal(new int[] {
@@ -409,7 +429,7 @@
             // 
             // circleYNumericUpDown
             // 
-            this.circleYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.planimetricCircleBindingSource, "LowerY", true));
+            this.circleYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.planimetricCircleBindingSource, "LowerY", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.circleYNumericUpDown.Location = new System.Drawing.Point(51, 34);
             this.circleYNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.circleYNumericUpDown.Maximum = new decimal(new int[] {
@@ -1093,16 +1113,6 @@
             this.zoomOutToolStripMenuItem.Text = "縮小(&O)";
             this.zoomOutToolStripMenuItem.Click += new System.EventHandler(this.zoomOutToolStripMenuItem_Click);
             // 
-            // wholeImageSlectButton
-            // 
-            this.wholeImageSlectButton.Location = new System.Drawing.Point(142, 32);
-            this.wholeImageSlectButton.Name = "wholeImageSlectButton";
-            this.wholeImageSlectButton.Size = new System.Drawing.Size(61, 23);
-            this.wholeImageSlectButton.TabIndex = 7;
-            this.wholeImageSlectButton.Text = "全域選択";
-            this.wholeImageSlectButton.UseVisualStyleBackColor = true;
-            this.wholeImageSlectButton.Click += new System.EventHandler(this.wholeSlectButton_Click);
-            // 
             // imageOpenOptionsBindingSource
             // 
             this.imageOpenOptionsBindingSource.DataSource = typeof(GrainDetector.ImageOpenOptions);
@@ -1134,16 +1144,6 @@
             // dotDrawToolBindingSource
             // 
             this.dotDrawToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
-            // 
-            // largestCircleSelectButton
-            // 
-            this.largestCircleSelectButton.Location = new System.Drawing.Point(120, 61);
-            this.largestCircleSelectButton.Name = "largestCircleSelectButton";
-            this.largestCircleSelectButton.Size = new System.Drawing.Size(75, 23);
-            this.largestCircleSelectButton.TabIndex = 8;
-            this.largestCircleSelectButton.Text = "最大円";
-            this.largestCircleSelectButton.UseVisualStyleBackColor = true;
-            this.largestCircleSelectButton.Click += new System.EventHandler(this.largestCircleSelectButton_Click);
             // 
             // MainForm
             // 

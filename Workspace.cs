@@ -34,7 +34,7 @@ namespace GrainDetector
                 data = ms.GetBuffer();
             }
 
-            using (var fs = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write))
+            using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
             {
                 fs.Write(data, 0, data.Length);
             }
