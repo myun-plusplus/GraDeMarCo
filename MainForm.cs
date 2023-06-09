@@ -319,6 +319,7 @@ namespace GrainDetector
             {
                 actionMode = ActionMode.None;
             }
+
             imageFilter.Filter();
 
             this.imageForm.Refresh();
@@ -326,11 +327,14 @@ namespace GrainDetector
 
         private void filterOptionBindingSource_CurrentItemChanged(object sender, EventArgs e)
         {
-            imageFilter.Filter();
-
-            if (imageFormIsLoaded)
+            if (actionMode == ActionMode.ImageFilter)
             {
-                this.imageForm.Refresh();
+                imageFilter.Filter();
+
+                if (imageFormIsLoaded)
+                {
+                    this.imageForm.Refresh();
+                }
             }
         }
 
@@ -340,11 +344,14 @@ namespace GrainDetector
 
         private void binarizeOptionBindingSource_CurrentItemChanged(object sender, EventArgs e)
         {
-            imageBinarize.Binarize();
-
-            if (_isImageFormOpened)
+            if (actionMode == ActionMode.ImageBinarize)
             {
-                this.imageForm.Refresh();
+                imageBinarize.Binarize();
+
+                if (_isImageFormOpened)
+                {
+                    this.imageForm.Refresh();
+                }
             }
         }
 
@@ -358,6 +365,8 @@ namespace GrainDetector
             {
                 actionMode = ActionMode.None;
             }
+
+            imageBinarize.Binarize();
 
             this.imageForm.Refresh();
         }
