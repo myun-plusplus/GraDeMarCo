@@ -23,6 +23,7 @@
             this.fileSelectButton = new System.Windows.Forms.Button();
             this.imageOpenButton = new System.Windows.Forms.Button();
             this.rangeSelectPanel = new System.Windows.Forms.Panel();
+            this.wholeImageSlectButton = new System.Windows.Forms.Button();
             this.upperYNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.lowerYNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.rangeYHyphenLabel = new System.Windows.Forms.Label();
@@ -34,6 +35,7 @@
             this.rangeYLabel = new System.Windows.Forms.Label();
             this.circleSelectPageTab = new System.Windows.Forms.TabPage();
             this.circleSelectPanel = new System.Windows.Forms.Panel();
+            this.largestCircleSelectButton = new System.Windows.Forms.Button();
             this.circleColorSelectLabel = new System.Windows.Forms.Label();
             this.circleDiameterNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.circleColorLabel = new System.Windows.Forms.Label();
@@ -74,11 +76,11 @@
             this.dotCountPageTab = new System.Windows.Forms.TabPage();
             this.dotCountPanel = new System.Windows.Forms.Panel();
             this.deleteDotCountButton = new System.Windows.Forms.Button();
+            this.dotCountStartButton = new System.Windows.Forms.Button();
             this.dotCountListView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.addDotCountButton = new System.Windows.Forms.Button();
-            this.dotCountStartButton = new System.Windows.Forms.Button();
             this.lowerPanel = new System.Windows.Forms.Panel();
             this.zoomOutButton = new System.Windows.Forms.Button();
             this.zoomInButton = new System.Windows.Forms.Button();
@@ -222,6 +224,7 @@
             // 
             this.rangeSelectPanel.BackColor = System.Drawing.Color.Transparent;
             this.rangeSelectPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.rangeSelectPanel.Controls.Add(this.wholeImageSlectButton);
             this.rangeSelectPanel.Controls.Add(this.upperYNumericUpDown);
             this.rangeSelectPanel.Controls.Add(this.lowerYNumericUpDown);
             this.rangeSelectPanel.Controls.Add(this.rangeYHyphenLabel);
@@ -236,27 +239,49 @@
             this.rangeSelectPanel.Size = new System.Drawing.Size(210, 91);
             this.rangeSelectPanel.TabIndex = 0;
             // 
+            // wholeImageSlectButton
+            // 
+            this.wholeImageSlectButton.Location = new System.Drawing.Point(142, 32);
+            this.wholeImageSlectButton.Name = "wholeImageSlectButton";
+            this.wholeImageSlectButton.Size = new System.Drawing.Size(61, 23);
+            this.wholeImageSlectButton.TabIndex = 7;
+            this.wholeImageSlectButton.Text = "全域選択";
+            this.wholeImageSlectButton.UseVisualStyleBackColor = true;
+            this.wholeImageSlectButton.Click += new System.EventHandler(this.wholeSlectButton_Click);
+            // 
             // upperYNumericUpDown
             // 
-            this.upperYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "UpperY", true));
+            this.upperYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "UpperY", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.upperYNumericUpDown.Location = new System.Drawing.Point(91, 34);
             this.upperYNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.upperYNumericUpDown.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             this.upperYNumericUpDown.Name = "upperYNumericUpDown";
             this.upperYNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.upperYNumericUpDown.TabIndex = 0;
             this.upperYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.upperYNumericUpDown.ValueChanged += new System.EventHandler(this.upperYNumericUpDown_ValueChanged);
+            this.upperYNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.upperYNumericUpDown_Validating);
             // 
             // lowerYNumericUpDown
             // 
-            this.lowerYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "LowerY", true));
+            this.lowerYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "LowerY", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.lowerYNumericUpDown.Location = new System.Drawing.Point(25, 34);
             this.lowerYNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.lowerYNumericUpDown.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             this.lowerYNumericUpDown.Name = "lowerYNumericUpDown";
             this.lowerYNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.lowerYNumericUpDown.TabIndex = 0;
             this.lowerYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.lowerYNumericUpDown.ValueChanged += new System.EventHandler(this.lowerYNumericUpDown_ValueChanged);
+            this.lowerYNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.lowerYNumericUpDown_Validating);
             // 
             // rangeYHyphenLabel
             // 
@@ -269,25 +294,37 @@
             // 
             // upperXNumericUpDown
             // 
-            this.upperXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "UpperX", true));
+            this.upperXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "UpperX", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.upperXNumericUpDown.Location = new System.Drawing.Point(91, 5);
             this.upperXNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.upperXNumericUpDown.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             this.upperXNumericUpDown.Name = "upperXNumericUpDown";
             this.upperXNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.upperXNumericUpDown.TabIndex = 3;
             this.upperXNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.upperXNumericUpDown.ValueChanged += new System.EventHandler(this.upperXNumericUpDown_ValueChanged);
+            this.upperXNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.upperXNumericUpDown_Validating);
             // 
             // lowerXNumericUpDown
             // 
-            this.lowerXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "LowerX", true));
+            this.lowerXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "LowerX", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.lowerXNumericUpDown.Location = new System.Drawing.Point(25, 5);
             this.lowerXNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.lowerXNumericUpDown.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             this.lowerXNumericUpDown.Name = "lowerXNumericUpDown";
             this.lowerXNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.lowerXNumericUpDown.TabIndex = 2;
             this.lowerXNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.lowerXNumericUpDown.ValueChanged += new System.EventHandler(this.lowerXNumericUpDown_ValueChanged);
+            this.lowerXNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.lowerXNumericUpDown_Validating);
             // 
             // rangeSelectCheckBox
             // 
@@ -342,6 +379,7 @@
             // circleSelectPanel
             // 
             this.circleSelectPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.circleSelectPanel.Controls.Add(this.largestCircleSelectButton);
             this.circleSelectPanel.Controls.Add(this.circleColorSelectLabel);
             this.circleSelectPanel.Controls.Add(this.circleDiameterNumericUpDown);
             this.circleSelectPanel.Controls.Add(this.circleColorLabel);
@@ -356,6 +394,16 @@
             this.circleSelectPanel.Size = new System.Drawing.Size(202, 188);
             this.circleSelectPanel.TabIndex = 0;
             // 
+            // largestCircleSelectButton
+            // 
+            this.largestCircleSelectButton.Location = new System.Drawing.Point(120, 61);
+            this.largestCircleSelectButton.Name = "largestCircleSelectButton";
+            this.largestCircleSelectButton.Size = new System.Drawing.Size(75, 23);
+            this.largestCircleSelectButton.TabIndex = 8;
+            this.largestCircleSelectButton.Text = "最大円";
+            this.largestCircleSelectButton.UseVisualStyleBackColor = true;
+            this.largestCircleSelectButton.Click += new System.EventHandler(this.largestCircleSelectButton_Click);
+            // 
             // circleColorSelectLabel
             // 
             this.circleColorSelectLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -368,9 +416,14 @@
             // 
             // circleDiameterNumericUpDown
             // 
-            this.circleDiameterNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.planimetricCircleBindingSource, "Diameter", true));
+            this.circleDiameterNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.planimetricCircleBindingSource, "Diameter", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.circleDiameterNumericUpDown.Location = new System.Drawing.Point(51, 63);
             this.circleDiameterNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.circleDiameterNumericUpDown.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             this.circleDiameterNumericUpDown.Name = "circleDiameterNumericUpDown";
             this.circleDiameterNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.circleDiameterNumericUpDown.TabIndex = 3;
@@ -389,11 +442,11 @@
             // 
             // circleXNumericUpDown
             // 
-            this.circleXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.planimetricCircleBindingSource, "LowerX", true));
+            this.circleXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.planimetricCircleBindingSource, "LowerX", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.circleXNumericUpDown.Location = new System.Drawing.Point(51, 5);
             this.circleXNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.circleXNumericUpDown.Maximum = new decimal(new int[] {
-            1919,
+            65535,
             0,
             0,
             0});
@@ -405,11 +458,11 @@
             // 
             // circleYNumericUpDown
             // 
-            this.circleYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.planimetricCircleBindingSource, "LowerY", true));
+            this.circleYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.planimetricCircleBindingSource, "LowerY", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.circleYNumericUpDown.Location = new System.Drawing.Point(51, 34);
             this.circleYNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.circleYNumericUpDown.Maximum = new decimal(new int[] {
-            1079,
+            65535,
             0,
             0,
             0});
@@ -870,6 +923,18 @@
             this.deleteDotCountButton.UseVisualStyleBackColor = true;
             this.deleteDotCountButton.Click += new System.EventHandler(this.deleteDotCountButton_Click);
             // 
+            // dotCountStartButton
+            // 
+            this.dotCountStartButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dotCountStartButton.Location = new System.Drawing.Point(126, 148);
+            this.dotCountStartButton.Name = "dotCountStartButton";
+            this.dotCountStartButton.Size = new System.Drawing.Size(75, 23);
+            this.dotCountStartButton.TabIndex = 7;
+            this.dotCountStartButton.Text = "解析";
+            this.dotCountStartButton.UseVisualStyleBackColor = true;
+            this.dotCountStartButton.Click += new System.EventHandler(this.dotCountStartButton_Click);
+            // 
             // dotCountListView
             // 
             this.dotCountListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -907,18 +972,6 @@
             this.addDotCountButton.Text = "追加";
             this.addDotCountButton.UseVisualStyleBackColor = true;
             this.addDotCountButton.Click += new System.EventHandler(this.addDotCountButton_Click);
-            // 
-            // dotCountStartButton
-            // 
-            this.dotCountStartButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dotCountStartButton.Location = new System.Drawing.Point(126, 148);
-            this.dotCountStartButton.Name = "dotCountStartButton";
-            this.dotCountStartButton.Size = new System.Drawing.Size(75, 23);
-            this.dotCountStartButton.TabIndex = 7;
-            this.dotCountStartButton.Text = "解析";
-            this.dotCountStartButton.UseVisualStyleBackColor = true;
-            this.dotCountStartButton.Click += new System.EventHandler(this.dotCountStartButton_Click);
             // 
             // lowerPanel
             // 
@@ -1272,6 +1325,8 @@
         private System.Windows.Forms.ToolStripMenuItem zoomInToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem zoomOutToolStripMenuItem;
         private System.Windows.Forms.BindingSource imageOpenOptionsBindingSource;
+        private System.Windows.Forms.Button wholeImageSlectButton;
+        private System.Windows.Forms.Button largestCircleSelectButton;
     }
 }
 

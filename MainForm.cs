@@ -74,7 +74,9 @@ namespace GrainDetector
             closeImageForm();
 
             openWorkspace();
+
             openImageFile(imageOpenOptions.ImageFilePath);
+
             openImageForm();
         }
 
@@ -113,10 +115,8 @@ namespace GrainDetector
                 closeImageForm();
 
                 openImageFile(imageOpenOptions.ImageFilePath);
-                openImageForm();
 
-                initializeRangeSelect();
-                initializeCircleSelect();
+                openImageForm();
             }
         }
 
@@ -164,15 +164,45 @@ namespace GrainDetector
             closeImageForm();
 
             openImageFile(imageOpenOptions.ImageFilePath);
-            openImageForm();
 
-            initializeRangeSelect();
-            initializeCircleSelect();
+            openImageForm();
         }
 
         #endregion
 
         #region RangeSelecting
+
+        private void lowerXNumericUpDown_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.lowerXNumericUpDown.Value >= imageData.ShownImage.Width)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void upperXNumericUpDown_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.upperXNumericUpDown.Value >= imageData.ShownImage.Width)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void lowerYNumericUpDown_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.lowerYNumericUpDown.Value >= imageData.ShownImage.Height)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void upperYNumericUpDown_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.upperYNumericUpDown.Value >= imageData.ShownImage.Height)
+            {
+                e.Cancel = true;
+            }
+        }
 
         private void lowerXNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
@@ -230,6 +260,14 @@ namespace GrainDetector
             this.imageForm.Refresh();
         }
 
+        private void wholeSlectButton_Click(object sender, EventArgs e)
+        {
+            imageRange.LowerX = 0;
+            imageRange.UpperX = imageData.OriginalImage.Width - 1;
+            imageRange.LowerY = 0;
+            imageRange.UpperY = imageData.OriginalImage.Height - 1;
+        }
+
         #endregion
 
         #region CircleSelecting
@@ -280,6 +318,16 @@ namespace GrainDetector
             }
         }
 
+        private void largestCircleSelectButton_Click(object sender, EventArgs e)
+        {
+            int centerX = (imageRange.LowerX + imageRange.UpperX) / 2;
+            int centerY = (imageRange.LowerY + imageRange.UpperY) / 2;
+            int radius = Math.Min(imageRange.UpperX - imageRange.LowerX, imageRange.UpperY - imageRange.LowerY) / 2;
+            circle.LowerX = centerX - radius;
+            circle.LowerY = centerY - radius;
+            circle.Diameter = 2 * radius;
+        }
+
         #endregion
 
         #region ImageFiltering
@@ -294,6 +342,7 @@ namespace GrainDetector
             {
                 actionMode = ActionMode.None;
             }
+
             imageFilter.Filter();
 
             this.imageForm.Refresh();
@@ -301,11 +350,14 @@ namespace GrainDetector
 
         private void filterOptionBindingSource_CurrentItemChanged(object sender, EventArgs e)
         {
-            imageFilter.Filter();
-
-            if (imageFormIsLoaded)
+            if (actionMode == ActionMode.ImageFilter)
             {
-                this.imageForm.Refresh();
+                imageFilter.Filter();
+
+                if (imageFormIsLoaded)
+                {
+                    this.imageForm.Refresh();
+                }
             }
         }
 
@@ -315,11 +367,14 @@ namespace GrainDetector
 
         private void binarizeOptionBindingSource_CurrentItemChanged(object sender, EventArgs e)
         {
-            imageBinarize.Binarize();
-
-            if (_isImageFormOpened)
+            if (actionMode == ActionMode.ImageBinarize)
             {
-                this.imageForm.Refresh();
+                imageBinarize.Binarize();
+
+                if (_isImageFormOpened)
+                {
+                    this.imageForm.Refresh();
+                }
             }
         }
 
@@ -333,6 +388,8 @@ namespace GrainDetector
             {
                 actionMode = ActionMode.None;
             }
+
+            imageBinarize.Binarize();
 
             this.imageForm.Refresh();
         }
@@ -483,6 +540,8 @@ namespace GrainDetector
         // 連打すると表示されないことがある
         private void shownImageSelectCLB_SelectedIndexChanged(object sender, EventArgs e)
         {
+            this.Enabled = false;
+
             var flags = ImageModifyingFlags.None;
             if (this.shownImageSelectCLB.GetItemChecked(0))
             {
@@ -504,6 +563,8 @@ namespace GrainDetector
             imageData.ShownImage = createModifiedImage(flags);
 
             imageForm.Refresh();
+
+            this.Enabled = true;
         }
 
         private void zoomInButton_Click(object sender, EventArgs e)

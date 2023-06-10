@@ -282,15 +282,17 @@ namespace GrainDetector
                 return;
             }
 
-            imageOpenOptions.ImageFilePath = this.openWorkspaceDialog.FileName;
+            this.Enabled = false;
 
             try
             {
-                workspace.Load(imageOpenOptions.ImageFilePath);
+                workspace.Load(this.openWorkspaceDialog.FileName);
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "エラー");
+
+                this.Enabled = true;
                 return;
             }
 
@@ -302,10 +304,18 @@ namespace GrainDetector
             this.dotCountListView.Items.Cast<ListViewItem>()
                 .Zip(workspace.CountedColors, (lvi, color) => lvi.SubItems[0].BackColor = color)
                 .ToList();
+
+            this.saveWorkspaceDialog.FileName = this.openWorkspaceDialog.FileName;
+
+            isWorkspaceSaved = true;
+
+            this.Enabled = true;
         }
 
         private void saveWorkspace()
         {
+            this.Enabled = false;
+
             var workspace = new Workspace();
             workspace.ImageOpenOptions = imageOpenOptions;
             workspace.ImageRange = imageRange;
@@ -331,8 +341,9 @@ namespace GrainDetector
             {
                 MessageBox.Show(exception.Message);
                 isWorkspaceSaved = false;
-                return;
             }
+
+            this.Enabled = true;
         }
 
         private void openImageFile(string filePath)
@@ -343,6 +354,8 @@ namespace GrainDetector
                 return;
             }
 
+            this.Enabled = false;
+
             Bitmap tmp = null;
             try
             {
@@ -352,7 +365,6 @@ namespace GrainDetector
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "エラー");
-                return;
             }
             finally
             {
@@ -361,6 +373,8 @@ namespace GrainDetector
                     tmp.Dispose();
                 }
             }
+
+            this.Enabled = true;
         }
 
         private void saveImageFile(string filePath)
@@ -382,6 +396,8 @@ namespace GrainDetector
 
             if (this.saveImageFileDialog.ShowDialog() == DialogResult.OK)
             {
+                this.Enabled = false;
+
                 switch (this.saveImageFileDialog.FilterIndex)
                 {
                     case 0:
@@ -421,6 +437,8 @@ namespace GrainDetector
                         imageData.ShownImage.Save(this.saveImageFileDialog.FileName, ImageFormat.Bmp);
                         break;
                 }
+
+                this.Enabled = true;
             }
         }
 
@@ -538,30 +556,6 @@ namespace GrainDetector
                 this.zoomOutButton.Enabled = false;
                 this.imageSaveButton.Enabled = false;
             }
-        }
-
-        private void initializeRangeSelect()
-        {
-            this.lowerXNumericUpDown.Maximum = imageData.OriginalImage.Width - 1;
-            this.upperXNumericUpDown.Maximum = imageData.OriginalImage.Width - 1;
-            this.lowerYNumericUpDown.Maximum = imageData.OriginalImage.Height - 1;
-            this.upperYNumericUpDown.Maximum = imageData.OriginalImage.Height - 1;
-
-            imageRange.LowerX = 0;
-            imageRange.UpperX = imageData.OriginalImage.Width - 1;
-            imageRange.LowerY = 0;
-            imageRange.UpperY = imageData.OriginalImage.Height - 1;
-        }
-
-        private void initializeCircleSelect()
-        {
-            this.circleXNumericUpDown.Maximum = imageData.OriginalImage.Width - 1;
-            this.circleYNumericUpDown.Maximum = imageData.OriginalImage.Height - 1;
-            this.circleDiameterNumericUpDown.Maximum = Math.Min(imageData.OriginalImage.Width, imageData.OriginalImage.Width) - 1;
-
-            circle.LowerX = 0;
-            circle.LowerY = 0;
-            circle.Diameter = Math.Min(imageData.OriginalImage.Width, imageData.OriginalImage.Height);
         }
 
         [Flags]
