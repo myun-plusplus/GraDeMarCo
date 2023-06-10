@@ -556,21 +556,6 @@ namespace GrainDetector
             }
         }
 
-        private void initializeRangeSelect()
-        {
-            this.lowerXNumericUpDown.Maximum = imageData.OriginalImage.Width - 1;
-            this.upperXNumericUpDown.Maximum = imageData.OriginalImage.Width - 1;
-            this.lowerYNumericUpDown.Maximum = imageData.OriginalImage.Height - 1;
-            this.upperYNumericUpDown.Maximum = imageData.OriginalImage.Height - 1;
-        }
-
-        private void initializeCircleSelect()
-        {
-            this.circleXNumericUpDown.Maximum = imageData.OriginalImage.Width - 1;
-            this.circleYNumericUpDown.Maximum = imageData.OriginalImage.Height - 1;
-            this.circleDiameterNumericUpDown.Maximum = Math.Min(imageData.OriginalImage.Width, imageData.OriginalImage.Width) - 1;
-        }
-
         [Flags]
         private enum ImageModifyingFlags
         {

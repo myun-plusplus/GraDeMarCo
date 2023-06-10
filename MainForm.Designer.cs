@@ -254,22 +254,34 @@
             this.upperYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "UpperY", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.upperYNumericUpDown.Location = new System.Drawing.Point(91, 34);
             this.upperYNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.upperYNumericUpDown.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             this.upperYNumericUpDown.Name = "upperYNumericUpDown";
             this.upperYNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.upperYNumericUpDown.TabIndex = 0;
             this.upperYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.upperYNumericUpDown.ValueChanged += new System.EventHandler(this.upperYNumericUpDown_ValueChanged);
+            this.upperYNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.upperYNumericUpDown_Validating);
             // 
             // lowerYNumericUpDown
             // 
             this.lowerYNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "LowerY", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.lowerYNumericUpDown.Location = new System.Drawing.Point(25, 34);
             this.lowerYNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.lowerYNumericUpDown.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             this.lowerYNumericUpDown.Name = "lowerYNumericUpDown";
             this.lowerYNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.lowerYNumericUpDown.TabIndex = 0;
             this.lowerYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.lowerYNumericUpDown.ValueChanged += new System.EventHandler(this.lowerYNumericUpDown_ValueChanged);
+            this.lowerYNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.lowerYNumericUpDown_Validating);
             // 
             // rangeYHyphenLabel
             // 
@@ -285,22 +297,34 @@
             this.upperXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "UpperX", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.upperXNumericUpDown.Location = new System.Drawing.Point(91, 5);
             this.upperXNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.upperXNumericUpDown.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             this.upperXNumericUpDown.Name = "upperXNumericUpDown";
             this.upperXNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.upperXNumericUpDown.TabIndex = 3;
             this.upperXNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.upperXNumericUpDown.ValueChanged += new System.EventHandler(this.upperXNumericUpDown_ValueChanged);
+            this.upperXNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.upperXNumericUpDown_Validating);
             // 
             // lowerXNumericUpDown
             // 
             this.lowerXNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.imageRangeBindingSource, "LowerX", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.lowerXNumericUpDown.Location = new System.Drawing.Point(25, 5);
             this.lowerXNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.lowerXNumericUpDown.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             this.lowerXNumericUpDown.Name = "lowerXNumericUpDown";
             this.lowerXNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.lowerXNumericUpDown.TabIndex = 2;
             this.lowerXNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.lowerXNumericUpDown.ValueChanged += new System.EventHandler(this.lowerXNumericUpDown_ValueChanged);
+            this.lowerXNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.lowerXNumericUpDown_Validating);
             // 
             // rangeSelectCheckBox
             // 
@@ -395,6 +419,11 @@
             this.circleDiameterNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.planimetricCircleBindingSource, "Diameter", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.circleDiameterNumericUpDown.Location = new System.Drawing.Point(51, 63);
             this.circleDiameterNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.circleDiameterNumericUpDown.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             this.circleDiameterNumericUpDown.Name = "circleDiameterNumericUpDown";
             this.circleDiameterNumericUpDown.Size = new System.Drawing.Size(45, 19);
             this.circleDiameterNumericUpDown.TabIndex = 3;
@@ -417,7 +446,7 @@
             this.circleXNumericUpDown.Location = new System.Drawing.Point(51, 5);
             this.circleXNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.circleXNumericUpDown.Maximum = new decimal(new int[] {
-            1919,
+            65535,
             0,
             0,
             0});
@@ -433,7 +462,7 @@
             this.circleYNumericUpDown.Location = new System.Drawing.Point(51, 34);
             this.circleYNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.circleYNumericUpDown.Maximum = new decimal(new int[] {
-            1079,
+            65535,
             0,
             0,
             0});

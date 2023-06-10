@@ -77,9 +77,6 @@ namespace GrainDetector
 
             openImageFile(imageOpenOptions.ImageFilePath);
 
-            initializeRangeSelect();
-            initializeCircleSelect();
-
             openImageForm();
         }
 
@@ -118,9 +115,6 @@ namespace GrainDetector
                 closeImageForm();
 
                 openImageFile(imageOpenOptions.ImageFilePath);
-
-                initializeRangeSelect();
-                initializeCircleSelect();
 
                 openImageForm();
             }
@@ -171,15 +165,44 @@ namespace GrainDetector
 
             openImageFile(imageOpenOptions.ImageFilePath);
 
-            initializeRangeSelect();
-            initializeCircleSelect();
-
             openImageForm();
         }
 
         #endregion
 
         #region RangeSelecting
+
+        private void lowerXNumericUpDown_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.lowerXNumericUpDown.Value >= imageData.ShownImage.Width)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void upperXNumericUpDown_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.upperXNumericUpDown.Value >= imageData.ShownImage.Width)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void lowerYNumericUpDown_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.lowerYNumericUpDown.Value >= imageData.ShownImage.Height)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void upperYNumericUpDown_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.upperYNumericUpDown.Value >= imageData.ShownImage.Height)
+            {
+                e.Cancel = true;
+            }
+        }
 
         private void lowerXNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
