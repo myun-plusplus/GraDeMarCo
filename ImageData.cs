@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace GrainDetector
+namespace GraDeMarCo
 {
     public class ImageData
     {

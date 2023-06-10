@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Threading.Tasks;
 
-namespace GrainDetector
+namespace GraDeMarCo
 {
     public enum BlurOption
     {

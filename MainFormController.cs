@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace GrainDetector
+namespace GraDeMarCo
 {
     public partial class MainForm
     {

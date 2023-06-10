@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace GrainDetector
+namespace GraDeMarCo
 {
     [Serializable]
     public class Workspace
