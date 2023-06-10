@@ -282,13 +282,11 @@ namespace GrainDetector
                 return;
             }
 
-            imageOpenOptions.ImageFilePath = this.openWorkspaceDialog.FileName;
-
             this.Enabled = false;
 
             try
             {
-                workspace.Load(imageOpenOptions.ImageFilePath);
+                workspace.Load(this.openWorkspaceDialog.FileName);
             }
             catch (Exception exception)
             {
@@ -306,6 +304,10 @@ namespace GrainDetector
             this.dotCountListView.Items.Cast<ListViewItem>()
                 .Zip(workspace.CountedColors, (lvi, color) => lvi.SubItems[0].BackColor = color)
                 .ToList();
+
+            this.saveWorkspaceDialog.FileName = this.openWorkspaceDialog.FileName;
+
+            isWorkspaceSaved = true;
 
             this.Enabled = true;
         }
