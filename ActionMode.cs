@@ -1,4 +1,4 @@
-﻿namespace GrainDetector
+﻿namespace GraDeMarCo
 {
     public enum ActionMode
     {

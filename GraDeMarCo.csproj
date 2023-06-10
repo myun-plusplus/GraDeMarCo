@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{89A75F95-7993-4AA5-A413-BCFE64573285}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>GrainDetector</RootNamespace>
-    <AssemblyName>GrainDetector</AssemblyName>
+    <RootNamespace>GraDeMarCo</RootNamespace>
+    <AssemblyName>GraDeMarCo</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

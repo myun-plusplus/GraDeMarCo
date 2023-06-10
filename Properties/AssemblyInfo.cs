@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // アセンブリに関する一般的な情報は、次の方法で制御されます
 // 制御されます。アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更します。
-[assembly: AssemblyTitle("GrainDetector")]
+[assembly: AssemblyTitle("GraDeMarCo")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("myun-plusplus (https://github.com/myun-plusplus)")]
-[assembly: AssemblyProduct("GrainDetector")]
+[assembly: AssemblyProduct("GraDeMarCo")]
 [assembly: AssemblyCopyright("Copyright ©  2023 myun-plusplus")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace GrainDetector
+namespace GraDeMarCo
 {
     public partial class ImageForm : Form
     {

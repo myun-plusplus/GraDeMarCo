@@ -1,4 +1,4 @@
-﻿namespace GrainDetector
+﻿namespace GraDeMarCo
 {
     partial class MainForm
     {
@@ -1144,35 +1144,35 @@
             // 
             // imageOpenOptionsBindingSource
             // 
-            this.imageOpenOptionsBindingSource.DataSource = typeof(GrainDetector.ImageOpenOptions);
+            this.imageOpenOptionsBindingSource.DataSource = typeof(GraDeMarCo.ImageOpenOptions);
             // 
             // imageRangeBindingSource
             // 
-            this.imageRangeBindingSource.DataSource = typeof(GrainDetector.ImageRange);
+            this.imageRangeBindingSource.DataSource = typeof(GraDeMarCo.ImageRange);
             // 
             // planimetricCircleBindingSource
             // 
-            this.planimetricCircleBindingSource.DataSource = typeof(GrainDetector.PlanimetricCircle);
+            this.planimetricCircleBindingSource.DataSource = typeof(GraDeMarCo.PlanimetricCircle);
             // 
             // binarizeOptionsBindingSource
             // 
-            this.binarizeOptionsBindingSource.DataSource = typeof(GrainDetector.BinarizeOptions);
+            this.binarizeOptionsBindingSource.DataSource = typeof(GraDeMarCo.BinarizeOptions);
             // 
             // grainDetectOptionsBindingSource
             // 
-            this.grainDetectOptionsBindingSource.DataSource = typeof(GrainDetector.GrainDetectOptions);
+            this.grainDetectOptionsBindingSource.DataSource = typeof(GraDeMarCo.GrainDetectOptions);
             // 
             // dotOnCircleToolBindingSource
             // 
-            this.dotOnCircleToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
+            this.dotOnCircleToolBindingSource.DataSource = typeof(GraDeMarCo.DotDrawTool);
             // 
             // dotInCircleToolBindingSource
             // 
-            this.dotInCircleToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
+            this.dotInCircleToolBindingSource.DataSource = typeof(GraDeMarCo.DotDrawTool);
             // 
             // dotDrawToolBindingSource
             // 
-            this.dotDrawToolBindingSource.DataSource = typeof(GrainDetector.DotDrawTool);
+            this.dotDrawToolBindingSource.DataSource = typeof(GraDeMarCo.DotDrawTool);
             // 
             // MainForm
             // 

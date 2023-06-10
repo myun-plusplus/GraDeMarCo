@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace GrainDetector
+namespace GraDeMarCo
 {
     [Serializable]
     public class BinarizeOptions : BindingBase

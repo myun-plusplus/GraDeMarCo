@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace GrainDetector
+namespace GraDeMarCo
 {
     [Serializable]
     public abstract class BindingBase : INotifyPropertyChanged

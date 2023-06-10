@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace GrainDetector
+namespace GraDeMarCo
 {
     internal static class Program
     {

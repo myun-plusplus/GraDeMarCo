@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GrainDetector
+namespace GraDeMarCo
 {
     [Serializable]
     public class ImageOpenOptions : BindingBase
